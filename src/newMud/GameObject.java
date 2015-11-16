@@ -12,8 +12,8 @@ public class GameObject {
 	//Methods
 	
 	public void pickUp(Item i) {
-		if (this.getLocation().getInventory().contains(i))
 			inventory.add(i);
+			this.getLocation().getInventory().remove(i);
 	}
 	
 	public void drop(Item i){
