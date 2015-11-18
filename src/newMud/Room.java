@@ -19,7 +19,7 @@ public class Room extends GameObject {
 	public boolean isValid(int i){
 		return exits[i] != null;
 	}
-
+	
 	public void setExits(Room n, Room s, Room e, Room w, Room u, Room d) {
 		exits[0] = n;
 		exits[1] = s;

@@ -11,7 +11,8 @@ public class GameCharacter extends GameObject {
 	//movement
 	
 	public void goNorth() {
-		this.setLocation(this.getLocation().getExits()[0]);
+		if (this.getLocation().getExits()[0] != null)
+			this.setLocation(this.getLocation().getExits()[0]);
 	}
 
 	public void goSouth() {

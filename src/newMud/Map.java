@@ -46,11 +46,11 @@ public class Map {
 				new ArrayList<Item>(Arrays.asList(apple)), new ImageIcon("Images/den.jpg"));
 
 		entryWay.setExits(den, diningRoom, kitchen, livingRoom, upDen, basement);
-		den.setExits(null, entryWay, null, null, null, null);
-		diningRoom.setExits(entryWay, null, null, null, null, null);
-		kitchen.setExits(null, null, null, entryWay, null, null);
-		livingRoom.setExits(null, null, entryWay, null, null, null);
-		upDen.setExits(null, null, null, null, null, entryWay);
+		den.setExits(diningRoom, entryWay, null, null, null, upDen);
+		diningRoom.setExits(entryWay, den, null, null, null, null);
+		kitchen.setExits(null, livingRoom, null, entryWay, null, null);
+		livingRoom.setExits(kitchen, null, entryWay, null, null, null);
+		upDen.setExits(null, null, null, null, den, entryWay);
 		basement.setExits(null, null, null, null, entryWay, null);
 
 		this.daMap = new ArrayList<Room>(
