@@ -13,6 +13,10 @@ public class Map {
 		return daMap;
 	}
 
+	public int getLength(){
+		return daMap.size();
+	}
+	
 	public void setDaMap(ArrayList<Room> daMAp) {
 		this.daMap = daMAp;
 	}

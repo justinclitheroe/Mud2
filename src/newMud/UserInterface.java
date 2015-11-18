@@ -1,26 +1,23 @@
 package newMud;
 
 import java.awt.BorderLayout;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
-
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 
 public class UserInterface {
 	
 	private JTextArea textArea = new JTextArea(10, 20);
 	private JTextArea consoleOut = new JTextArea(10, 20);
 	
-	public UserInterface(GameCharacter pc){
+	public UserInterface(GameCharacter pc,ArrayList<Mob> m) throws InterruptedException{
+		
+		
 		
 		JFrame window = new JFrame();
 		window.setSize(800, 800);
@@ -60,7 +57,7 @@ public class UserInterface {
 		window.add(panel2, BorderLayout.CENTER);
 		
 		JTextField input = new JTextField(15);
-		input.addActionListener(new CommandListener(textArea,pc,pictureLabel));
+		input.addActionListener(new CommandListener(textArea,pc,pictureLabel,threadList));
 		panel.add(input, BorderLayout.CENTER);
 		window.add(panel, BorderLayout.SOUTH);
 		

@@ -2,8 +2,7 @@ package newMud;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Scanner;
-
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
@@ -15,12 +14,19 @@ public class CommandListener implements ActionListener {
 	private GameCharacter mainGuy;
 	private JLabel imLabel;
 	private ImageIcon roomPic;
+	private ArrayList<MobThread> mobList;
 	
-	public CommandListener(JTextArea out, GameCharacter pc, JLabel label){
+	public CommandListener(JTextArea out, GameCharacter pc, JLabel label,ArrayList<MobThread> m){
 		this.out = out;
 		mainGuy = pc;
 		imLabel = label;
+		mobList = m;
 	}
+	
+	//ASK TOM ABOUT THIS THING
+	//REFERS TO LINE 93 --> mobList.get(i).stop();
+	@SuppressWarnings("deprecation")
+	//WHAT IS THIS? I DON'T KNOW
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -69,7 +75,7 @@ public class CommandListener implements ActionListener {
 		else if (command.toLowerCase().equals("get")) {
 			if ((mainGuy.getLocation()).checkItem(command2)  ){					    //checks if item is in the room item arrayList
 				mainGuy.pickUp((mainGuy.getLocation()).returnItem(command2));
-				out.append("got it" + "\n");		//adds item to player's inventory
+				out.append("got it" + "\n");										//adds item to player's inventory
 		  			}
 			else 
 				out.append("not an item in the room" + "\n");
@@ -80,7 +86,13 @@ public class CommandListener implements ActionListener {
 				mainGuy.drop(mainGuy.returnItem(command2));
 				}
 			}
-		
+		else if(command.equals("exit")){
+			for(int i = 0; i <mobList.size() ; i++){
+				mobList.get(i).stop();
+			}
+			out.append("Goodbye \n");
+			out.setText("");
+		}
 		else {out.append("SPEAK UP SONNY I CANT HEAR YOU" + "\n");}
 		
 		
