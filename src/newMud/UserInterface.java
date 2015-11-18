@@ -57,7 +57,7 @@ public class UserInterface {
 		window.add(panel2, BorderLayout.CENTER);
 		
 		JTextField input = new JTextField(15);
-		input.addActionListener(new CommandListener(textArea,pc,pictureLabel,threadList));
+		input.addActionListener(new CommandListener(textArea,pc,pictureLabel));
 		panel.add(input, BorderLayout.CENTER);
 		window.add(panel, BorderLayout.SOUTH);
 		

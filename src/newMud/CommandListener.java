@@ -2,7 +2,6 @@ package newMud;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
@@ -14,19 +13,13 @@ public class CommandListener implements ActionListener {
 	private GameCharacter mainGuy;
 	private JLabel imLabel;
 	private ImageIcon roomPic;
-	private ArrayList<MobThread> mobList;
 	
-	public CommandListener(JTextArea out, GameCharacter pc, JLabel label,ArrayList<MobThread> m){
+	public CommandListener(JTextArea out, GameCharacter pc, JLabel label){
 		this.out = out;
 		mainGuy = pc;
 		imLabel = label;
-		mobList = m;
+
 	}
-	
-	//ASK TOM ABOUT THIS THING
-	//REFERS TO LINE 93 --> mobList.get(i).stop();
-	@SuppressWarnings("deprecation")
-	//WHAT IS THIS? I DON'T KNOW
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -87,9 +80,6 @@ public class CommandListener implements ActionListener {
 				}
 			}
 		else if(command.equals("exit")){
-			for(int i = 0; i <mobList.size() ; i++){
-				mobList.get(i).stop();
-			}
 			out.append("Goodbye \n");
 			out.setText("");
 		}

@@ -6,7 +6,7 @@ public class Main {
 	private static Map world = new Map();
 
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		
 		world.generateTestMap();
 		GameCharacter pc = new GameCharacter("Frisk", "The PC", world.getDaMap().get(0));
@@ -27,12 +27,10 @@ public class Main {
 		
 
 		ArrayList<MobThread> threadList = new ArrayList<MobThread>();
-		System.out.println("the length of threadList is " + threadList.size());
-		System.out.println("the length of arrayList m is " + m.size());
 		
-		for (int i = 0 ; i < m.size() ; i++){	//for loop assigning threads to each mob in the array list
-			threadList.add(new MobThread(m.get(i),pc));
-			System.out.println(m.get(i).getName());
+		for (int i = 0 ; i < mobList.size() ; i++){	//for loop assigning threads to each mob in the array list
+			threadList.add(new MobThread(mobList.get(i),pc));
+			System.out.println(mobList.get(i).getName());
 		}
 		for (int i = 0 ; i < threadList.size() ; i++){	//start each thread in the list
 			threadList.get(i).start();
