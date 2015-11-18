@@ -1,6 +1,7 @@
 package newMud;
 
 import java.awt.BorderLayout;
+import java.awt.Image;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -71,6 +72,12 @@ public class UserInterface {
 		window.setVisible(true);
 		
 		ImageIcon bootPic = new ImageIcon("Images/nico.jpg");
+		
+		Image img = bootPic.getImage();
+		Image newimg = img.getScaledInstance(230, 310, java.awt.Image.SCALE_SMOOTH);
+		bootPic = new ImageIcon(newimg);
+		
+		
 		pictureLabel.setIcon(bootPic);
 		textArea.setText("Welcome\n");
 		textArea.append("When you are ready to begin, please type 'start' into the command line \n");

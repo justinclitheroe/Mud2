@@ -29,8 +29,16 @@ public class Main {
 		System.out.println(c.getName() + "	" +c.getLocation());
 		//System.out.println(ju.getName() + " " +ju.getLocation());
 		//System.out.println(jo.getName() + "	" +jo.getLocation());
-		
 
+		
+		
+		try {
+			@SuppressWarnings("unused")
+			UserInterface ui = new UserInterface(pc,mobList);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 		ArrayList<MobThread> threadList = new ArrayList<MobThread>();
 		
 		for (int i = 0 ; i < mobList.size() ; i++){	//for loop assigning threads to each mob in the array list
@@ -45,12 +53,6 @@ public class Main {
 
 		
 		
-		try {
-			@SuppressWarnings("unused")
-			UserInterface ui = new UserInterface(pc,mobList);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 	}
 
 }
