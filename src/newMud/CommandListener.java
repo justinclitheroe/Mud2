@@ -1,7 +1,11 @@
 package newMud;
 
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
@@ -87,7 +91,11 @@ public class CommandListener implements ActionListener {
 		
 		
 		roomPic = mainGuy.getLocation().getImage();
+		Image img = roomPic.getImage();
+		Image newimg = img.getScaledInstance(230, 310, java.awt.Image.SCALE_SMOOTH);
+		roomPic = new ImageIcon(newimg);
 		imLabel.setIcon(roomPic);
+		
 		out.append((mainGuy.getLocation()).getDescription() +"\n");
 		out.append("The room contains the following items: ");
 		out.append(mainGuy.getLocation().getInventory().toString() + "\n");
