@@ -19,7 +19,6 @@ public class MobThread extends Thread {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			this.moveMob();
 		}
 	}
 	
@@ -32,39 +31,39 @@ public class MobThread extends Thread {
 	}
 	
 	public int rnGesus(int max,int min ){	 //generates a number between 1 and 6 to randomize the mob movement between rooms
-		return (int)(Math.random() * (max - min));
-	}
+		return min + (int)(Math.random()*max); 
+		}
 	
 	public void moveMob(){	//moves the mob randomly based on rnGesus() method
-		int i = rnGesus(6,1);
+		int i = rnGesus(5,0);
 		if(mob.getLocation().isValid(i)){
-		switch(i){	
-		case 1:
-			mob.goNorth();
-			System.out.println(mob.getName() + " has moved north to " + mob.getLocation());
-			break;
-		case 2:
-			mob.goSouth();
-			System.out.println(mob.getName() + " has moved south to " + mob.getLocation());
-			break;
-		case 3:
-			mob.goEast();
-			System.out.println(mob.getName() + "has moved east to " + mob.getLocation());
-			break;
-		case 4:
-			mob.goWest();
-			System.out.println(mob.getName() + " has moved west to " + mob.getLocation());
-			break;
-		case 5:
-			mob.goUp();
-			System.out.println(mob.getName() + " has moved up to " + mob.getLocation());
-			break;
-		case 6:
-			mob.goDown();
-			System.out.println(mob.getName() + " has moved down to " + mob.getLocation());
-			break;
-		}
-	}
+			switch(i){	
+				case 1:
+					mob.goNorth();
+					System.out.println(mob.getName() + " has moved north to " + mob.getLocation());
+					break;
+				case 2:
+					mob.goSouth();
+					System.out.println(mob.getName() + " has moved south to " + mob.getLocation());
+					break;
+				case 3:
+					mob.goEast();
+					System.out.println(mob.getName() + "has moved east to " + mob.getLocation());
+					break;
+				case 4:
+					mob.goWest();
+					System.out.println(mob.getName() + " has moved west to " + mob.getLocation());
+					break;
+				case 5:
+					mob.goUp();
+					System.out.println(mob.getName() + " has moved up to " + mob.getLocation());
+					break;
+				case 6:
+					mob.goDown();
+					System.out.println(mob.getName() + " has moved down to " + mob.getLocation());
+					break;
+				}
+			}
 		else{
 			System.out.println(mob.getName() + " has not moved.");
 		}

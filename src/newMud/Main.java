@@ -25,6 +25,11 @@ public class Main {
 		mobList.add(ju);
 		mobList.add(jo);
 		
+		System.out.println(t.getName() + "	" + t.getLocation());
+		System.out.println(c.getName() + "	" +c.getLocation());
+		System.out.println(ju.getName() + " " +ju.getLocation());
+		System.out.println(jo.getName() + "	" +jo.getLocation());
+		
 
 		ArrayList<MobThread> threadList = new ArrayList<MobThread>();
 		
