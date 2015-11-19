@@ -3,6 +3,9 @@ package newMud;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
@@ -14,31 +17,27 @@ public class CommandListener implements ActionListener {
 	private GameCharacter mainGuy;
 	private JLabel imLabel;
 	private ImageIcon roomPic;
+	private ArrayList<MobThread> threadList;
 	
-	public CommandListener(JTextArea out, GameCharacter pc, JLabel label){
+	public CommandListener(JTextArea out, GameCharacter pc, JLabel label,ArrayList<MobThread> m){
 		this.out = out;
 		mainGuy = pc;
 		imLabel = label;
-
+		threadList = m;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
-		boolean running = true;
-		
-		
+		boolean running = true;	
 		while(running){
 		JTextField source = (JTextField) e.getSource();
 		String s = source.getText();
 		out.append(s + "\n");
 		source.setText("");
-		
-		
+
 		String command = null;
 		String command2 = null;
-		
-		
+	
 		if (s.contains(" ")){ 
 			command = s.substring(0,s.indexOf(' '));						
 			command2 = s.substring(s.indexOf(' ')+1,s.length());	
@@ -47,7 +46,6 @@ public class CommandListener implements ActionListener {
 			command = s;
 		}
 		
-			
 		if (command.toLowerCase().equals("go")) {
 			if (command2.toLowerCase().equals("north") && (mainGuy.getLocation().getExits()[0] != null)) 
 				mainGuy.goNorth();
@@ -86,6 +84,9 @@ public class CommandListener implements ActionListener {
 			}
 		else if(command.equals("exit")){
 			out.append("Goodbye \n");
+			for(int i = 0; i<threadList.size() ;i++){
+				threadList.get(i).shortHopToKnee();
+			}
 			running = false;
 		}
 		else {out.append("SPEAK UP SONNY I CANT HEAR YOU" + "\n");}

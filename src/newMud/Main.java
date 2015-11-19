@@ -49,14 +49,9 @@ public class Main {
 		 */
 		
 		
-		try {
-			@SuppressWarnings("unused")
-			UserInterface ui = new UserInterface(pc);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
 		ArrayList<MobThread> threadList = new ArrayList<MobThread>();
+		UserInterface ui = new UserInterface(pc,threadList);
+		
 		
 		for (int i = 0 ; i < mobList.size() ; i++){	//for loop creating threads for each mob in the array list
 			threadList.add(new MobThread(mobList.get(i),pc));
@@ -67,7 +62,6 @@ public class Main {
 		for (int i = 0 ; i < threadList.size() ; i++){	//join each thread in the list
 			threadList.get(i).join();
 		}
-
 		
 		
 	}

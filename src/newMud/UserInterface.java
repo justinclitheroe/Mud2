@@ -3,6 +3,7 @@ package newMud;
 import java.awt.BorderLayout;
 import java.awt.Image;
 import java.util.ArrayList;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,10 +16,11 @@ public class UserInterface {
 	
 	private JTextArea textArea = new JTextArea(10, 20);
 	private JTextArea consoleOut = new JTextArea(10, 20);
+	private ArrayList<MobThread> threadList;
 	
-	public UserInterface(GameCharacter pc) throws InterruptedException{
+	public UserInterface(GameCharacter pc,ArrayList<MobThread> m) throws InterruptedException{
 		
-		
+		threadList = m;
 		
 		JFrame window = new JFrame();
 		window.setSize(800, 800);
@@ -58,7 +60,7 @@ public class UserInterface {
 		window.add(panel2, BorderLayout.CENTER);
 		
 		JTextField input = new JTextField(15);
-		input.addActionListener(new CommandListener(textArea,pc,pictureLabel));
+		input.addActionListener(new CommandListener(textArea,pc,pictureLabel,threadList));
 		panel.add(input, BorderLayout.CENTER);
 		window.add(panel, BorderLayout.SOUTH);
 		
@@ -81,8 +83,9 @@ public class UserInterface {
 		pictureLabel.setIcon(bootPic);
 		textArea.setText("Welcome\n");
 		textArea.append("When you are ready to begin, please type 'start' into the command line \n");
+
 	}
 	
-
-
 }
+
+

@@ -4,6 +4,8 @@ public class MobThread extends Thread {
 
 	private Mob mob;
 	private GameCharacter gc;
+	private boolean running = true;
+	
 	public MobThread(Mob m, GameCharacter g){
 		mob = m;
 		gc = g;
@@ -12,7 +14,7 @@ public class MobThread extends Thread {
 	
 	public void run(){
 		
-		while(true){
+		while(running){
 			try {
 				Thread.sleep(10000); //wait <some number > seconds
 				this.moveMob();			
@@ -21,7 +23,10 @@ public class MobThread extends Thread {
 			}
 		}
 	}
-	
+	public void shortHopToKnee(){
+		running = false;
+		System.out.println("you've been knee-ed");
+	}
 	
 	public void runAway(){
 		if(gc.getLocation() == mob.getLocation()){
@@ -33,6 +38,7 @@ public class MobThread extends Thread {
 	public int rnGesus(int max,int min ){	 //generates a number between 1 and 6 to randomize the mob movement between rooms
 		return min + (int)(Math.random()*max); 
 		}
+	
 	
 	public void moveMob(){	//moves the mob randomly based on rnGesus() method
 		int i = rnGesus(6,0);
