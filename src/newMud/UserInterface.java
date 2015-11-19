@@ -16,7 +16,7 @@ public class UserInterface {
 	private JTextArea textArea = new JTextArea(10, 20);
 	private JTextArea consoleOut = new JTextArea(10, 20);
 	
-	public UserInterface(GameCharacter pc,ArrayList<Mob> m) throws InterruptedException{
+	public UserInterface(GameCharacter pc) throws InterruptedException{
 		
 		
 		

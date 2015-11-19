@@ -14,7 +14,7 @@ public class MobThread extends Thread {
 		
 		while(true){
 			try {
-				Thread.sleep(3000); //wait 30 seconds
+				Thread.sleep(10000); //wait <some number > seconds
 				this.moveMob();			
 			} catch (InterruptedException e) {
 				e.printStackTrace();

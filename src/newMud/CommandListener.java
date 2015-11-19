@@ -25,6 +25,10 @@ public class CommandListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
+		boolean running = true;
+		
+		
+		while(running){
 		JTextField source = (JTextField) e.getSource();
 		String s = source.getText();
 		out.append(s + "\n");
@@ -82,7 +86,7 @@ public class CommandListener implements ActionListener {
 			}
 		else if(command.equals("exit")){
 			out.append("Goodbye \n");
-			out.setText("");
+			running = false;
 		}
 		else {out.append("SPEAK UP SONNY I CANT HEAR YOU" + "\n");}
 		
@@ -99,6 +103,6 @@ public class CommandListener implements ActionListener {
 		out.append(mainGuy.getLocation().listExits() + "\n");
 		out.append("You are holding the following items: ");	  		  	 
 		out.append(mainGuy.getInventory().toString() + "\n");
-		
+		}
 	}
 }
