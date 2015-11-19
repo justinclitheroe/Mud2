@@ -2,8 +2,6 @@ package newMud;
 
 import java.awt.BorderLayout;
 import java.awt.Image;
-import java.util.ArrayList;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,12 +14,9 @@ public class UserInterface {
 	
 	private JTextArea textArea = new JTextArea(10, 20);
 	private JTextArea consoleOut = new JTextArea(10, 20);
-	private ArrayList<MobThread> threadList;
 	
-	public UserInterface(GameCharacter pc,ArrayList<MobThread> m) throws InterruptedException{
-		
-		threadList = m;
-		
+	public UserInterface(GameCharacter pc) throws InterruptedException{
+	
 		JFrame window = new JFrame();
 		window.setSize(800, 800);
 		window.setLayout(new BorderLayout());
@@ -47,8 +42,6 @@ public class UserInterface {
 		panel.add(label, BorderLayout.WEST);
 		window.add(panel, BorderLayout.CENTER);
 		
-		
-		
 		//displays the console (output of entering commands)
 		JScrollPane display2 = new JScrollPane(textArea);
 		JLabel label2 = new JLabel("History of actions");
@@ -60,7 +53,7 @@ public class UserInterface {
 		window.add(panel2, BorderLayout.CENTER);
 		
 		JTextField input = new JTextField(15);
-		input.addActionListener(new CommandListener(textArea,pc,pictureLabel,threadList));
+		input.addActionListener(new CommandListener(textArea,pc,pictureLabel));
 		panel.add(input, BorderLayout.CENTER);
 		window.add(panel, BorderLayout.SOUTH);
 		
@@ -78,14 +71,12 @@ public class UserInterface {
 		Image img = bootPic.getImage();
 		Image newimg = img.getScaledInstance(230, 310, java.awt.Image.SCALE_SMOOTH);
 		bootPic = new ImageIcon(newimg);
-		
-		
+	
 		pictureLabel.setIcon(bootPic);
 		textArea.setText("Welcome\n");
 		textArea.append("When you are ready to begin, please type 'start' into the command line \n");
+	}	
 
-	}
-	
 }
 
 

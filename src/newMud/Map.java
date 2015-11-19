@@ -23,7 +23,17 @@ public class Map {
 
 	public void generateTestMap() {
 
+		//ITEMS
 		Item apple = new Item("apple", "Tastes sweet probably");
+		
+		Item smashBros = new Item("Smash Bros Melee","It's your favorite game!");
+		Item screwdriver = new Item("Screwdriver","It's a phillips head screwdriver. You probably have to look up what it looks like");
+		Item linux = new Item("linux install disk", "holy moley! You have the a wonderful operating system. You feel like you can take over the world");
+		
+		Item letterOpener = new Item("letter Opener","it's pretty sharp. Please use caution when inspecting this item");
+
+		
+		//Rooms
 		Room entryWay = new Room("Foyer", "you're in a foyer", new ArrayList<Item>(Arrays.asList(apple)),
 				new ImageIcon("Images/foyer.png"));
 
@@ -31,12 +41,12 @@ public class Map {
 				new ImageIcon("Images/den.jpg"));
 
 		Room diningRoom = new Room("Dining room", "you're in the dining room",
-				new ArrayList<Item>(Arrays.asList(apple)), new ImageIcon("Images/diningRoom.jpg"));
+				new ArrayList<Item>(Arrays.asList(letterOpener)), new ImageIcon("Images/diningRoom.jpg"));
 
 		Room kitchen = new Room("Kitchen", "You're in the kitchen", new ArrayList<Item>(Arrays.asList(apple)),
 				new ImageIcon("Images/kitchen.jpg"));
 
-		Room livingRoom = new Room("Living room", "You're in a living room", new ArrayList<Item>(Arrays.asList(apple)),
+		Room livingRoom = new Room("Living room", "You walk into the living room. Theres a couch, two chairs, a TV setup and a computer. You dismiss the computer becuase it's not a linux machine. Your eye notices a glimmer near the tv", new ArrayList<Item>(Arrays.asList(smashBros,screwdriver,linux)),
 				new ImageIcon("Images/livingRoom.jpg"));
 
 		Room upDen = new Room("upstairs den", "the upstairs den", new ArrayList<Item>(Arrays.asList(apple)),
@@ -45,6 +55,10 @@ public class Map {
 		Room basement = new Room("basement", "a sense of dread looms over you, you see an apple",
 				new ArrayList<Item>(Arrays.asList(apple)), new ImageIcon("Images/den.jpg"));
 
+		
+		
+		
+		//EXITS
 		entryWay.setExits(den, diningRoom, kitchen, livingRoom, upDen, basement);
 		den.setExits(diningRoom, entryWay, null, null, null, upDen);
 		diningRoom.setExits(entryWay, den, null, null, null, null);

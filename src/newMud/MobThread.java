@@ -23,10 +23,6 @@ public class MobThread extends Thread {
 			}
 		}
 	}
-	public void shortHopToKnee(){
-		running = false;
-		System.out.println("you've been knee-ed");
-	}
 	
 	public void runAway(){
 		if(gc.getLocation() == mob.getLocation()){

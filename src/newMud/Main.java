@@ -50,7 +50,7 @@ public class Main {
 		
 		
 		ArrayList<MobThread> threadList = new ArrayList<MobThread>();
-		UserInterface ui = new UserInterface(pc,threadList);
+		UserInterface ui = new UserInterface(pc);
 		
 		
 		for (int i = 0 ; i < mobList.size() ; i++){	//for loop creating threads for each mob in the array list
