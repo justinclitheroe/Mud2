@@ -23,7 +23,7 @@ public class Main {
 	public static void main(String[] args) throws InterruptedException {
 		
 		world.generateTestMap();
-		GameCharacter pc = new GameCharacter("Frisk", "The PC", world.getDaMap().get(0));
+		GameCharacter pc = new GameCharacter("Frisk", "The PC", world.getDaMap().get(0),42,42);
 		
 		
 		//creates a list of mobs

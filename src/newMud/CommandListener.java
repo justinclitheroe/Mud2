@@ -81,6 +81,7 @@ public class CommandListener implements ActionListener {
 			}
 		else if(command.equals("exit")){
 			out.append("Goodbye \n");
+			System.exit(0);
 		}
 		else {
 			out.append("SPEAK UP SONNY I CANT HEAR YOU" + "\n");

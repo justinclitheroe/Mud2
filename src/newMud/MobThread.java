@@ -24,12 +24,6 @@ public class MobThread extends Thread {
 		}
 	}
 	
-	public void runAway(){
-		if(gc.getLocation() == mob.getLocation()){
-			System.out.println("OH SHIT IT'S A MOB");
-			this.moveMob();
-		}
-	}
 	
 	public int rnGesus(int max,int min ){	 //generates a number between 1 and 6 to randomize the mob movement between rooms
 		return min + (int)(Math.random()*max); 
@@ -108,5 +102,13 @@ public class MobThread extends Thread {
 		else{
 			System.out.println("the value of i is: "+i+ " " +  mob.getName() + " has not moved.");
 		}
+		
+		if(gc.getLocation() == mob.getLocation()){	//if mob has moved into a room with the character, have a 10% chance mob gets scared and tries to run away
+			if(rnGesus(0,9)==0){
+				System.out.println("OH NO A CHARACTER");
+				this.moveMob();	//tries to run away. has a <number of exits>/6  chance to run away
+			}
+	}
+		
 	}
 }

@@ -2,17 +2,37 @@ package newMud;
 
 public class GameCharacter extends GameObject {
 
+	private int baseDamage;
+	private int armourClass;
+	
 	private int health;
 	private int stamina;
 	
-	public GameCharacter(String n, String d, Room l) {
+	private int score = 0;
+	
+	private int xp;
+	
+	
+	public GameCharacter(String n, String d, Room l,int h, int s) {
 		this.setName(n);
 		this.setDescription(d);
 		this.setLocation(l);
 	}
 		
-	//movement
+	//scoring methods
+	public void plusOne(){
+		score ++;
+	}
+	public int getScore(){
+		return score;
+	}
+	public void addScore(int s){
+		score = score + s;
+	}
 	
+	
+	
+	//movement
 	public void goNorth() {
 		if (this.getLocation().getExits()[0] != null)
 			this.setLocation(this.getLocation().getExits()[0]);
