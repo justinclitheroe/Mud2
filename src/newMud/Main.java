@@ -9,7 +9,7 @@ public class Main {
 	 * they are moving. This will be taken out of the final version. 
 	 * 
 	 * Nico's House: An adventure for glory
-	 * By Justin, Jordan,and Nico
+	 * By Justin, Nico, and sometimes Jordan
 	 * 
 	 */
 	
@@ -29,6 +29,7 @@ public class Main {
 		//creates a list of mobs
 		ArrayList<Mob> mobList = new ArrayList<Mob>();
 		//creates the mobs
+		//Mob mobName(Name,Description,Starting Room,Health,Stamina)
 		Mob t = new Mob("Tom Goblin","a short goblin mumbling about linux servers", world.getDaMap().get(0),1,1); 	//world.getDaMap().get((int)(Math.random() * (world.getLength()-0)) ));
 		Mob c = new Mob("Cat","A wandering black cat. Possibly a source of bad luck. It sounds like the cat is mumbling about chemical bonds",world.getDaMap().get(0),1,1);	//world.getDaMap().get((int)(Math.random() * (world.getLength()-0)) ));
 		Mob ju = new Mob("Joustain","Another goblin. This one makes terrible puns and seems to have a dislike towards any linux comment tom goblin makes",world.getDaMap().get(0),1,1);	  	//world.getDaMap().get((int)(Math.random() * (world.getLength()-0)) ));
@@ -42,7 +43,8 @@ public class Main {
 		mobList.add(vd);
 		
 		/*
-		 *		TESTING TO SEE WHERE MOBS GET PUT @START UP 
+		 *		TESTING TO SEE WHERE MOBS GET PUT @START UP
+		 *				PLEASE IGNORE THIS TOM 
 		 *System.out.println(t.getName() + "	" + t.getLocation());
 		 *System.out.println(c.getName() + "	" +c.getLocation());
 		 *System.out.println(ju.getName() + " " +ju.getLocation());

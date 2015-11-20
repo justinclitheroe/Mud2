@@ -1,18 +1,14 @@
 package newMud;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ListModel;
-import javax.swing.ListSelectionModel;
 
 public class UserInterface {
 	
@@ -24,7 +20,7 @@ public class UserInterface {
 		JFrame window = new JFrame();
 		window.setSize(800, 800);
 		window.setLayout(new BorderLayout());
-		window.setTitle("Howdy Bitch");
+		window.setTitle("Howdy");
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());		
