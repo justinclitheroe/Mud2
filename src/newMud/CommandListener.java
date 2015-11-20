@@ -69,7 +69,8 @@ public class CommandListener implements ActionListener {
 			if ((mainGuy.getLocation()).checkItem(command2)  ){					    //checks if item is in the room item arrayList
 				mainGuy.pickUp((mainGuy.getLocation()).returnItem(command2));
 				out.append("got it" + "\n");										//adds item to player's inventory
-		  			}
+		  		mainGuy.plusOne();	
+			}
 			else 
 				out.append("not an item in the room" + "\n");
 			}
@@ -83,9 +84,15 @@ public class CommandListener implements ActionListener {
 			out.append("Goodbye \n");
 			System.exit(0);
 		}
-		else {
+		
+		else {	//if command is not recognized
 			out.append("SPEAK UP SONNY I CANT HEAR YOU" + "\n");
 		}
+		
+		
+		
+		
+		
 		
 		
 		roomPic = mainGuy.getLocation().getImage();

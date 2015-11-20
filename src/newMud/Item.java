@@ -7,5 +7,8 @@ public class Item extends GameObject {
 		this.setDescription(d);
 	}
 	
-	
+public Item getItem(){
+	return this;
+}
+
 }

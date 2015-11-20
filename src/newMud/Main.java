@@ -29,16 +29,17 @@ public class Main {
 		//creates a list of mobs
 		ArrayList<Mob> mobList = new ArrayList<Mob>();
 		//creates the mobs
-		Mob t = new Mob("Tom Goblin","a short goblin mumbling about linux servers", world.getDaMap().get(0)); 	//world.getDaMap().get((int)(Math.random() * (world.getLength()-0)) ));
-		Mob c = new Mob("Cat","A wandering black cat. Possibly a source of bad luck",world.getDaMap().get(0));	//world.getDaMap().get((int)(Math.random() * (world.getLength()-0)) ));
-		Mob ju = new Mob("Joustain","Another goblin. This one makes terrible puns and seems to have a dislike towards any linux comment tom goblin makes",world.getDaMap().get(0));	  	//world.getDaMap().get((int)(Math.random() * (world.getLength()-0)) ));
-		Mob jo = new Mob("Joardenne","A rare goblin to see in the world.Only shows up once every tuesday assuming it's a month divisible by three and there's a full moon",world.getDaMap().get(0));			//world.getDaMap().get((int)(Math.random() * (world.getLength()-0)) ));
+		Mob t = new Mob("Tom Goblin","a short goblin mumbling about linux servers", world.getDaMap().get(0),1,1); 	//world.getDaMap().get((int)(Math.random() * (world.getLength()-0)) ));
+		Mob c = new Mob("Cat","A wandering black cat. Possibly a source of bad luck. It sounds like the cat is mumbling about chemical bonds",world.getDaMap().get(0),1,1);	//world.getDaMap().get((int)(Math.random() * (world.getLength()-0)) ));
+		Mob ju = new Mob("Joustain","Another goblin. This one makes terrible puns and seems to have a dislike towards any linux comment tom goblin makes",world.getDaMap().get(0),1,1);	  	//world.getDaMap().get((int)(Math.random() * (world.getLength()-0)) ));
+		Mob jo = new Mob("Joardenne","A rare goblin to see in the world.Only shows up once every tuesday assuming it's a month divisible by three and there's a full moon",world.getDaMap().get(0),1,1);			//world.getDaMap().get((int)(Math.random() * (world.getLength()-0)) ));
+		Mob vd = new Mob("Vim Diesel","ex-WWE(World Wrestling Editor) heavyweight champion. You should probably run...",world.getDaMap().get(0),1,1);
 		//adds the mobs to the arrayList
 		mobList.add(t);
 		mobList.add(c);
 		mobList.add(ju);
 		mobList.add(jo);
-		
+		mobList.add(vd);
 		
 		/*
 		 *		TESTING TO SEE WHERE MOBS GET PUT @START UP 

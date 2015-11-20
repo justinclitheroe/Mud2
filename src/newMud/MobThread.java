@@ -105,7 +105,6 @@ public class MobThread extends Thread {
 		
 		if(gc.getLocation() == mob.getLocation()){	//if mob has moved into a room with the character, have a 10% chance mob gets scared and tries to run away
 			if(rnGesus(0,9)==0){
-				System.out.println("OH NO A CHARACTER");
 				this.moveMob();	//tries to run away. has a <number of exits>/6  chance to run away
 			}
 	}

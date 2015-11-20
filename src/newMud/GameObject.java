@@ -11,6 +11,10 @@ public class GameObject {
 	
 	//Methods
 	
+	public ArrayList<Item> getItemObject(){
+		return inventory;
+	}
+	
 	public void pickUp(Item i) {
 			inventory.add(i);
 			this.getLocation().getInventory().remove(i);

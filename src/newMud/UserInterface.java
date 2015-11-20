@@ -1,14 +1,18 @@
 package newMud;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
 
 public class UserInterface {
 	
@@ -24,6 +28,7 @@ public class UserInterface {
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());		
+		
 		
 		//Displays the image at the top
 		JLabel pictureLabel = new JLabel("");
