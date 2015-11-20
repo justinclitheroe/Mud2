@@ -8,8 +8,8 @@ public class Main {
 	 * program prints to the console if mobs move and when they move. This is only here to show that 
 	 * they are moving. This will be taken out of the final version. 
 	 * 
-	 * 
-	 * 
+	 * Nico's House: An adventure for glory
+	 * By Justin, Jordan,and Nico
 	 * 
 	 */
 	
@@ -46,6 +46,7 @@ public class Main {
 		 *System.out.println(c.getName() + "	" +c.getLocation());
 		 *System.out.println(ju.getName() + " " +ju.getLocation());
 		 *System.out.println(jo.getName() + "	" +jo.getLocation());
+		 *
 		 */
 		
 		

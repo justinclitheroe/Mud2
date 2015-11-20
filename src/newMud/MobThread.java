@@ -34,7 +34,40 @@ public class MobThread extends Thread {
 	public int rnGesus(int max,int min ){	 //generates a number between 1 and 6 to randomize the mob movement between rooms
 		return min + (int)(Math.random()*max); 
 		}
+
 	
+	
+	/*
+	 * Same method as before but nothing gets printed to the console
+	 * This will be used in the final MUD but is not used to show that mobs are randomly moving from room 
+	 * to room
+	 * 
+	 * public void moveMob(){	//moves the mob randomly based on rnGesus() method
+		int i = rnGesus(6,0);
+		if(mob.getLocation().isValid(i)){
+			switch(i){	
+				case 0:
+					mob.goNorth();
+					break;
+				case 1:
+					mob.goSouth();
+					break;
+				case 2:
+					mob.goEast();
+					break;
+				case 3:
+					mob.goWest();
+					break;
+				case 4:
+					mob.goUp();
+					break;
+				case 5:
+					mob.goDown();
+					break;
+				}
+			}
+	}
+	*/
 	
 	public void moveMob(){	//moves the mob randomly based on rnGesus() method
 		int i = rnGesus(6,0);

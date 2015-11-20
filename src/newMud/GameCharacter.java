@@ -2,6 +2,9 @@ package newMud;
 
 public class GameCharacter extends GameObject {
 
+	private int health;
+	private int stamina;
+	
 	public GameCharacter(String n, String d, Room l) {
 		this.setName(n);
 		this.setDescription(d);
