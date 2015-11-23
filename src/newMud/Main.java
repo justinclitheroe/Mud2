@@ -8,6 +8,11 @@ public class Main {
 	 * program prints to the console if mobs move and when they move. This is only here to show that 
 	 * they are moving. This will be taken out of the final version. 
 	 * 
+	 * Score currently increases every time you pick an item up. There will be more use for score for the next 
+	 * section of the project
+	 * 
+	 * Map will be updated for the next project with more distinct rooms with better descriptions
+	 * 
 	 * Nico's House: An adventure for glory
 	 * By Justin, Nico, and sometimes Jordan
 	 * 
@@ -20,6 +25,7 @@ public class Main {
 	private static Map world = new Map();
 
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) throws InterruptedException {
 		
 		world.generateTestMap();

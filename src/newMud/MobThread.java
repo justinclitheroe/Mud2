@@ -68,22 +68,22 @@ public class MobThread extends Thread {
 		if(mob.getLocation().isValid(i)){
 			switch(i){	
 				case 0:
-					System.out.println("the value of i is: "+i+ " " + mob.getName() +" has started in "+ mob.getLocation());
+					System.out.println(mob.getName() +" has started in "+ mob.getLocation());
 					mob.goNorth();
 					System.out.println(mob.getName() +" has moved north to " + mob.getLocation());
 					break;
 				case 1:
-					System.out.println("the value of i is: "+i+ " " + mob.getName() +" has started in " + mob.getLocation());
+					System.out.println(mob.getName() +" has started in " + mob.getLocation());
 					mob.goSouth();
 					System.out.println(mob.getName() +" has moved south to "+ mob.getLocation());
 					break;
 				case 2:
-					System.out.println("the value of i is: "+i+ " " + mob.getName() +" has started in " + mob.getLocation());
+					System.out.println(mob.getName() +" has started in " + mob.getLocation());
 					mob.goEast();
 					System.out.println(mob.getName() +" has moved east to " + mob.getLocation());
 					break;
 				case 3:
-					System.out.println("the value of i is: "+i+ " " + mob.getName() +" has started in " +mob.getLocation());
+					System.out.println(mob.getName() +" has started in " +mob.getLocation());
 					mob.goWest();
 					System.out.println(mob.getName() +" has moved west to" +mob.getLocation());
 					break;
@@ -93,14 +93,14 @@ public class MobThread extends Thread {
 					System.out.println(mob.getName() +" has moved up to" +mob.getLocation());
 					break;
 				case 5:
-					System.out.println("the value of i is: "+i+ " " + mob.getName() +" has started in" +mob.getLocation());
+					System.out.println(mob.getName() +" has started in" +mob.getLocation());
 					mob.goDown();
 					System.out.println(mob.getName() +" has moved down to" +mob.getLocation());
 					break;
 				}
 			}
 		else{
-			System.out.println("the value of i is: "+i+ " " +  mob.getName() + " has not moved.");
+			System.out.println(mob.getName() + " has not moved.");
 		}
 		
 		if(gc.getLocation() == mob.getLocation()){	//if mob has moved into a room with the character, have a 10% chance mob gets scared and tries to run away
