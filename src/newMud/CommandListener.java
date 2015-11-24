@@ -18,9 +18,9 @@ public class CommandListener implements ActionListener {
 	private JLabel imLabel;
 	private ImageIcon roomPic;
 	private JTextArea statsList;
-	private Pattern commandRegex = Pattern.compile("(\\S+)(\\s+)(.+)");
-	private String commandType = null;
-	private String commandValue = null;
+	private Pattern commandRegex = Pattern.compile("(\\S+)(\\s+)(.+)");				//creates a pattern that command entered will be checked against
+	private String commandType = null;		//command entered
+	private String commandValue = null;		//variable following command
 	
 	public CommandListener(JTextArea out, GameCharacter pc, JLabel label, JTextArea sList){
 		this.out = out;
@@ -37,12 +37,12 @@ public class CommandListener implements ActionListener {
 		String s = source.getText().toLowerCase();
 		out.append(s + "\n");
 		source.setText("");
-		Matcher commandMatcher = commandRegex.matcher(s);
-		if(commandMatcher.matches()){
+		Matcher commandMatcher = commandRegex.matcher(s);		//checks the command entered and matches it with pattern given above
+		if(commandMatcher.matches()){			//if command type gets matched with pattern...
 			commandType = commandMatcher.group(1);
 			commandValue = commandMatcher.group(3);
 		}
-		else commandType = s;
+		else commandType = s;	//otherwise set commandType to the whole command entered
 		
 		switch(commandType){
 		case("start"):
@@ -50,7 +50,7 @@ public class CommandListener implements ActionListener {
 			break;
 		case("exit"):
 			out.append("Goodbye \n");
-			System.exit(1);		//close the all java stuff
+			System.exit(0);		//close the all java stuff
 			break;
 		case("go"):
 			switch(commandValue){
@@ -101,7 +101,7 @@ public class CommandListener implements ActionListener {
 			break;
 		}
 		
-		//NewCOde
+			//creates a string of Stats for the player )
 		String list = mainGuy.getName() + " Stats \n";
 		list = list +  "Score: " + mainGuy.getScore() + " \n";
 		String inventory = "Inventory: \n";
@@ -113,10 +113,11 @@ public class CommandListener implements ActionListener {
 		
 		
 		out.selectAll();//makes console auto scroll to the bottom when entering a new command
-		//EndNewCode
 	
 
-		roomPic = mainGuy.getLocation().getImage();
+		
+				//scales the room photo to the same size
+		roomPic = mainGuy.getLocation().getImage();	
 		Image img = roomPic.getImage();
 		Image newimg = img.getScaledInstance(230, 310, java.awt.Image.SCALE_SMOOTH);
 		roomPic = new ImageIcon(newimg);
