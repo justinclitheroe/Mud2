@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.util.ArrayList;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -19,13 +21,12 @@ public class UserInterface {
 	private JTextArea consoleOut = new JTextArea(100, 100);
 	
 	
-	public UserInterface(GameCharacter pc) throws InterruptedException{
+	public UserInterface(GameCharacter pc,ArrayList<Mob> m) throws InterruptedException{
 	
 		JFrame window = new JFrame();
 		window.setSize(800, 800);
 		window.setLayout(new BorderLayout());
 		window.setTitle("Nico'a House: An adventure for Glory");
-		
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());		
 		
@@ -82,7 +83,7 @@ public class UserInterface {
 		
 		
 		JTextField input = new JTextField();
-		input.addActionListener(new CommandListener(textArea,pc,pictureLabel,stats));
+		input.addActionListener(new CommandListener(textArea,pc,pictureLabel,stats,m));
 		panel.add(input, BorderLayout.CENTER);
 		window.add(panel, BorderLayout.SOUTH);
 		

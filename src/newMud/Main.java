@@ -17,9 +17,7 @@ public class Main {
 	 * By Justin, Nico, and sometimes Jordan
 	 * 
 	 */
-	
-	
-	
+
 	
 	
 	private static Map world = new Map();

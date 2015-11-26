@@ -1,17 +1,13 @@
 package newMud;
-
+@SuppressWarnings("unused")
 public class GameCharacter extends GameObject {
 
-	@SuppressWarnings("unused")
+	
 	private int baseDamage;
-	@SuppressWarnings("unused")
 	private int armourClass;
-	@SuppressWarnings("unused")
 	private int health;
-	@SuppressWarnings("unused")
 	private int stamina;
 	private int score = 0;
-	@SuppressWarnings("unused")
 	private int xp = 0;
 	
 	
@@ -32,6 +28,44 @@ public class GameCharacter extends GameObject {
 		score = score + s;
 	}
 	
+	
+	public void getAll(){
+		for(int i = 0; i < this.getLocation().getItemObject().size();i++){
+			this.pickUp(getLocation().getItemObject().get(i));
+		}
+	}
+	
+	
+	//getters
+	
+	public int getBaseDamage(){
+		return baseDamage;
+	}
+	public int getArmour(){
+		return armourClass;
+	}
+	public int getStamina(){
+		return stamina;
+	}
+	public int getHealth(){
+		return health;
+	}
+	
+
+	
+	//Setters
+	public void setBaseDamage(int i){
+		baseDamage = i;
+	}
+	public void setArmour(int i){
+		armourClass = i;
+	}
+	public void setStamina(int i){
+		stamina = i;
+	}
+	public void setHealth(int i){
+		health = i;
+	}
 	
 	
 	//movement

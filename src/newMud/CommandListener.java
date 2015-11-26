@@ -3,6 +3,7 @@ package newMud;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,12 +22,13 @@ public class CommandListener implements ActionListener {
 	private Pattern commandRegex = Pattern.compile("(\\S+)(\\s+)(.+)");				//creates a pattern that command entered will be checked against
 	private String commandType = null;		//command entered
 	private String commandValue = null;		//variable following command
+	private ArrayList<Mob> mobList;
 	
-	public CommandListener(JTextArea out, GameCharacter pc, JLabel label, JTextArea sList){
-		this.out = out;
+	public CommandListener(JTextArea out, GameCharacter pc, JLabel label, JTextArea sList,ArrayList<Mob>m){
 		mainGuy = pc;
 		imLabel = label;
 		statsList = sList;
+		mobList = m;
 		
 	}
 	
@@ -82,12 +84,17 @@ public class CommandListener implements ActionListener {
 				out.append("That is not a valid direction." + "\n");
 			}
 			break;
-		case("get"):
+		case("get"):	//command for getting only the item you want to pick up
 			if((mainGuy.getLocation()).checkItem(commandValue)){
 				mainGuy.pickUp((mainGuy.getLocation()).returnItem(commandValue));
 				out.append("Got it!" + "\n");
 			}
 			else out.append("That item is not in the room." + "\n");
+			break;
+		case("getall"):	//command for getting every item in the room
+			for(int i =0;i < mainGuy.getLocation().getItemObject().size(); i++){
+				mainGuy.pickUp(mainGuy.getLocation().getItemObject().get(i));
+				}
 			break;
 		case("drop"):
 			if (mainGuy.checkItem(commandValue)){						
@@ -95,6 +102,23 @@ public class CommandListener implements ActionListener {
 				out.append("Tossed " + commandValue + ", hope you dont need it later." + "\n");
 			}
 			else out.append("You can't drop what you dont have." + "\n");
+			break;
+		case("attack"):
+			/*
+			 * 
+			 * PUT STUFF HERE NICO
+			 * IT IS REAL IMPORTANT
+			 * DON'T FORGET THIS IS WHERE YOU WERE CODING STUFF
+			 * LIKE FOR FUCKS SAKE DON'T FORGET
+			 * 
+			 * 
+			 */
+			if(){
+				
+			}
+			else{
+				
+			}
 			break;
 		default:
 			out.append("That is not a valid command." + "\n");
@@ -132,4 +156,16 @@ public class CommandListener implements ActionListener {
 		out.append(mainGuy.getInventory().toString() + "\n");
 		
 	}
+	public boolean sameRoom(){
+		
+		for(int i =0 ; i< mobList.size();i++){
+			if(mainGuy.getLocation()==mobList.get(i).getLocation()){
+				return true;
+			}
+		}
+		
+		return true;
+	}
+	
+	
 }
