@@ -9,6 +9,7 @@ public class GameCharacter extends GameObject {
 	private int stamina;
 	private int score = 0;
 	private int xp = 0;
+	private int lvl = 0;
 	
 	
 	public GameCharacter(String n, String d, Room l,int h, int s) {
@@ -27,17 +28,8 @@ public class GameCharacter extends GameObject {
 	public void addScore(int s){
 		score = score + s;
 	}
-	
-	
-	public void getAll(){
-		for(int i = 0; i < this.getLocation().getItemObject().size();i++){
-			this.pickUp(getLocation().getItemObject().get(i));
-		}
-	}
-	
-	
-	//getters
-	
+		
+		//GETTERS
 	public int getBaseDamage(){
 		return baseDamage;
 	}
@@ -47,13 +39,8 @@ public class GameCharacter extends GameObject {
 	public int getStamina(){
 		return stamina;
 	}
-	public int getHealth(){
-		return health;
-	}
 	
-
-	
-	//Setters
+		//SETTERS
 	public void setBaseDamage(int i){
 		baseDamage = i;
 	}
@@ -63,12 +50,41 @@ public class GameCharacter extends GameObject {
 	public void setStamina(int i){
 		stamina = i;
 	}
+	
+		//XP SYSTEM
+	public int getXP(){
+		return xp;
+	}
+	public void setXP(int i){
+		xp = i;
+	}
+	public void gitGud(){	//if user generates enough xp, user will level up and get stronger	
+		if(xp >= 100){
+			lvl++;						//add 1 to level
+			xp = 0;						//reset xp
+			health = health + 10*lvl;	//get stat boosts
+			stamina = stamina + 10*lvl;
+			armourClass = armourClass + 10*lvl;
+			baseDamage = baseDamage + 10*lvl;
+		}
+	}
+
+	
+			//HEALTH 
+	public void getKneed(int max, int min){
+		health = health - (min + (int)(Math.random()*max));
+	}
 	public void setHealth(int i){
 		health = i;
 	}
+	public int getHealth(){
+		return health;
+	}
 	
 	
-	//movement
+	
+	
+			//MOVEMENT
 	public void goNorth() {
 		if (this.getLocation().getExits()[0] != null)
 			this.setLocation(this.getLocation().getExits()[0]);

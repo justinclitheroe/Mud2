@@ -113,7 +113,7 @@ public class CommandListener implements ActionListener {
 			 * 
 			 * 
 			 */
-			if(){
+			if(sameRoom()){
 				
 			}
 			else{
@@ -156,16 +156,15 @@ public class CommandListener implements ActionListener {
 		out.append(mainGuy.getInventory().toString() + "\n");
 		
 	}
+	
+	
 	public boolean sameRoom(){
-		
 		for(int i =0 ; i< mobList.size();i++){
 			if(mainGuy.getLocation()==mobList.get(i).getLocation()){
 				return true;
 			}
 		}
-		
-		return true;
+		return false;
 	}
-	
-	
+		
 }
