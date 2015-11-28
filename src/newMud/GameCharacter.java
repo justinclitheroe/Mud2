@@ -62,22 +62,29 @@ public class GameCharacter extends GameObject {
 	}
 	public void gitGud(){	//if user generates enough xp, user will level up and get stronger	
 		if(xp >= 100){
-			lvl++;						//add 1 to level
-			xp = 0;						//reset xp
-			maxHealth = maxHealth + 10*lvl;	//get stat boosts
+			int remainder = xp-100;				//sets remainder to any left over xp
+			lvl++;								//add 1 to level
+			xp = remainder;						//xp gets set to remainder
+			maxHealth = maxHealth + 10*lvl;		//get stat boosts and heal the player to max health
 			stamina = stamina + 10*lvl;
 			armourClass = armourClass + 10*lvl;
 			baseDamage = baseDamage + 10*lvl;
+			this.heal();	
 		}
 	}
 
 	
 			//HEALTH 
-	public void minusHealth(int i){
+	public void minusHealth(int i){			//subtracts the players health by the given int
 		health = health - i;
 	}
-	public void getKneed(int max, int min){
-		health = health - (min + (int)(Math.random()*max));
+	public int intGetKneed(int max, int min){			//subtracts health from the player for a random amount of value between a given min and max value
+		int i = - (min + (int)(Math.random()*max));		//and also returns the value of health lost
+		health = health - i;
+		return i;
+	}
+	public void getKneed(int max, int min){						//same method as above however does not return an int
+		health = health - (min + (int)(Math.random()*max));			
 	}
 	public void setHealth(int i){
 		health = i;
@@ -92,7 +99,7 @@ public class GameCharacter extends GameObject {
 	public int getMaxHealth(){
 		return maxHealth;
 	}
-	public void heal(){
+	public void heal(){			//heals the player completely
 		health = maxHealth;
 	}
 

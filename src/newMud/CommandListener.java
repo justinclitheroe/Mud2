@@ -89,6 +89,7 @@ public class CommandListener implements ActionListener {
 			break;
 		case("get"):
 			if((mainGuy.getLocation()).checkItem(commandValue)){
+				mainGuy.plusOne();
 				mainGuy.pickUp((mainGuy.getLocation()).returnItem(commandValue));
 				out.append("Got it!" + "\n");
 			}
@@ -156,8 +157,6 @@ public class CommandListener implements ActionListener {
 		out.append("The room contains the following items: ");
 		out.append(mainGuy.getLocation().getInventory().toString() + "\n");
 		out.append(mainGuy.getLocation().listExits() + "\n");
-		out.append("You are holding the following items: ");	  		  	 
-		out.append(mainGuy.getInventory().toString() + "\n");
 		
 	}//end of actionPreformed()
 	
@@ -175,5 +174,22 @@ public class CommandListener implements ActionListener {
 		}
 	}
 		
+	
+	public void attack(){
+		while(mainGuy.getHealth()>=0){						//while player's health is greater than 0...
+			for(int i = 0; i < engagedMob.size() ; i++){		//for each mob player is engaged in...
+				while(engagedMob.get(i).getHealth() > 0){			//while the mobs health is above 0...
+						out.append(engagedMob.get(i).getName() + "got hit for" + engagedMob.get(i).intGetKneed(5, 0) + "hit points"); //player attacks mob
+						out.append("You got hit for " + mainGuy.intGetKneed(5, 0) + " hit points");									  //mob then attacks player
+				}
+				out.append("You have killed " + engagedMob.get(i).getName());
+				engagedMob.get(i).makeDead();
+				engagedMob.remove(i);
+				/*
+				 * YOU NEED TO DO SOMETHING TO REMOVE THE MOB COMPLETELY
+				 */
+			}
+		}
+	}
 	
 }
