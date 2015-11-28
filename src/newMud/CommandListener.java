@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
@@ -19,17 +18,20 @@ public class CommandListener implements ActionListener {
 	private JLabel imLabel;
 	private ImageIcon roomPic;
 	private JTextArea statsList;
-	private Pattern commandRegex = Pattern.compile("(\\S+)(\\s+)(.+)");				//creates a pattern that command entered will be checked against
-	private String commandType = null;		//command entered
-	private String commandValue = null;		//variable following command
-	private ArrayList<Mob> mobList;
+	private Pattern commandRegex = Pattern.compile("(\\S+)(\\s+)(.+)");
+	private String commandType = null;
+	private String commandValue = null;
 	
-	public CommandListener(JTextArea out, GameCharacter pc, JLabel label, JTextArea sList,ArrayList<Mob>m){
+
+	private ArrayList<Mob> mobList;
+	private ArrayList<Mob> engagedMob;
+	
+	public CommandListener(JTextArea out, GameCharacter pc, JLabel label, JTextArea sList,ArrayList<Mob> m){
+		this.out = out;
 		mainGuy = pc;
 		imLabel = label;
 		statsList = sList;
 		mobList = m;
-		
 	}
 	
 	@Override
@@ -39,7 +41,12 @@ public class CommandListener implements ActionListener {
 		String s = source.getText().toLowerCase();
 		out.append(s + "\n");
 		source.setText("");
-		Matcher commandMatcher = commandRegex.matcher(s);		//checks the command entered and matches it with pattern given above
+
+		
+		
+		Matcher commandMatcher = commandRegex.matcher(s);
+		//commandMatcher.matches();
+		
 		if(commandMatcher.matches()){			//if command type gets matched with pattern...
 			commandType = commandMatcher.group(1);
 			commandValue = commandMatcher.group(3);
@@ -49,10 +56,6 @@ public class CommandListener implements ActionListener {
 		switch(commandType){
 		case("start"):
 			out.append("Enjoy your stay.");
-			break;
-		case("exit"):
-			out.append("Goodbye \n");
-			System.exit(0);		//close the all java stuff
 			break;
 		case("go"):
 			switch(commandValue){
@@ -84,17 +87,12 @@ public class CommandListener implements ActionListener {
 				out.append("That is not a valid direction." + "\n");
 			}
 			break;
-		case("get"):	//command for getting only the item you want to pick up
+		case("get"):
 			if((mainGuy.getLocation()).checkItem(commandValue)){
 				mainGuy.pickUp((mainGuy.getLocation()).returnItem(commandValue));
 				out.append("Got it!" + "\n");
 			}
 			else out.append("That item is not in the room." + "\n");
-			break;
-		case("getall"):	//command for getting every item in the room
-			for(int i =0;i < mainGuy.getLocation().getItemObject().size(); i++){
-				mainGuy.pickUp(mainGuy.getLocation().getItemObject().get(i));
-				}
 			break;
 		case("drop"):
 			if (mainGuy.checkItem(commandValue)){						
@@ -111,23 +109,29 @@ public class CommandListener implements ActionListener {
 			 * DON'T FORGET THIS IS WHERE YOU WERE CODING STUFF
 			 * LIKE FOR FUCKS SAKE DON'T FORGET
 			 * 
-			 * 
 			 */
+			 
 			if(sameRoom()){
-				
+				for(int i = 0; i<engagedMob.size();i++){
+				engagedMob.get(i).engage();
+				}
 			}
 			else{
-				
+				out.append("You swing your fists but manage to punch yourself in the face becuase there's nothing to hit. ");
+				out.append("\n you have sustained 1 damage in the process.\n");
+				mainGuy.minusHealth(1);
 			}
-			break;
+			break;  
 		default:
 			out.append("That is not a valid command." + "\n");
 			break;
 		}
 		
-			//creates a string of Stats for the player )
+		//creates a string of Stats for the player )
 		String list = mainGuy.getName() + " Stats \n";
 		list = list +  "Score: " + mainGuy.getScore() + " \n";
+		list = list + "Health: " + mainGuy.getHealth() +"/" + mainGuy.getMaxHealth() + "\n";
+		list = list + "Stamina: " + mainGuy.getStamina() +"/"+ mainGuy.getMaxStamina() + "\n";
 		String inventory = "Inventory: \n";
 		for(int i = 0; i<mainGuy.getInventory().size();i++){
 			inventory = inventory + mainGuy.getInventory().get(i).getName() +"  ";
@@ -155,16 +159,21 @@ public class CommandListener implements ActionListener {
 		out.append("You are holding the following items: ");	  		  	 
 		out.append(mainGuy.getInventory().toString() + "\n");
 		
-	}
+	}//end of actionPreformed()
 	
-	
-	public boolean sameRoom(){
+	public boolean sameRoom(){	//checks to see if any mobs are in the room and if they are add them to an arrayList of mobs engaged in combat.
 		for(int i =0 ; i< mobList.size();i++){
 			if(mainGuy.getLocation()==mobList.get(i).getLocation()){
-				return true;
+				engagedMob.add(mobList.get(i));
 			}
 		}
-		return false;
+		if(!engagedMob.isEmpty()){	//if the array list of mobs in the room is not empty return true 
+			return true;
+		}
+		else{
+			return false;	//else return false
+		}
 	}
 		
+	
 }

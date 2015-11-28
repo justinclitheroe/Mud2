@@ -1,13 +1,17 @@
 package newMud;
-@SuppressWarnings("unused")
 public class GameCharacter extends GameObject {
 
 	
 	private int baseDamage;
 	private int armourClass;
-	private int health;
-	private int stamina;
-	private int score = 0;
+	
+	private int maxHealth;		//max health
+	private int health;			//temporary health
+	
+	private int maxStamina;		//max stamina
+	private int stamina;		//temporary stamina
+	
+	private int score = 0;		
 	private int xp = 0;
 	private int lvl = 0;
 	
@@ -16,6 +20,8 @@ public class GameCharacter extends GameObject {
 		this.setName(n);
 		this.setDescription(d);
 		this.setLocation(l);
+		this.setMaxHealth(h);
+		this.setMaxStamina(s);
 	}
 		
 	//scoring methods
@@ -36,9 +42,8 @@ public class GameCharacter extends GameObject {
 	public int getArmour(){
 		return armourClass;
 	}
-	public int getStamina(){
-		return stamina;
-	}
+	
+	
 	
 		//SETTERS
 	public void setBaseDamage(int i){
@@ -46,10 +51,7 @@ public class GameCharacter extends GameObject {
 	}
 	public void setArmour(int i){
 		armourClass = i;
-	}
-	public void setStamina(int i){
-		stamina = i;
-	}
+	}	
 	
 		//XP SYSTEM
 	public int getXP(){
@@ -62,7 +64,7 @@ public class GameCharacter extends GameObject {
 		if(xp >= 100){
 			lvl++;						//add 1 to level
 			xp = 0;						//reset xp
-			health = health + 10*lvl;	//get stat boosts
+			maxHealth = maxHealth + 10*lvl;	//get stat boosts
 			stamina = stamina + 10*lvl;
 			armourClass = armourClass + 10*lvl;
 			baseDamage = baseDamage + 10*lvl;
@@ -71,17 +73,43 @@ public class GameCharacter extends GameObject {
 
 	
 			//HEALTH 
+	public void minusHealth(int i){
+		health = health - i;
+	}
 	public void getKneed(int max, int min){
 		health = health - (min + (int)(Math.random()*max));
 	}
 	public void setHealth(int i){
 		health = i;
 	}
+	public void setMaxHealth(int i){
+		health = i;
+		maxHealth = i;
+	}
 	public int getHealth(){
 		return health;
 	}
-	
-	
+	public int getMaxHealth(){
+		return maxHealth;
+	}
+	public void heal(){
+		health = maxHealth;
+	}
+
+	//Stamina
+	public int getStamina(){
+		return stamina;
+	}
+	public int getMaxStamina(){
+		return maxStamina;
+	}
+	public void setStamina(int i){
+		stamina = i;
+	}
+	public void setMaxStamina(int i){
+		maxStamina = i;
+		stamina = i;
+	}
 	
 	
 			//MOVEMENT

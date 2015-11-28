@@ -1,5 +1,5 @@
 package newMud;
-
+@SuppressWarnings("unused")
 public class Mob extends GameCharacter {
 
 	private boolean inComabat = false;
@@ -11,5 +11,8 @@ public class Mob extends GameCharacter {
 	public void engage(){
 		inComabat = true;
 	}
+	
+	
+	
 	
 }

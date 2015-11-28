@@ -33,26 +33,26 @@ public class Map {
 
 		
 		//Rooms
-		Room entryWay = new Room("Foyer", "you're in a foyer", new ArrayList<Item>(Arrays.asList()),
+		Room entryWay = new Room("Foyer", "you're in a foyer", new ArrayList<Item>(Arrays.asList(linux)),
 				new ImageIcon("Images/foyer.png"));
 
-		Room den = new Room("Den", "you're in a den", new ArrayList<Item>(Arrays.asList()),
+		Room den = new Room("Den", "you're in a den", new ArrayList<Item>(Arrays.asList(linux)),
 				new ImageIcon("Images/den.jpg"));
 
 		Room diningRoom = new Room("Dining room", "you're in the dining room",
 				new ArrayList<Item>(Arrays.asList(letterOpener)), new ImageIcon("Images/diningRoom.jpg"));
 
-		Room kitchen = new Room("Kitchen", "You're in the kitchen", new ArrayList<Item>(Arrays.asList()),
+		Room kitchen = new Room("Kitchen", "You're in the kitchen", new ArrayList<Item>(Arrays.asList(linux)),
 				new ImageIcon("Images/kitchen.jpg"));
 
 		Room livingRoom = new Room("Living room", "You walk into the living room. Theres a couch, two chairs, a TV setup and a computer. You dismiss the computer becuase it's not a linux machine. Your eye notices a glimmer near the tv", new ArrayList<Item>(Arrays.asList(smashBros,screwdriver,linux)),
 				new ImageIcon("Images/livingRoom.jpg"));
 
-		Room upDen = new Room("upstairs hallway", "to the ", new ArrayList<Item>(Arrays.asList()),
+		Room upDen = new Room("upstairs hallway", "to the ", new ArrayList<Item>(Arrays.asList(linux)),
 				new ImageIcon("Images/den.jpg"));
 
 		Room basement = new Room("basement", "a sense of dread looms over you, you see an apple",
-				new ArrayList<Item>(Arrays.asList()), new ImageIcon("Images/den.jpg"));
+				new ArrayList<Item>(Arrays.asList(linux)), new ImageIcon("Images/den.jpg"));
 
 		
 		

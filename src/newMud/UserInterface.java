@@ -56,7 +56,7 @@ public class UserInterface {
 		stats.setEditable(false);
 		stats.setLineWrap(true);
 		stats.setLineWrap(true);
-		stats.append(pc.getName() + " Stats \n" + "Score: " + pc.getScore() + " \nInventory: \n");
+		stats.append(pc.getName() + " Stats \n" + "Score: " + pc.getScore() + " \nInventory: \n" + "Health: " + pc.getHealth() +"/" + pc.getMaxHealth() + "\n"+"Stamina: " + pc.getStamina() +"/"+ pc.getMaxStamina() + "\n");
 		stats.setBorder(BorderFactory.createMatteBorder( 2, 2, 2, 2, Color.blue));
 		JLabel label3 = new JLabel("");
 		JPanel panel3 = new JPanel();
