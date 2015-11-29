@@ -54,6 +54,14 @@ public class CommandListener implements ActionListener {
 		else commandType = s;	//otherwise set commandType to the whole command entered
 		
 		switch(commandType){
+		case("help"):
+			out.append("Thank you for contacting the MUD help desk. These are the following possible commands... \n");
+			out.append("go <direction> (north,south,east,west,up,down). Only works for valid exits \n");
+			out.append("get <item_name>  \n");
+			out.append("drop <item_name>\n");
+			out.append("attack \n");
+			out.append("help \n");
+			break;
 		case("start"):
 			out.append("Enjoy your stay.");
 			break;
