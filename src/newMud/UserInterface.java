@@ -102,8 +102,17 @@ public class UserInterface {
 		bootPic = new ImageIcon(newimg);
 	
 		pictureLabel.setIcon(bootPic);
-		textArea.setText("Welcome\n");
-		textArea.append("When you are ready to begin, please type 'start' into the command line \n");
+		
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
+		
+		textArea.append("You awake from your slumber only to find yourself in a strange house labled 7920. You rub your head and feel a slight bump. \n");
+		textArea.append("It's at this time that you start to feel a slight headache. little by little your memory starts to come back. You remeber you stupid friends \n");
+		textArea.append("telling you to sign up for some stupid tour of a house. Little did they know it would turn into the adventure of a lifetime");
+		
+		textArea.append("\n When you are ready to begin, please type 'start' into the command line \n");
+		textArea.append("If you have any confusion during the playing of the game, type 'help' into the command line to bring up a list of possible commands");
+		
 	}	
 
 }

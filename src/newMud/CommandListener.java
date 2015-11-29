@@ -56,11 +56,12 @@ public class CommandListener implements ActionListener {
 		switch(commandType){
 		case("help"):
 			out.append("Thank you for contacting the MUD help desk. These are the following possible commands... \n");
-			out.append("go <direction> (north,south,east,west,up,down). Only works for valid exits \n");
-			out.append("get <item_name>  \n");
-			out.append("drop <item_name>\n");
-			out.append("attack \n");
-			out.append("help \n");
+			out.append("go <direction> (north,south,east,west,up,down) => moves the player to any valid room connected to the player's current location \n");
+			out.append("get <item_name>  => adds item to player's inventory \n");
+			out.append("drop <item_name> => removes item from players inventory \n");
+			out.append("attack => attacks every mob in the room \n");
+			out.append("exit => exits the game");
+			out.append("help=> displays a list of given commands \n");
 			break;
 		case("start"):
 			out.append("Enjoy your stay.");
