@@ -13,9 +13,8 @@ public class MobThread extends Thread {
 	
 	
 	public void run(){
-	while(!mob.isDead()){		//while the mob is not dead...
-		while(running){
-			try {
+	while(!mob.isDead()&& running){		//while the mob is not dead...
+			try { 
 				if(!mob.isEngaged()){	//if mob is not engaged in combat...else do nothing
 				Thread.sleep(10000); //wait <some number > seconds
 				this.moveMob();			
@@ -23,19 +22,22 @@ public class MobThread extends Thread {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		}
 	
 	}
-	this.interrupt();
+	running = false; 
+	System.out.println (mob.getName() + "'s thread has stopped");
+	//perform any clean up here
+	//ie... drop any items in the mobs inventory
 	}
 	
 	
 	public int rnGesus(int max,int min ){	 //generates a number between 1 and 6 to randomize the mob movement between rooms
 		return min + (int)(Math.random()*max); 
-		}
+	}
 
-	
-	
+	public void stopRunning(){
+		running = false;
+	}
 	
 	 public void moveMob(){	//moves the mob randomly based on rnGesus() method
 		int i = rnGesus(6,0);
@@ -43,21 +45,27 @@ public class MobThread extends Thread {
 			switch(i){	
 				case 0:
 					mob.goNorth();
+					System.out.println("Mob has moved to the:" + mob.getLocation().getName());
 					break;
 				case 1:
 					mob.goSouth();
+					System.out.println("Mob has moved to the:" + mob.getLocation().getName());
 					break;
 				case 2:
 					mob.goEast();
+					System.out.println("Mob has moved to the:" + mob.getLocation().getName());
 					break;
 				case 3:
 					mob.goWest();
+					System.out.println("Mob has moved to the:" + mob.getLocation().getName());
 					break;
 				case 4:
 					mob.goUp();
+					System.out.println("Mob has moved to the:" + mob.getLocation().getName());
 					break;
 				case 5:
 					mob.goDown();
+					System.out.println("Mob has moved to the:" + mob.getLocation().getName());
 					break;
 				}
 			}

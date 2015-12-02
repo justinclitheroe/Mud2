@@ -1,5 +1,4 @@
 package newMud;
-@SuppressWarnings("unused")
 public class Mob extends GameCharacter {
 
 	private boolean inCombat = false;

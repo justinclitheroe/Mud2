@@ -4,6 +4,7 @@ public class GameCharacter extends GameObject {
 	
 	private int baseDamage;
 	private int armourClass;
+	private int toHit;
 	
 	private int maxHealth;		//max health
 	private int health;			//temporary health
@@ -23,7 +24,35 @@ public class GameCharacter extends GameObject {
 		this.setMaxHealth(h);
 		this.setMaxStamina(s);
 	}
-		
+	
+	// Combat Methods \\
+	public int damage(Mob m){
+		if ((int) Math.random()*20 + this.getToHit() > m.getArmour())
+			return this.getBaseDamage(); //TODO add equip damage
+		else
+			return 0;
+	}
+	
+	public int getArmour(){
+		return armourClass;
+	}
+	public void setArmour(int i){
+		armourClass = i;
+	}
+	public int getBaseDamage(){
+		return baseDamage;
+	}
+	public void setBaseDamage(int i){
+		baseDamage = i;
+	}
+	public int getToHit() {
+		return toHit;
+	}
+	public void setToHit(int toHit) {
+		this.toHit = toHit;
+	}
+	
+	
 	//scoring methods
 	public void plusOne(){
 		score ++;
@@ -34,24 +63,6 @@ public class GameCharacter extends GameObject {
 	public void addScore(int s){
 		score = score + s;
 	}
-		
-		//GETTERS
-	public int getBaseDamage(){
-		return baseDamage;
-	}
-	public int getArmour(){
-		return armourClass;
-	}
-	
-	
-	
-		//SETTERS
-	public void setBaseDamage(int i){
-		baseDamage = i;
-	}
-	public void setArmour(int i){
-		armourClass = i;
-	}	
 	
 		//XP SYSTEM
 	public int getXP(){
@@ -69,12 +80,15 @@ public class GameCharacter extends GameObject {
 			stamina = stamina + 10*lvl;
 			armourClass = armourClass + 10*lvl;
 			baseDamage = baseDamage + 10*lvl;
+			this.addScore(42);
 			this.heal();	
 		}
 	}
 
+
+			//HEALTH
 	
-			//HEALTH 
+	
 	public void minusHealth(int i){			//subtracts the players health by the given int
 		health = health - i;
 	}
