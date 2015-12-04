@@ -16,7 +16,7 @@ public class MobThread extends Thread {
 	while(!mob.isDead()&& running){		//while the mob is not dead...
 			try { 
 				if(!mob.isEngaged()){	//if mob is not engaged in combat...else do nothing
-				Thread.sleep(10000); //wait <some number > seconds
+				Thread.sleep(10000); 	//wait <some number > seconds
 				this.moveMob();			
 				}
 			} catch (InterruptedException e) {

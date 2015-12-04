@@ -21,10 +21,9 @@ public class CommandListener implements ActionListener {
 	private Pattern commandRegex = Pattern.compile("(\\S+)(\\s+)(.+)");
 	private String commandType = null;
 	private String commandValue = null;
-	
 
 	private ArrayList<Mob> mobList;
-	private ArrayList<Mob> engagedMob;
+	private ArrayList<Mob> engagedMob = new ArrayList<Mob>();
 	
 	public CommandListener(JTextArea out, GameCharacter pc, JLabel label, JTextArea sList,ArrayList<Mob> m){
 		this.out = out;
@@ -42,7 +41,6 @@ public class CommandListener implements ActionListener {
 		out.append(s + "");
 		source.setText("");
 
-		
 		
 		Matcher commandMatcher = commandRegex.matcher(s);
 		//commandMatcher.matches();
@@ -124,13 +122,16 @@ public class CommandListener implements ActionListener {
 			if(sameRoom()){
 				System.out.println("Same room has returned true");
 				
-				for(int i = 0; i==engagedMob.size();i++){
-				
-					System.out.println("For loop in sameRoom enter command code has run");
-				engagedMob.get(i).engage();
-				System.out.println("engaged mob" + i + "has been put in combat");
+				for(int i = 0; i<engagedMob.size();i++){
+					//System.out.println("For loop in sameRoom enter command code has run");
+					engagedMob.get(i).engage();
+					System.out.println("engaged mob " + engagedMob.get(i).getName() + " has been put in combat");
 				}
+				
+				
+				attack(commandValue);
 			}
+		
 			else{
 				out.append("You swing your fists but manage to punch yourself in the face becuase there's nothing to hit. ");
 				out.append("\n you have sustained 1 damage in the process.\n");
@@ -174,56 +175,71 @@ public class CommandListener implements ActionListener {
 	public boolean sameRoom(){	//checks to see if any mobs are in the room and if they are add them to an arrayList of mobs engaged in combat.
 		int count = 0;
 		
-		
 		System.out.println("the mobList array size is: " + mobList.size());
 				
 		for(int i =0 ; i< mobList.size();i++){
-			System.out.println(i);
-			if(mainGuy.getLocation() == mobList.get(i).getLocation()){
-				System.out.print("These mobs are in the same room:" );
-				System.out.print(mobList.get(i).getName());
-				System.out.println("");
-				
-				return true;
-				//engagedMob.add(count, engagedMob.get(i));
-				
-				
-				
-				
-				//System.out.println(engagedMob.get(i).getName() + "has been added to engagedMob list");
+			
+			if(mainGuy.getLocation() == mobList.get(i).getLocation()){				
+				//engagedMob.add(mobList.get(i));
+				engagedMob.add(count, mobList.get(i));
+				count++;
+				}
+		}
+		return !engagedMob.isEmpty();
+	}//end of sameRoom method
+	
+	
+	public void attack(String m){
+	
+		for (int i = 0; i < mobList.size(); i++) {
+		if(m.equals(mobList.get(i).getName())) {
+			int damage;
+			if (mobList.get(i).getLocation() == mainGuy.getLocation()){
+				damage = mainGuy.damage(mobList.get(i));
+				System.out.println("Main guy hits " + mobList.get(i).getName()+ " For: " + damage);
+				mobList.get(i).minusHealth(damage);
 			}
 		}
-		return engagedMob.isEmpty();
+		}
 	}
 	
 	
-	public void attack(){
+	public void attackAll(){
 		int damage;
-		while(mainGuy.getHealth()> 0){						//while player's health is greater than 0...
+		
+		System.out.println("Health: " + mainGuy.getHealth());
+		System.out.print("engagedMobList size: " + engagedMob.size());
+		
+		while(mainGuy.getHealth() > 0){						//while player's health is greater than 0...
+			
 			for(int i = 0; i < engagedMob.size() ; i++){		//for each mob player is engaged in...
+			
 				while(engagedMob.get(i).getHealth() > 0){			//while the mobs health is above 0...
+						System.out.println("second while loop is starting");
 						damage = mainGuy.damage(engagedMob.get(i));
-						out.append(engagedMob.get(i).getName() + "got hit for" + damage + "hit points"); //player attacks mob
+						
+						//out.append(engagedMob.get(i).getName() + " got hit for " + damage + " hit points \n"); //player attacks mob
+						System.out.println(engagedMob.get(i).getName() + " got hit for " + damage + " hit points \n");
+						
 						engagedMob.get(i).minusHealth(damage);
-						out.append("You got hit for " + mainGuy.intGetKneed(5, 0) + " hit points");									  //mob then attacks player
+						
+				    	//out.append("You got hit for " + mainGuy.intGetKneed(5, 0) + " hit points \n");									  //mob then attacks player
+						System.out.println("You got hit for " + mainGuy.intGetKneed(5, 0) + " hit points \n");
 				}
 				out.append("You have killed " + engagedMob.get(i).getName());
 				engagedMob.get(i).makeDead();
+				System.out.println("engagedMob" + engagedMob.get(i).getName()+ "Has Died");
 
-				for(int q =0; i < mobList.size(); q++){		//removes dead Mob from the system
+				for(int q =0; q < mobList.size(); q++){		//removes dead Mob from the system
 					for(int j =0;j<engagedMob.size();j++){
-						if(mobList.get(q)==engagedMob.get(j)){
+						if(mobList.get(q)==engagedMob.get(q)){
 							mobList.remove(q);
 							engagedMob.remove(j);
-						}
-					}
-				}
-				
-				
-				
-				
-			}
-		}
-	}
+						}//end of if statement
+					}//end of for loop j
+				}//end of for loop q   			
+			}//end of for loop i
+		}//end of while loop
+	}//end of attack method
 	
 }

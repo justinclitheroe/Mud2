@@ -17,12 +17,15 @@ public class GameCharacter extends GameObject {
 	private int lvl = 0;
 	
 	
-	public GameCharacter(String n, String d, Room l,int h, int s) {
+	public GameCharacter(String n, String d, Room l,int h, int s,int b ,int aC, int tH) {
 		this.setName(n);
 		this.setDescription(d);
 		this.setLocation(l);
 		this.setMaxHealth(h);
 		this.setMaxStamina(s);
+		this.setBaseDamage(b);
+		this.setArmour(aC);
+		this.setToHit(tH);
 	}
 	
 	// Combat Methods \\
