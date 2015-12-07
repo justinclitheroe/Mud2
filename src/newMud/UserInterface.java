@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.util.ArrayList;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -36,7 +35,7 @@ public class UserInterface {
 		panel.add(pictureLabel, BorderLayout.CENTER);
 		panel.setLayout(new BorderLayout());
 		panel.add(pictureLabel, BorderLayout.WEST);
-		window.add(panel, BorderLayout.EAST);
+		window.add(panel, BorderLayout.WEST);
 
 		//holds the enter a command textbox
 		textArea = new JTextArea(2,50);
@@ -47,26 +46,34 @@ public class UserInterface {
 		panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		panel.add(display, BorderLayout.CENTER);
-		panel.add(label, BorderLayout.WEST);
+		panel.add(label, BorderLayout.NORTH);
 		window.add(panel, BorderLayout.CENTER);
 		
+		//displays mob name and location for each mob alive
+		JTextField mobStuff = new JTextField();
+		mobStuff.setEditable(false);
+		JLabel mobLabel = new JLabel("AYYY LOOK IT'S A MOB");
+		JPanel mobPanel = new JPanel();
+		mobPanel.setLayout(new BorderLayout());
+		mobPanel.add(mobStuff,BorderLayout.CENTER);
+		mobPanel.add(mobLabel, BorderLayout.NORTH);
+		window.add(mobPanel, BorderLayout.EAST);
+		mobStuff.setText("AYYY TURN UP FOR MOB STUFF");
 		
-		//field to print inventory and other stats to be added later
+		
+		//displays player's inventory, health,stamina, etc...
 		JTextArea stats = new JTextArea(1,1);
 		stats.setEditable(false);
 		stats.setLineWrap(true);
 		stats.setLineWrap(true);
-		stats.append(pc.getName() + " Stats \n" + "Score: " + pc.getScore() + " \nInventory: \n" + "Health: " + pc.getHealth() +"/" + pc.getMaxHealth() + "\n"+"Stamina: " + pc.getStamina() +"/"+ pc.getMaxStamina() + "\n");
+		stats.append("WELCOME");
 		stats.setBorder(BorderFactory.createMatteBorder( 2, 2, 2, 2, Color.blue));
 		JLabel label3 = new JLabel("");
 		JPanel panel3 = new JPanel();
 		panel3.setLayout(new BorderLayout());
 		panel3.add(stats,BorderLayout.NORTH);
-		panel3.add(label3, BorderLayout.EAST);
+		panel3.add(label3, BorderLayout.CENTER);
 		window.add(panel3, BorderLayout.NORTH);
-
-		
-		
 		
 		//displays the console (output of entering commands)
 		JScrollPane display2 = new JScrollPane(textArea);		
@@ -78,9 +85,10 @@ public class UserInterface {
 		panel2.setLayout(new BorderLayout());
 		panel2.setPreferredSize(d);
 		panel2.add(display2, BorderLayout.CENTER);
-		panel2.add(label2, BorderLayout.WEST);
+		panel2.add(label2, BorderLayout.NORTH);
 		window.add(panel2, BorderLayout.CENTER);
 		
+		//input command textbox
 		JTextField input = new JTextField();
 		input.addActionListener(new CommandListener(textArea,pc,pictureLabel,stats,m));
 		panel.add(input, BorderLayout.CENTER);
@@ -109,7 +117,6 @@ public class UserInterface {
 		textArea.append("You awake from your slumber only to find yourself in a strange house labled 7920. You rub your head and feel a slight bump. \n");
 		textArea.append("It's at this time that you start to feel a slight headache. little by little your memory starts to come back. You remeber you stupid friends \n");
 		textArea.append("telling you to sign up for some stupid tour of a house. Little did they know it would turn into the adventure of a lifetime");
-		
 		textArea.append("\n When you are ready to begin, please type 'start' into the command line \n");
 		textArea.append("If you have any confusion during the playing of the game, type 'help' into the command line to bring up a list of possible commands");
 		

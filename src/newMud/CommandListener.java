@@ -18,12 +18,14 @@ public class CommandListener implements ActionListener {
 	private JLabel imLabel;
 	private ImageIcon roomPic;
 	private JTextArea statsList;
-	private Pattern commandRegex = Pattern.compile("(\\S+)(\\s+)(.+)");
+	private Pattern commandRegex = Pattern.compile("(\\S+)(\\s+)(.+)"); 
 	private String commandType = null;
 	private String commandValue = null;
-
 	private ArrayList<Mob> mobList;
 	private ArrayList<Mob> engagedMob = new ArrayList<Mob>();
+	
+	
+	
 	
 	public CommandListener(JTextArea out, GameCharacter pc, JLabel label, JTextArea sList,ArrayList<Mob> m){
 		this.out = out;
@@ -33,12 +35,13 @@ public class CommandListener implements ActionListener {
 		mobList = m;
 	}
 	
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
 		JTextField source = (JTextField) e.getSource();
 		String s = source.getText().toLowerCase();
-		out.append(s + "");
+		out.append(s + "\n");
 		source.setText("");
 
 		
@@ -110,34 +113,34 @@ public class CommandListener implements ActionListener {
 			else out.append("You can't drop what you dont have." + "\n");
 			break;
 		case("attack"):
-			/*
-			 * 
-			 * PUT STUFF HERE NICO
-			 * IT IS REAL IMPORTANT
-			 * DON'T FORGET THIS IS WHERE YOU WERE CODING STUFF
-			 * LIKE FOR FUCKS SAKE DON'T FORGET
-			 * 
-			 */
-			 
-			if(sameRoom()){
-				System.out.println("Same room has returned true");
-				
-				for(int i = 0; i<engagedMob.size();i++){
-					//System.out.println("For loop in sameRoom enter command code has run");
-					engagedMob.get(i).engage();
-					System.out.println("engaged mob " + engagedMob.get(i).getName() + " has been put in combat");
+			if(sameRoom()){		//if mobs are in the same room as player
+				for(int i = 0; i<engagedMob.size();i++){//for each mob in the engagedMobs list					
+					if (engagedMob.get(i).getName().toLowerCase().equals(commandValue.toLowerCase())){	//if the name entered in the command is the same name as in the array
+						if(!engagedMob.get(i).isDead()){	//if the mob's health is >0
+							engagedMob.get(i).engage();	//engage mob(stops mob from moving)
+							out.append(engagedMob.get(i).getName() + " has been put in combat \n");
+							out.append("The value for" + engagedMob.get(i).getName() + " isDead is " + engagedMob.get(i).isDead());
+							attack(commandValue); //attacks mob using name in the entered command
+							if(engagedMob.get(i).getHealth() <=0){		//if mob is dead remove the mob from engaged mob
+								engagedMob.remove(i);				
+								for(int j = 0; j< mobList.size();j++){		//then delete the mob from the actual mobList						
+									if(mobList.get(i).getName().equalsIgnoreCase(commandValue)){
+										mobList.remove(j);
+									}
+								}
+							}
+						}
+						else out.append("That mob is already dead. Please stop beating a dead body");
+					}
 				}
-				
-				
-				attack(commandValue);
 			}
-		
 			else{
 				out.append("You swing your fists but manage to punch yourself in the face becuase there's nothing to hit. ");
 				out.append("\n you have sustained 1 damage in the process.\n");
 				mainGuy.minusHealth(1);
 			}
-			break;  
+			break; 
+			
 		default:
 			out.append("That is not a valid command." + "\n");
 			break;
@@ -146,8 +149,11 @@ public class CommandListener implements ActionListener {
 		//creates a string of Stats for the player )
 		String list = mainGuy.getName() + " Stats \n";
 		list = list +  "Score: " + mainGuy.getScore() + " \n";
-		list = list + "Health: " + mainGuy.getHealth() +"/" + mainGuy.getMaxHealth() + "\n";
-		list = list + "Stamina: " + mainGuy.getStamina() +"/"+ mainGuy.getMaxStamina() + "\n";
+		list = list + "Health: " + mainGuy.getHealth() +"/" + mainGuy.getMaxHealth();
+		list = list + "		Stamina: " + mainGuy.getStamina() +"/"+ mainGuy.getMaxStamina() + "\n";
+		list =list + "Armour class: " + mainGuy.getArmour();
+		list =list + "	Base Damage: " + mainGuy.getBaseDamage() +"\n";
+		
 		String inventory = "Inventory: \n";
 		for(int i = 0; i<mainGuy.getInventory().size();i++){
 			inventory = inventory + mainGuy.getInventory().get(i).getName() +"  ";
@@ -168,7 +174,7 @@ public class CommandListener implements ActionListener {
 		out.append("\n \n"+(mainGuy.getLocation()).getDescription() +"\n");
 		out.append("The room contains the following items: ");
 		out.append(mainGuy.getLocation().getInventory().toString() + "\n");
-		out.append(mainGuy.getLocation().listExits() + "\n");
+		out.append(mainGuy.getLocation().listExits() + "\n\n\n");
 		
 	}//end of actionPreformed()
 	
@@ -189,43 +195,66 @@ public class CommandListener implements ActionListener {
 	}//end of sameRoom method
 	
 	
-	public void attack(String m){
 	
-		for (int i = 0; i < mobList.size(); i++) {
-		if(m.equals(mobList.get(i).getName())) {
-			int damage;
-			if (mobList.get(i).getLocation() == mainGuy.getLocation()){
-				damage = mainGuy.damage(mobList.get(i));
-				System.out.println("Main guy hits " + mobList.get(i).getName()+ " For: " + damage);
-				mobList.get(i).minusHealth(damage);
-			}
-		}
-		}
+	/*
+	 * 		Attack Methods
+	 * 			Attack
+	 *------------------------
+	 * 1) takes in the name of a mob (String m)
+	 * 2) if m = name of mob in ArrayList<Mob> 
+	 * 		- engage the mob in combat (stops mob thread from moving)
+	 * 		-attack the mob dealing damage
+	 * 		-mob gets to attack you
+	 * 3) if mob has no health-> for that mob...
+	 * 		-set mobs isDead boolean to true
+	 * 			-stops mob thread
+	 * 		-deletes mob from the arrayList
+	 *
+	 *			AttackALl
+	 *-------------------------
+	 * same process as above except instead of taking in a String it automatically puts every
+	 *  mob in the same room in combat
+	 *
+	 */
+	public void attack(String m){		 
+	if(m.equalsIgnoreCase("all")){
+		attackAll();
+	}
+	else{	
+	for (int i = 0; i < mobList.size(); i++) {
+			if(m.equals(mobList.get(i).getName().toLowerCase())) {
+				int damage;
+				if (mobList.get(i).getLocation().equals(mainGuy.getLocation())){
+					damage = mainGuy.damage(mobList.get(i));
+					out.append("Damage = " + damage + "\n");
+					out.append("Main guy hits " + mobList.get(i).getName()+ " For: " + damage + "\n");
+					mobList.get(i).minusHealth(damage);
+					if(mobList.get(i).getHealth() <=0){
+						out.append(mobList.get(i).getName() + " got #REKT and is # DED \n");;
+						mobList.get(i).isDead();
+						mobList.remove(i);	
+					}//end of if (mob has no health)
+				}//end of if (player location = mob location)
+			}//end of if (name of mob = name of mob in arrayList)
+			else if(m.equals(null)){
+				System.out.println("attack all method runs");
+				attackAll();
+			}//end of else if()
+		}//end of i for loop
+	}
 	}
 	
 	
 	public void attackAll(){
 		int damage;
-		
-		System.out.println("Health: " + mainGuy.getHealth());
-		System.out.print("engagedMobList size: " + engagedMob.size());
-		
-		while(mainGuy.getHealth() > 0){						//while player's health is greater than 0...
-			
+		while(mainGuy.getHealth() > 0){						//while player's health is greater than 0...	
 			for(int i = 0; i < engagedMob.size() ; i++){		//for each mob player is engaged in...
-			
 				while(engagedMob.get(i).getHealth() > 0){			//while the mobs health is above 0...
-						System.out.println("second while loop is starting");
 						damage = mainGuy.damage(engagedMob.get(i));
-						
-						//out.append(engagedMob.get(i).getName() + " got hit for " + damage + " hit points \n"); //player attacks mob
-						System.out.println(engagedMob.get(i).getName() + " got hit for " + damage + " hit points \n");
-						
+						out.append(engagedMob.get(i).getName() + " got hit for " + damage + " hit points \n");
 						engagedMob.get(i).minusHealth(damage);
-						
-				    	//out.append("You got hit for " + mainGuy.intGetKneed(5, 0) + " hit points \n");									  //mob then attacks player
-						System.out.println("You got hit for " + mainGuy.intGetKneed(5, 0) + " hit points \n");
-				}
+				    	out.append("You got hit for " + mainGuy.intGetKneed(5, 0) + " hit points \n");									  //mob then attacks player
+						}
 				out.append("You have killed " + engagedMob.get(i).getName());
 				engagedMob.get(i).makeDead();
 				System.out.println("engagedMob" + engagedMob.get(i).getName()+ "Has Died");
@@ -240,6 +269,6 @@ public class CommandListener implements ActionListener {
 				}//end of for loop q   			
 			}//end of for loop i
 		}//end of while loop
-	}//end of attack method
+	}//end of attackAll method
 	
 }
