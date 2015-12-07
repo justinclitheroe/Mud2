@@ -30,8 +30,9 @@ public class GameCharacter extends GameObject {
 	
 	// Combat Methods \\
 	public int damage(Mob m){
-		if ((int) Math.random()*20 + this.getToHit() > m.getArmour())
+		if ((int) Math.random()*20 + this.getToHit() > m.getArmour()){
 			return this.getBaseDamage(); //TODO add equip damage
+	}
 		else
 			return 0;
 	}
@@ -62,6 +63,9 @@ public class GameCharacter extends GameObject {
 	}
 	public int getScore(){
 		return score;
+	}
+	public void setScore(int s){
+		score = s;
 	}
 	public void addScore(int s){
 		score = score + s;

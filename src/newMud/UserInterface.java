@@ -5,6 +5,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -14,18 +17,21 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class UserInterface {
+public class UserInterface implements Observer{
 	
 	private JTextArea textArea = new JTextArea(100, 100);
 	private JTextArea consoleOut = new JTextArea(100, 100);
-	
+	private JTextArea mobStuff = new JTextArea();
+	private ArrayList<Mob> mobList;
 	
 	public UserInterface(GameCharacter pc,ArrayList<Mob> m) throws InterruptedException{
-	
+		
+		mobList = m;
+		
 		JFrame window = new JFrame();
 		window.setSize(800, 800);
 		window.setLayout(new BorderLayout());
-		window.setTitle("Nico'a House: An adventure for Glory");
+		window.setTitle("The Machine: An adventure for Glory");
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());		
 		
@@ -50,7 +56,6 @@ public class UserInterface {
 		window.add(panel, BorderLayout.CENTER);
 		
 		//displays mob name and location for each mob alive
-		JTextField mobStuff = new JTextField();
 		mobStuff.setEditable(false);
 		JLabel mobLabel = new JLabel("AYYY LOOK IT'S A MOB");
 		JPanel mobPanel = new JPanel();
@@ -58,7 +63,7 @@ public class UserInterface {
 		mobPanel.add(mobStuff,BorderLayout.CENTER);
 		mobPanel.add(mobLabel, BorderLayout.NORTH);
 		window.add(mobPanel, BorderLayout.EAST);
-		mobStuff.setText("AYYY TURN UP FOR MOB STUFF");
+		mobStuff.setText("MOB STUFF");
 		
 		
 		//displays player's inventory, health,stamina, etc...
@@ -120,8 +125,17 @@ public class UserInterface {
 		textArea.append("\n When you are ready to begin, please type 'start' into the command line \n");
 		textArea.append("If you have any confusion during the playing of the game, type 'help' into the command line to bring up a list of possible commands");
 		
-	}	
+	}
 
+	@Override
+	public void update(Observable o, Object arg) {
+		mobStuff.setText("");
+		String mobInfo = "";
+		for(int i = 0; i<mobList.size();i++){
+			mobInfo = mobInfo + mobList.get(i).getName() + "\n---------\n Health: " + mobList.get(i).getHealth() + "\n Location: " + mobList.get(i).getLocation().getName() + "\n\n";		
+		}
+		mobStuff.setText(mobInfo);
+	}	
 }
 
 
