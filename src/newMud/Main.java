@@ -42,15 +42,20 @@ public class Main {
 		MobObserver m = new MobObserver();
 		
 		Mob t = new Mob(m,"Tom Goblin","a short goblin mumbling about linux servers", world.getDaMap().get(0),1,1,1,1,1);//world.getDaMap().get(rnGesus(0,6)),1,1); 
-			t.setDeathMessage("");
+			t.setDeathMessage("You hear a loud pitched screeching. It reminds you of dial up tones...");
+			t.setAttackMessage("");
 		Mob c = new Mob(m,"Cat","A wandering black cat. Possibly a source of bad luck. It sounds like the cat is mumbling about chemical bonds", world.getDaMap().get(0),52,1,1,1,1);//,world.getDaMap().get(rnGesus(0,6)),1,1);	
-			t.setDeathMessage("");
+			c.setDeathMessage("");
+			c.setAttackMessage("the cat throws some sort of vial at you. The glass shatters and the liquid burns your sking on contact. You hear it giggle");
 		Mob ju = new Mob(m,"Joustain","Another goblin. This one makes terrible puns and seems to have a dislike towards any linux comment tom goblin makes", world.getDaMap().get(0),1,1,1,1,1);//,world.getDaMap().get(rnGesus(0,6)),1,1);
-			t.setDeathMessage("");
+			ju.setDeathMessage("'AUUUUGUGGHHHHHHH' it yells. You then watch it for a good five minutes flopping around being way too overdramatic");
+			ju.setAttackMessage("");
 		Mob jo = new Mob(m,"Joardenne","A rare goblin to see in the world.Only shows up once every tuesday assuming it's a month divisible by three and there's a full moon", world.getDaMap().get(0),1,1,1,1,1);//,world.getDaMap().get(rnGesus(0,6)),1,1);	
-			t.setDeathMessage("");
+			jo.setDeathMessage("He didn't actually die. He just got a real job");
+			jo.setAttackMessage("Error 404: attack not found");
 		Mob vd = new Mob(m,"Vim Diesel","ex-WWE(World Wrestling Editor) heavyweight champion. You should probably run...", world.getDaMap().get(0),1,1,1,1,1);//,world.getDaMap().get(rnGesus(0,6)),1,1);
-			t.setDeathMessage("");
+			vd.setDeathMessage("$ exit");
+			vd.setAttackMessage("It throws words at you. Apparently they're more effective than sticks and stones");
 		mobList.add(t);
 		mobList.add(c);
 		mobList.add(ju);

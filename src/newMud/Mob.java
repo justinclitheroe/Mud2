@@ -5,7 +5,7 @@ public class Mob extends GameCharacter {
 	private boolean isDead = false;
 	private MobObserver mobObserver;
 	private String deathMessage = "";
-	
+	private String attackMessage = "";
 	
 	
 	public Mob(MobObserver m,String n, String d, Room l,int h,int s,int b,int aC,int tH) {
@@ -19,6 +19,12 @@ public class Mob extends GameCharacter {
 	}
 	public String getDeathMessage(){
 		return deathMessage;
+	}
+	public void setAttackMessage(String s){
+		attackMessage = s;
+	}
+	public String getAttackMessage(){
+		return attackMessage;
 	}
 	
 	public void engage(){	//engages the mob in combat
