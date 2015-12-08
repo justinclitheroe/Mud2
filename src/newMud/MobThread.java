@@ -29,7 +29,7 @@ public class MobThread extends Thread {
 	
 	}
 	running = false; 
-	System.out.println (mob.getName() + "'s thread has stopped");
+	mob.upd();
 	//perform any clean up here
 	//ie... drop any items in the mobs inventory
 	}
@@ -49,34 +49,40 @@ public class MobThread extends Thread {
 				case 0:
 					mob.goNorth();
 					System.out.println(mob.getName() +  " has moved to the:" + mob.getLocation().getName());
+					mob.upd();
 					break;
 				case 1:
 					mob.goSouth();
 					System.out.println(mob.getName() + " has moved to the:" + mob.getLocation().getName());
+					mob.upd();
 					break;
 				case 2:
 					mob.goEast();
 					System.out.println(mob.getName() + " has moved to the:" + mob.getLocation().getName());
+					mob.upd();
 					break;
 				case 3:
 					mob.goWest();
 					System.out.println(mob.getName() + " has moved to the:" + mob.getLocation().getName());
+					mob.upd();
 					break;
 				case 4:
 					mob.goUp();
 					System.out.println(mob.getName() +  " has moved to the:" + mob.getLocation().getName());
+					mob.upd();
 					break;
 				case 5:
 					mob.goDown();
 					System.out.println(mob.getName() + " has moved to the:" + mob.getLocation().getName());
+					mob.upd();
 					break;
 				}
-			}
 		if(gc.getLocation() == mob.getLocation()){	//if mob has moved into a room with the character, have a 10% chance mob gets scared and tries to run away
 			if(rnGesus(0,9)==0){
 				this.moveMob();	//tries to run away. has a <number of exits>/6  chance to run away
 			}
-	}
+		}
+		}
 		
 	}
 }

@@ -36,7 +36,6 @@ public class GameCharacter extends GameObject {
 		else
 			return 0;
 	}
-	
 	public int getArmour(){
 		return armourClass;
 	}
@@ -94,8 +93,6 @@ public class GameCharacter extends GameObject {
 
 
 			//HEALTH
-	
-	
 	public void minusHealth(int i){			//subtracts the players health by the given int
 		health = health - i;
 	}

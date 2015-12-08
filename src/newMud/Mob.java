@@ -13,7 +13,7 @@ public class Mob extends GameCharacter {
 		mobObserver = m;
 	}
 	
-	
+			//
 	public void setDeathMessage(String s){
 		deathMessage = s;
 	}
@@ -26,6 +26,8 @@ public class Mob extends GameCharacter {
 	public String getAttackMessage(){
 		return attackMessage;
 	}
+	
+	
 	
 	public void engage(){	//engages the mob in combat
 		inCombat = true;
@@ -41,44 +43,6 @@ public class Mob extends GameCharacter {
 	public boolean isDead(){
 		return isDead;
 	}
-
-	//MOVEMENT
-		public void goNorth() {
-			if (this.getLocation().getExits()[0] != null)
-				this.setLocation(this.getLocation().getExits()[0]);
-				mobObserver.updateUI();
-		}
-
-		public void goSouth() {
-			if (this.getLocation().getExits()[1] != null)
-				this.setLocation(this.getLocation().getExits()[1]);
-				mobObserver.updateUI();
-		}
-
-		public void goEast() {
-			if (this.getLocation().getExits()[2] != null)
-				this.setLocation(this.getLocation().getExits()[2]);
-				mobObserver.updateUI();
-		}
-
-		public void goWest() {
-			if (this.getLocation().getExits()[3] != null)
-				this.setLocation(this.getLocation().getExits()[3]);
-				mobObserver.updateUI();
-		}
-
-		public void goUp() {
-			if (this.getLocation().getExits()[4] != null)
-				this.setLocation(this.getLocation().getExits()[4]);
-				mobObserver.updateUI();
-		}
-
-		public void goDown() {
-			if (this.getLocation().getExits()[5] != null)
-				this.setLocation(this.getLocation().getExits()[5]);
-				mobObserver.updateUI();
-		}
-
 		public void upd(){
 			mobObserver.updateUI();
 		}

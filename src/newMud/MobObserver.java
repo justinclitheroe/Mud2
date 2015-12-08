@@ -9,9 +9,7 @@ public class MobObserver extends Observable {
 	
 
 	public void updateUI() {
-		System.out.println("UpdateUI method runs");
 		setChanged();
-		System.out.println("hasChanged: " + hasChanged());
 		notifyObservers();
 	}
 	

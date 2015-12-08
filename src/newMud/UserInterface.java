@@ -25,7 +25,6 @@ public class UserInterface implements Observer{
 	private ArrayList<Mob> mobList;
 	
 	public UserInterface(GameCharacter pc,ArrayList<Mob> m) throws InterruptedException{
-		
 		mobList = m;
 		
 		JFrame window = new JFrame();
@@ -113,7 +112,6 @@ public class UserInterface implements Observer{
 		Image img = bootPic.getImage();
 		Image newimg = img.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH);
 		bootPic = new ImageIcon(newimg);
-	
 		pictureLabel.setIcon(bootPic);
 		
 		textArea.setLineWrap(true);
@@ -134,7 +132,7 @@ public class UserInterface implements Observer{
 		for(int i = 0; i<mobList.size();i++){
 			mobInfo = mobInfo + mobList.get(i).getName() + "\n---------\n Health: " + mobList.get(i).getHealth() + "\n Location: " + mobList.get(i).getLocation().getName() + "\n\n";		
 		}
-		mobStuff.setText(mobInfo);
+		mobStuff.setText("Mobs left: " + mobList.size() + "\n\n" + mobInfo);
 	}	
 }
 
