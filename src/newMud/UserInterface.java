@@ -24,8 +24,10 @@ public class UserInterface implements Observer{
 	private JTextArea mobStuff = new JTextArea();
 	private ArrayList<Mob> mobList;
 	
-	public UserInterface(GameCharacter pc,ArrayList<Mob> m) throws InterruptedException{
+	public UserInterface(GameCharacter pc, GameCharacter pc2,ArrayList<Mob> m) throws InterruptedException{
 		mobList = m;
+		
+		
 		
 		JFrame window = new JFrame();
 		window.setSize(800, 800);
@@ -93,7 +95,7 @@ public class UserInterface implements Observer{
 
 		//input command textbox
 		JTextField input = new JTextField();
-		input.addActionListener(new CommandListener(textArea,pc,pictureLabel,stats,m));
+		input.addActionListener(new CommandListener(textArea, textArea,pc,pictureLabel,stats,m));
 		panel.add(input, BorderLayout.CENTER);
 		window.add(panel, BorderLayout.SOUTH);
 
@@ -121,6 +123,121 @@ public class UserInterface implements Observer{
 		textArea.append("\n When you are ready to begin, please type 'start' into the command line \n");
 		textArea.append("If you have any confusion during the playing of the game, type 'help' into the command line to bring up a list of possible commands");
 		
+		JFrame otherWindow = new JFrame();
+		otherWindow.setSize(2, 10);
+		otherWindow.setLayout(new BorderLayout());
+		otherWindow.setTitle("The other one");
+
+		JPanel otherPanel = new JPanel();
+		otherPanel.setLayout(new BorderLayout());
+
+		JTextArea otherTextArea = new JTextArea(2,50);
+		otherTextArea.setEditable(false);
+		JScrollPane otherDisplay = new JScrollPane(otherTextArea);
+		otherPanel.add(otherDisplay, BorderLayout.CENTER);
+		otherWindow.add(otherPanel, BorderLayout.CENTER);
+
+		otherWindow.pack();
+		otherWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		otherWindow.setVisible(true);
+		
+		//second Player
+		
+		mobList = m;
+		
+		window = new JFrame();
+		window.setSize(800, 800);
+		window.setLayout(new BorderLayout());
+		window.setTitle("The Machine: An adventure for Glory");
+		panel = new JPanel();
+		panel.setLayout(new BorderLayout());	
+
+		//Displays the image at the top
+		pictureLabel = new JLabel("");
+		panel.add(pictureLabel, BorderLayout.CENTER);
+		panel.setLayout(new BorderLayout());
+		panel.add(pictureLabel, BorderLayout.WEST);
+		window.add(panel, BorderLayout.WEST);
+
+		//holds the enter a command textbox
+		textArea = new JTextArea(2,50);
+		textArea.setEditable(false);
+		display = new JScrollPane(textArea);
+		label = new JLabel("What will you do?");
+		display.setAutoscrolls(true);
+		panel = new JPanel();
+		panel.setLayout(new BorderLayout());
+		panel.add(display, BorderLayout.CENTER);
+		panel.add(label, BorderLayout.NORTH);
+		window.add(panel, BorderLayout.CENTER);
+
+		//displays mob name and location for each mob alive
+		mobStuff.setEditable(false);
+		mobLabel = new JLabel("AYYY LOOK IT'S A MOB");
+		mobPanel = new JPanel();
+		mobPanel.setLayout(new BorderLayout());
+		mobPanel.add(mobStuff,BorderLayout.CENTER);
+		mobPanel.add(mobLabel, BorderLayout.NORTH);
+		window.add(mobPanel, BorderLayout.EAST);
+		mobStuff.setText("MOB STUFF");
+
+
+		//displays player's inventory, health,stamina, etc...
+		stats = new JTextArea(1,1);
+		stats.setEditable(false);
+		stats.setLineWrap(true);
+		stats.setLineWrap(true);
+		stats.append("WELCOME");
+		stats.setBorder(BorderFactory.createMatteBorder( 2, 2, 2, 2, Color.blue));
+		label3 = new JLabel("");
+		panel3 = new JPanel();
+		panel3.setLayout(new BorderLayout());
+		panel3.add(stats,BorderLayout.NORTH);
+		panel3.add(label3, BorderLayout.CENTER);
+		window.add(panel3, BorderLayout.NORTH);
+
+		//displays the console (output of entering commands)
+		display2 = new JScrollPane(textArea);		
+		d = new Dimension(800,500);	
+		label2 = new JLabel("History of actions");
+		consoleOut.setEditable(false);
+		consoleOut.setLineWrap(true);
+		panel2 = new JPanel();
+		panel2.setLayout(new BorderLayout());
+		panel2.setPreferredSize(d);
+		panel2.add(display2, BorderLayout.CENTER);
+		panel2.add(label2, BorderLayout.NORTH);
+		window.add(panel2, BorderLayout.CENTER);
+
+		//input command textbox
+		input = new JTextField();
+		input.addActionListener(new CommandListener(textArea, textArea, pc2,pictureLabel,stats,m));
+		panel.add(input, BorderLayout.CENTER);
+		window.add(panel, BorderLayout.SOUTH);
+
+		// Finish preparing the window and display it.
+		window.pack();
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.setVisible(true);
+
+		window.pack();
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.setVisible(true);
+		
+		bootPic = new ImageIcon("Images/nico.jpg");
+		img = bootPic.getImage();
+		newimg = img.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH);
+		bootPic = new ImageIcon(newimg);
+		pictureLabel.setIcon(bootPic);
+		
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
+		
+		textArea.append("You awake from your slumber only to find yourself in a strange house labled 7920. You rub your head and feel a slight bump. \n");
+		textArea.append("It's at this time that you start to feel a slight headache. little by little your memory starts to come back. You remeber you stupid friends \n");
+		textArea.append("telling you to sign up for some stupid tour of a house. Little did they know it would turn into the adventure of a lifetime");
+		textArea.append("\n When you are ready to begin, please type 'start' into the command line \n");
+		textArea.append("If you have any confusion during the playing of the game, type 'help' into the command line to bring up a list of possible commands");
 	}
 
 	@Override
@@ -131,7 +248,7 @@ public class UserInterface implements Observer{
 			mobInfo = mobInfo + mobList.get(i).getName() + "\n---------\n Health: " + mobList.get(i).getHealth() + "\n Location: " + mobList.get(i).getLocation().getName() + "\n\n";		
 		}
 		mobStuff.setText("Mobs left: " + mobList.size() + "\n\n" + mobInfo);
-	}	
+	}
 }
 
 
