@@ -133,27 +133,27 @@ else if(hasStarted){
 			switch(commandValue){
 			case("north"):
 				if(mainGuy.getLocation().getExits()[0] != null) mainGuy.goNorth();
-				else out.append("/n You can not go in that direction." + "\n");
+				else out.append("/n" + mainGuy.getName() + " can not go in that direction." + "\n");
 				break;
 			case("south"):
 				if(mainGuy.getLocation().getExits()[1] != null) mainGuy.goSouth();
-				else out.append("\n You can not go in that direction." + "\n");
+				else out.append("\n" + mainGuy.getName() + " can not go in that direction." + "\n");
 				break;
 			case("east"):
 				if(mainGuy.getLocation().getExits()[2] != null) mainGuy.goEast();
-				else out.append("\n You can not go in that direction." + "\n");
+				else out.append("\n" + mainGuy.getName() + " can not go in that direction." + "\n");
 				break;
 			case("west"):
 				if(mainGuy.getLocation().getExits()[3] != null) mainGuy.goWest();
-				else out.append("\n You can not go in that direction." + "\n ");
+				else out.append("\n" + mainGuy.getName() + " can not go in that direction." + "\n ");
 				break;
 			case("up"):
 				if(mainGuy.getLocation().getExits()[4] != null) mainGuy.goUp();
-				else out.append("\n You can not go in that direction." + "\n");
+				else out.append("\n" + mainGuy.getName() + " can not go in that direction." + "\n");
 				break;
 			case("down"):
 				if(mainGuy.getLocation().getExits()[5] != null) mainGuy.goDown();
-				else out.append("\n You can not go in that direction." + "\n");
+				else out.append("\n" + mainGuy.getName() + " can not go in that direction." + "\n");
 				break;
 			default:
 				out.append("\n That is not a valid direction." + "\n");
@@ -170,9 +170,9 @@ else if(hasStarted){
 		case("drop"):
 			if (mainGuy.checkItem(commandValue)){						
 				mainGuy.drop(mainGuy.returnItem(commandValue));
-				out.append("Tossed " + commandValue + ", hope you dont need it later." + "\n");
+				out.append("Tossed " + commandValue + ", hope" + mainGuy.getName() + " dont need it later." + "\n");
 			}
-			else out.append("You can't drop what you dont have." + "\n");
+			else out.append(mainGuy.getName() +" can't drop what" + mainGuy.getName() + " dont have." + "\n");
 			break;
 		case("attack"):
 			if(sameRoom()){		//if mobs are in the same room as player
@@ -199,8 +199,8 @@ else if(hasStarted){
 				}
 			}
 			else{
-				out.append("You swing your fists but manage to punch yourself in the face becuase there's nothing to hit. ");
-				out.append("\n you have sustained 1 damage in the process.\n");
+				out.append(mainGuy.getName() + " swings their fists but manage to punch themselves in the face becuase there's nothing to hit. ");
+				out.append("\n" + mainGuy.getName() + " has sustained 1 damage in the process.\n");
 				mainGuy.minusHealth(1);
 			}
 			break; 
@@ -290,7 +290,7 @@ else if(hasStarted){
 					mobList.get(i).upd();
 					int mobDamage = mobList.get(i).getBaseDamage();
 					out.append(mobList.get(i).getAttackMessage() + "\n");
-					out.append(mobList.get(i).getName() + " attacks you for " + mobDamage + " hp \n");
+					out.append(mobList.get(i).getName() + " attacks" + mainGuy.getName() + " for " + mobDamage + " hp \n");
 					mainGuy.minusHealth(mobDamage);
 					if(mobList.get(i).getHealth() <=0){
 						out.append(mobList.get(i).getName() + " got #REKT and is # DED \n");;
