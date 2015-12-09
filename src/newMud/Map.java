@@ -23,15 +23,23 @@ public class Map {
 
 	public void generateTestMap() {
 
+		
+		
 								//ITEMS\\
-		Item smashBros = new Item("Smash Bros Melee","It's your favorite game!");
-		Item screwdriver = new Item("Screwdriver","It's a phillips head screwdriver. You probably have to look up what it looks like");
-		Item linux = new Item("linux install disk", "holy moley! You have the a wonderful operating system. You feel like you can take over the world");
-		Item letterOpener = new Item("letter Opener","it's pretty sharp. Please use caution when inspecting this item");
-
+		//Item item_name = new Item(Name, description, damage, armor)
+		Item smashBros = new Item("Smash Bros Melee","It's your favorite game!",0,0);
+		Item screwdriver = new Item("Screwdriver","It's a phillips head screwdriver. You probably have to look up what it looks like",0,0);
+		Item linux = new Item("linux install disk", "holy moley! You have the a wonderful operating system. You feel like you can take over the world",0,0);
+		Item letterOpener = new Item("letter Opener","it's pretty sharp. Please use caution when inspecting this item",0,0);
+								//WEAPONS\\
+		Item sword = new Item("Dank sword","real shapr wow",10,1);
+								//ARMOR\\
+		Item goldArmor = new Item("Golden Armor", "such gold, very armor", 1 ,10);
+		
+		
 		
 								//ROOMS\\
-		Room entryWay = new Room("Foyer", "you're in a foyer. This is the entryway to a bunch of stuff", new ArrayList<Item>(Arrays.asList(linux)),
+		Room entryWay = new Room("Foyer", "you're in a foyer. This is the entryway to a bunch of stuff", new ArrayList<Item>(Arrays.asList(linux,sword,goldArmor)),
 				new ImageIcon("Images/foyer.png"));
 
 		Room den = new Room("Den", "The only important features in the room are a large ornamental fireplace and an odd looking torch to the left of the fireplace", new ArrayList<Item>(Arrays.asList(linux)),
@@ -57,19 +65,26 @@ public class Map {
 		
 							//EXITS\\
 		entryWay.setExits(den, diningRoom, kitchen, livingRoom, upDen, basement);
+		//entryWay.setLockedExits(null,null,null,null,null,null);
 		
 		den.setExits(diningRoom, entryWay, null, null, null, upDen);
+		//den.setLockedExits(null,null,null,null,null,null);
 		
 		diningRoom.setExits(entryWay, den, null, null, null, null);
+		//diningRoom.setLockedExits(null,null,null,null,null,null);
 		
 		kitchen.setExits(null, livingRoom, null, entryWay, null, null);
+		//kitchen.setLockedExits(null,null,null,null,null,null);
 		
 		livingRoom.setExits(kitchen, null, entryWay, null, null, null);
+		//livingRoom.setLockedExits(null,null,null,null,null,null);
 		
 		upDen.setExits(null, null, null, null, den, entryWay);
+		//upDen.setLockedExits(null,null,null,null,null,null);
 		
 		basement.setExits(null, null, null, null, entryWay, null);
-
+		//basement.setLockedExits(null,null,null,null,null,null);
+		
 		this.daMap = new ArrayList<Room>(
 				Arrays.asList(entryWay, den, diningRoom, kitchen, livingRoom, upDen, basement));
 

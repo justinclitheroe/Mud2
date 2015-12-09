@@ -5,14 +5,6 @@ public class Main {
 
 	/**
 	 * 
-	 * program prints to the console if mobs move and when they move. This is only here to show that 
-	 * they are moving. This will be taken out of the final version. 
-	 * 
-	 * Score currently increases every time you pick an item up. There will be more use for score for the next 
-	 * section of the project
-	 * 
-	 * Map will be updated for the next project with more distinct rooms with better descriptions
-	 * 
 	 * Nico's House: An adventure for glory
 	 * By Justin, Nico
 	 * 
@@ -39,15 +31,15 @@ public class Main {
 		MobObserver m = new MobObserver();	//creates observer to pass to each mob
 		
 		//Mob mob_name = new Mob(observer,name,description, room location, health, stamina, base_attack,Armor_class,to_hit);
-		Mob t = new Mob(m,"Tom Goblin","a short goblin mumbling about linux servers",world.getDaMap().get(rnGesus(0,6)),1,1,1,1,1); 
+		Mob t = new Mob(m,"Tom Goblin","a short goblin wearing a buttonup under a sweater, for some reason this terrifies you, he's mumbling about linux servers",world.getDaMap().get(rnGesus(0,6)),1,1,1,1,1); 
 			t.setDeathMessage("You hear a loud pitched screeching. It reminds you of dial up tones...");
-			t.setAttackMessage("");
+			t.setAttackMessage("it tries to start teaching you code, it just makes your brain hurt");
 		Mob c = new Mob(m,"Cat","A wandering black cat. Possibly a source of bad luck. It sounds like the cat is mumbling about chemical bonds", world.getDaMap().get(rnGesus(0,6)),52,1,1,1,1);	
 			c.setDeathMessage("she lets out a high pitched scream before poofing into a cloud of smoke");
-			c.setAttackMessage("the cat throws some sort of vial at you. The glass shatters and the liquid burns your sking on contact. You hear it giggle");
+			c.setAttackMessage("the cat throws some sort of vial at you. The glass shatters and the liquid burns your skin on contact. You hear it giggle");
 		Mob ju = new Mob(m,"Joustain","Another goblin. This one makes terrible puns and seems to have a dislike towards any linux comment tom goblin makes", world.getDaMap().get(rnGesus(0,6)),1,1,1,1,1);
 			ju.setDeathMessage("'AUUUUGUGGHHHHHHH' it yells. You then watch it for a good five minutes flopping around being way too overdramatic");
-			ju.setAttackMessage("");
+			ju.setAttackMessage("The mob shoves his hands in your face. It feels like a gentle rubbing but you take damage anyways");
 		Mob jo = new Mob(m,"Joardenne","A rare goblin to see in the world.Only shows up once every tuesday assuming it's a month divisible by three and there's a full moon",world.getDaMap().get(rnGesus(0,6)),1,1,1,1,1);	
 			jo.setDeathMessage("He didn't actually die. He just got a real job");
 			jo.setAttackMessage("Error 404: attack not found");

@@ -65,7 +65,7 @@ public class CommandListener implements ActionListener {
 					 */
 					String list = mainGuy.getName() + " Stats \n"+ "You are in the " + mainGuy.getLocation().getName() + "\n"+  "Score: "+ mainGuy.getScore()+ "\n" + "Level: " + mainGuy.getLevel();
 					list = list + "		XP: "+ mainGuy.getXP()+ "/100 \n";
-					list = list+ "Health: " + mainGuy.getHealth() +"/" + mainGuy.getMaxHealth()+"		Stamina: " + mainGuy.getStamina() +"/"+ mainGuy.getMaxStamina() + "\n" + "Armour class: " + mainGuy.getArmour() + "	Base Damage: " + mainGuy.getBaseDamage() +"\n";
+					list = list+ "Health: " + mainGuy.getHealth() +"/" + mainGuy.getMaxHealth()+"		Stamina: " + mainGuy.getStamina() +"/"+ mainGuy.getMaxStamina() + "\n" + "Armor class: " + mainGuy.getArmor() + "	Base Damage: " + mainGuy.getBaseDamage() +"\n";
 					String inventory = "Inventory: \n";
 					for(int i = 0; i<mainGuy.getInventory().size();i++){
 						inventory = inventory + mainGuy.getInventory().get(i).getName() +"  ";
@@ -160,9 +160,9 @@ else if(hasStarted){
 			}
 			break;
 		case("get"):
-			if((mainGuy.getLocation()).checkItem(commandValue)){
+			if(mainGuy.getLocation().checkItem(commandValue)){
 				mainGuy.plusOne();
-				mainGuy.pickUp((mainGuy.getLocation()).returnItem(commandValue));
+				mainGuy.pickUp(mainGuy.getLocation().returnItem(commandValue));
 				out.append("Got it!" + "\n");
 			}
 			else out.append("That item is not in the room." + "\n");
@@ -222,12 +222,12 @@ else if(hasStarted){
 		list = list + "		XP: "+ mainGuy.getXP()+ "/100 \n";
 		list = list + "Health: " + mainGuy.getHealth() +"/" + mainGuy.getMaxHealth();
 		list = list + "		Stamina: " + mainGuy.getStamina() +"/"+ mainGuy.getMaxStamina() + "\n";
-		list = list + "Armour class: " + mainGuy.getArmour();
+		list = list + "Armor class: " + mainGuy.getArmor();
 		list = list + "	Base Damage: " + mainGuy.getBaseDamage() +"\n";
 		
 		String inventory = "Inventory: \n";
-		for(int i = 0; i<mainGuy.getInventory().size();i++){
-			inventory = inventory + mainGuy.getInventory().get(i).getName() +"  ";
+		for(int b = 0; b< mainGuy.getInventory().size();b++){
+			inventory = inventory + mainGuy.getInventory().get(b).getName() + "  ";
 			}
 		list = list + inventory;
 		statsList.setText(list);	//sets the stats list (inventory,score, ect.) at the top of the GUI
@@ -243,13 +243,11 @@ else if(hasStarted){
 		
 		out.append("\n \n"+(mainGuy.getLocation()).getDescription() +"\n");
 		out.append("The room contains the following items: ");
-		out.append(mainGuy.getLocation().getInventory().toString() + "\n");
-		out.append(mainGuy.getLocation().listExits() + "\n\n\n");
-		for(int y = 0; y <mobList.size() ; y++){
-		}
-		
-}//end of else if		
-	}//end of actionPreformed()
+		out.append((mainGuy.getLocation()).getInventory().toString() + "\n");
+		out.append(mainGuy.getLocation().listExits() + "\n");
+		out.append(mainGuy.getLocation().listLockedExits() + "\n\n\n");
+	}//end of else if		
+}//end of actionPreformed()
 	
 	public boolean sameRoom(){	//checks to see if any mobs are in the room and if they are add them to an arrayList of mobs engaged in combat.
 		int count = 0;	

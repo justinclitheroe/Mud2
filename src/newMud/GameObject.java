@@ -14,16 +14,6 @@ public class GameObject {
 		return inventory;
 	}
 	
-	public void pickUp(Item i) {
-			inventory.add(i);
-			this.getLocation().getInventory().remove(i);
-	}
-	
-	public void drop(Item i){
-		inventory.remove(i);
-		this.getLocation().getInventory().add(i);
-	}
-	
 	public Boolean checkItem(String item_name){              //Checks to see if an item is in the array of Items in current room
 		for(int i = 0; i < this.getInventory().size() ; i++){
 			if (this.getInventory().get(i).getName().equalsIgnoreCase(item_name)){
