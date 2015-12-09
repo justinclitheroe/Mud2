@@ -32,9 +32,8 @@ public class UserInterface implements Observer{
 		window.setLayout(new BorderLayout());
 		window.setTitle("The Machine: An adventure for Glory");
 		JPanel panel = new JPanel();
-		panel.setLayout(new BorderLayout());		
-		
-		
+		panel.setLayout(new BorderLayout());	
+
 		//Displays the image at the top
 		JLabel pictureLabel = new JLabel("");
 		panel.add(pictureLabel, BorderLayout.CENTER);
@@ -53,7 +52,7 @@ public class UserInterface implements Observer{
 		panel.add(display, BorderLayout.CENTER);
 		panel.add(label, BorderLayout.NORTH);
 		window.add(panel, BorderLayout.CENTER);
-		
+
 		//displays mob name and location for each mob alive
 		mobStuff.setEditable(false);
 		JLabel mobLabel = new JLabel("AYYY LOOK IT'S A MOB");
@@ -63,8 +62,8 @@ public class UserInterface implements Observer{
 		mobPanel.add(mobLabel, BorderLayout.NORTH);
 		window.add(mobPanel, BorderLayout.EAST);
 		mobStuff.setText("MOB STUFF");
-		
-		
+
+
 		//displays player's inventory, health,stamina, etc...
 		JTextArea stats = new JTextArea(1,1);
 		stats.setEditable(false);
@@ -78,7 +77,7 @@ public class UserInterface implements Observer{
 		panel3.add(stats,BorderLayout.NORTH);
 		panel3.add(label3, BorderLayout.CENTER);
 		window.add(panel3, BorderLayout.NORTH);
-		
+
 		//displays the console (output of entering commands)
 		JScrollPane display2 = new JScrollPane(textArea);		
 		Dimension d = new Dimension(800,500);	
@@ -91,24 +90,23 @@ public class UserInterface implements Observer{
 		panel2.add(display2, BorderLayout.CENTER);
 		panel2.add(label2, BorderLayout.NORTH);
 		window.add(panel2, BorderLayout.CENTER);
-		
+
 		//input command textbox
 		JTextField input = new JTextField();
 		input.addActionListener(new CommandListener(textArea,pc,pictureLabel,stats,m));
 		panel.add(input, BorderLayout.CENTER);
 		window.add(panel, BorderLayout.SOUTH);
-		
+
 		// Finish preparing the window and display it.
 		window.pack();
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setVisible(true);
-		
+
 		window.pack();
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setVisible(true);
 		
 		ImageIcon bootPic = new ImageIcon("Images/nico.jpg");
-		
 		Image img = bootPic.getImage();
 		Image newimg = img.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH);
 		bootPic = new ImageIcon(newimg);

@@ -2,7 +2,6 @@ package newMud;
 
 import java.util.ArrayList;
 
-
 public class GameObject {
 	private ArrayList<Item> inventory = new ArrayList<Item>(); //We'll see if I can get away with this. Easy fix if I can't
 	private Room location;

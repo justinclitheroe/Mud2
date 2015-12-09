@@ -63,7 +63,9 @@ public class CommandListener implements ActionListener {
 					 * This is a copy and paste of the code at the bottom of this method. See below
 					 * for a commented version and neater looking version of this
 					 */
-					String list = mainGuy.getName() + " Stats \n"+ "You are in the " + mainGuy.getLocation().getName() + "\n"+  "Score: " + mainGuy.getScore() + " \n" + "Health: " + mainGuy.getHealth() +"/" + mainGuy.getMaxHealth()+"		Stamina: " + mainGuy.getStamina() +"/"+ mainGuy.getMaxStamina() + "\n" + "Armour class: " + mainGuy.getArmour() + "	Base Damage: " + mainGuy.getBaseDamage() +"\n";
+					String list = mainGuy.getName() + " Stats \n"+ "You are in the " + mainGuy.getLocation().getName() + "\n"+  "Score: "+ mainGuy.getScore()+ "\n" + "Level: " + mainGuy.getLevel();
+					list = list + "		XP: "+ mainGuy.getXP()+ "/100 \n";
+					list = list+ "Health: " + mainGuy.getHealth() +"/" + mainGuy.getMaxHealth()+"		Stamina: " + mainGuy.getStamina() +"/"+ mainGuy.getMaxStamina() + "\n" + "Armour class: " + mainGuy.getArmour() + "	Base Damage: " + mainGuy.getBaseDamage() +"\n";
 					String inventory = "Inventory: \n";
 					for(int i = 0; i<mainGuy.getInventory().size();i++){
 						inventory = inventory + mainGuy.getInventory().get(i).getName() +"  ";
@@ -209,14 +211,19 @@ else if(hasStarted){
 			}//END OF SWITCH STATEMENT	
 	
 	
+	for(int u = 0; u <mobList.size(); u++){
+		mobList.get(u).upd();
+	}
 		//creates a string of Stats for the player )
 		String list = mainGuy.getName() + " Stats \n";
 		list = list + "You are in the " + mainGuy.getLocation().getName() + "\n";
-		list = list +  "Score: " + mainGuy.getScore() + " \n";
+		list = list + "Score: " + mainGuy.getScore() + " \n";
+		list = list + "Level: " + mainGuy.getLevel();
+		list = list + "		XP: "+ mainGuy.getXP()+ "/100 \n";
 		list = list + "Health: " + mainGuy.getHealth() +"/" + mainGuy.getMaxHealth();
 		list = list + "		Stamina: " + mainGuy.getStamina() +"/"+ mainGuy.getMaxStamina() + "\n";
-		list =list + "Armour class: " + mainGuy.getArmour();
-		list =list + "	Base Damage: " + mainGuy.getBaseDamage() +"\n";
+		list = list + "Armour class: " + mainGuy.getArmour();
+		list = list + "	Base Damage: " + mainGuy.getBaseDamage() +"\n";
 		
 		String inventory = "Inventory: \n";
 		for(int i = 0; i<mainGuy.getInventory().size();i++){
@@ -234,13 +241,11 @@ else if(hasStarted){
 		roomPic = new ImageIcon(newimg);
 		imLabel.setIcon(roomPic);
 		
-		
 		out.append("\n \n"+(mainGuy.getLocation()).getDescription() +"\n");
 		out.append("The room contains the following items: ");
 		out.append(mainGuy.getLocation().getInventory().toString() + "\n");
 		out.append(mainGuy.getLocation().listExits() + "\n\n\n");
 		for(int y = 0; y <mobList.size() ; y++){
-			mobList.get(y).upd();
 		}
 		
 }//end of else if		
@@ -289,6 +294,9 @@ else if(hasStarted){
 					mainGuy.minusHealth(mobDamage);
 					if(mobList.get(i).getHealth() <=0){
 						out.append(mobList.get(i).getName() + " got #REKT and is # DED \n");;
+						mainGuy.addScore(10);
+						mainGuy.addXP(40);
+						mainGuy.gitGud();
 						mobList.get(i).isDead();
 						mobList.remove(i);	
 					}//end of if (mob has no health)

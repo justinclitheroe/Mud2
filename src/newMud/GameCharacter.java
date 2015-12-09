@@ -28,7 +28,7 @@ public class GameCharacter extends GameObject {
 		this.setToHit(tH);
 	}
 	
-	// Combat Methods \\
+			//COMBAT\\
 	public int damage(Mob m){
 		if ((int) Math.random()*20 + this.getToHit() > m.getArmour()){
 			return this.getBaseDamage(); //TODO add equip damage
@@ -56,7 +56,7 @@ public class GameCharacter extends GameObject {
 	}
 	
 	
-	//scoring methods
+		//SCORE\\
 	public void plusOne(){
 		score ++;
 	}
@@ -70,12 +70,21 @@ public class GameCharacter extends GameObject {
 		score = score + s;
 	}
 	
-		//XP SYSTEM
+		//XP SYSTEM\\
+	public int getLevel(){
+		return lvl;
+	}
+	public void setLevel(int l){
+		lvl = l;
+	}
 	public int getXP(){
 		return xp;
 	}
 	public void setXP(int i){
 		xp = i;
+	}
+	public void addXP(int x){
+		xp = xp + x;
 	}
 	public void gitGud(){	//if user generates enough xp, user will level up and get stronger	
 		if(xp >= 100){
@@ -83,7 +92,7 @@ public class GameCharacter extends GameObject {
 			lvl++;								//add 1 to level
 			xp = remainder;						//xp gets set to remainder
 			maxHealth = maxHealth + 10*lvl;		//get stat boosts and heal the player to max health
-			stamina = stamina + 10*lvl;
+			maxStamina = stamina + 10*lvl;
 			armourClass = armourClass + 10*lvl;
 			baseDamage = baseDamage + 10*lvl;
 			this.addScore(42);
@@ -92,7 +101,7 @@ public class GameCharacter extends GameObject {
 	}
 
 
-			//HEALTH
+			//HEALTH\\
 	public void minusHealth(int i){			//subtracts the players health by the given int
 		health = health - i;
 	}
@@ -117,11 +126,11 @@ public class GameCharacter extends GameObject {
 	public int getMaxHealth(){
 		return maxHealth;
 	}
-	public void heal(){			//heals the player completely
+	public void heal(){			//heals the player back to max health
 		health = maxHealth;
 	}
 
-	//Stamina
+		//STAMINA\\
 	public int getStamina(){
 		return stamina;
 	}
@@ -136,8 +145,7 @@ public class GameCharacter extends GameObject {
 		stamina = i;
 	}
 	
-	
-			//MOVEMENT
+			//MOVEMENT\\
 	public void goNorth() {
 		if (this.getLocation().getExits()[0] != null)
 			this.setLocation(this.getLocation().getExits()[0]);
