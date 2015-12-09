@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 public class CommandListener implements ActionListener {
 
 	private JTextArea out;
+	private JTextArea out2;
 	private GameCharacter mainGuy;
 	private JLabel imLabel;
 	private ImageIcon roomPic;
@@ -27,7 +28,7 @@ public class CommandListener implements ActionListener {
 	private int secretNumberCount = 0;
 	
 	
-	public CommandListener(JTextArea out, GameCharacter pc, JLabel label, JTextArea sList,ArrayList<Mob> m){
+	public CommandListener(JTextArea out, JTextArea out2, GameCharacter pc, JLabel label, JTextArea sList,ArrayList<Mob> m){
 		this.out = out;
 		mainGuy = pc;
 		imLabel = label;
@@ -304,4 +305,11 @@ else if(hasStarted){
 			}//end of if (name of mob = name of mob in arrayList)
 		}//end of i for loop
 	}
+	public void bothAppend(String str) {
+		out.append(str);
+		
+		out2.append(str);
+	}
 }
+
+

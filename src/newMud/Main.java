@@ -65,7 +65,7 @@ public class Main {
 		mobList.add(a);
 		
 		 
-		 UserInterface ui = new UserInterface(pc,mobList);
+		 UserInterface ui = new UserInterface(pc,tMachine, mobList);
 		 //UserInterface ui2 = new UserInterface(tMachine,mobList);
 		 m.addObserver(ui);//adds ui as an observer to m (holds the update method)
 		
