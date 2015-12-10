@@ -170,4 +170,32 @@ public class Room extends GameObject {
 			}
 		}
 	}
+	public void lockAll(){   		//METHOD TO LOCK ALL EXITS. 
+		for(int i = 0; i< exits.length ; i++){
+			if(exits[1] != null){
+				lockedExits[0] = exits[0];
+				exits[0] = null;
+			}
+			else if(exits[1] != null){
+				lockedExits[1] = exits[1];
+				exits[1] = null;
+			}
+			else if(exits[2] != null){
+				lockedExits[2] = exits[2];
+				exits[2] = null;
+			}
+			else if(exits[3] != null){
+				lockedExits[3] = exits[3];
+				exits[3] = null;
+			}
+			else if(exits[4] != null){
+				lockedExits[4] = exits[4];
+				exits[4] = null;
+			}
+			else if(exits[5] != null){
+				lockedExits[5] = exits[1];
+				exits[5] = null;
+			}
+		}
+	}
 }

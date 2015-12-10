@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
@@ -11,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+@SuppressWarnings("unused")
 public class CommandListener implements ActionListener {
 
 	private JTextArea out;
@@ -23,9 +25,17 @@ public class CommandListener implements ActionListener {
 	private String commandValue = null;
 	private ArrayList<Mob> mobList;
 	private ArrayList<Mob> engagedMob = new ArrayList<Mob>();
-	private boolean hasStarted = false;
-	private int secretNumberCount = 0;
 	
+	private boolean hasStarted = false;
+
+	private boolean inBossFight = false;
+	private int bossRound = -1;
+	
+	//creating final boss and the master key used to unlock the final room to win the game
+	Item masterKey = new Item("Master Key","Unlocks the final door",0,0,true);
+	private ArrayList<Item> mobLoot = new ArrayList<Item>(Arrays.asList(masterKey));
+	private Boss win = new Boss("Win","A large monster wearing black armor with gold trim",null,160,100,25,50,50,null);	
+	private int secretNumberCount = 0;
 	
 	public CommandListener(JTextArea out, GameCharacter pc, JLabel label, JTextArea sList,ArrayList<Mob> m){
 		this.out = out;
@@ -58,7 +68,6 @@ public class CommandListener implements ActionListener {
 					for(int u = 0; u <mobList.size(); u++){
 						mobList.get(u).upd();
 					}
-					
 					/*
 					 * This is a copy and paste of the code at the bottom of this method. See below
 					 * for a commented version and neater looking version of this
@@ -89,17 +98,78 @@ public class CommandListener implements ActionListener {
 				break;
 				}
 		} 
+		
+			/*
+			 * 			BOSS FIGHT 
+			 * during a boss fight, player goes into a turn based strategy game rather than a dungeon crawler. 
+			 * Depending on how many rounds have gone by during the boss fight various things will happen. 
+			 * Once player defeats the boss player will get to pickup mob loot
+			 *
+			 * 
+			 */
+		else if(inBossFight){
+			if(bossRound == -1){
+				switch(commandValue){
+				case("yes"):
+					out.append("good job young warrior. I will give you the strength to defeat this monster");
+					bossRound++;
+					break;
+				
+				case("no"):
+					out.append("so be it young warrior. May the spirits guide you to victory");
+					bossRound++;
+					break;
+				default:
+					out.append("I am sorry, I do not know what that means. Please accept my help by typing 'yes' or reject my help by typing 'no'");
+					break;
+			}
+		}//end of if bossround = -1 (fighting has not started)
+			else{
+				switch(commandType){
+				case("attack"):
+					bossRound++;
+					break;
+				case("delete"):
+					if(commandValue.equalsIgnoreCase(commandValue)){
+					out.append("MORTAL HOW DARE YOU....WHO HAS TOLD YOU MY WEAKNESS... \n");
+					out.append("The demon falls to his knees and a blackish-red smoke begins to pour off his body. You can hear him mumbling about some sort"
+							+ "of lost power. you watch as he looks straight at you and takes his helmet off.");
+					for(int i = 0; i<win.getMobLoot().size();i++){
+						mainGuy.pickUp(win.getMobLoot().get(i));
+						out.append("mainGuy picked up a " + win.getMobLoot().get(i).getName());
+					}
+					}
+					else out.append("you cannot delete the " + commandValue);
+					break;
+				case("help"):
+					out.append("Boss fights work differently than normal play. You cannot escape a fight and the boss will actively attack you "
+							+ "even if you do not attack it. The following are commands you can enter... \n");
+					out.append("attack => attacks the boss \n");
+					out.append("help => brings up the command list for the boss fight");
+					out.append("exit => eventhough you've made it this far you can still exit the game");
+					out.append("<?????> this is a secret command. Upon entering this command \n");
+					break;
+				}
+			}
+	}		
+		
+		
+		
 else if(hasStarted){	
 	switch(commandType){
 		case("help"):
 			out.append("\n\nThank you for contacting the MUD help desk. These are the following possible commands... \n");
 			out.append("go <direction> (north,south,east,west,up,down) => moves the player to any valid room connected to the player's current location \n");
+			out.append("gives a description of what the room looks like. Not sure why you would need this since it reprints the description after every command...");
 			out.append("get <item_name>  => adds item to player's inventory \n");
 			out.append("drop <item_name> => removes item from players inventory \n");
 			out.append("attack <mob_name> => attacks the mob with the given name assuming you are in the same room\n");
 			out.append("exit => exits the game \n");
 			out.append("help=> displays a list of given commands \n");
 			out.append("<????> this is a secret command. It involves the greatest number in history \n\n");
+			break;
+		case("look"):
+			out.append(mainGuy.getLocation().getDescription());
 			break;
 		case("42"):
 			switch(secretNumberCount){
@@ -202,8 +272,7 @@ else if(hasStarted){
 						}
 						else if(mainGuy.getLocation().getLockedExits()[5] != null){
 							out.append("You have unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[5].getName() );
-						}
-					
+						}	
 					mainGuy.plusOne();
 					mainGuy.addXP(20);
 					mainGuy.getLocation().unlockExit();
@@ -243,11 +312,10 @@ else if(hasStarted){
 				mainGuy.minusHealth(1);
 			}
 			break; 
-			
-			default:
-				out.append("That is not a valid command." + "\n");
-				break;
-			}//END OF SWITCH STATEMENT	
+		default:
+			out.append("That is not a valid command." + "\n");
+			break;
+		}//END OF SWITCH STATEMENT	
 	
 	
 	for(int u = 0; u <mobList.size(); u++){
@@ -278,14 +346,16 @@ else if(hasStarted){
 		Image img = roomPic.getImage();
 		Image newimg = img.getScaledInstance(230, 310, java.awt.Image.SCALE_SMOOTH);
 		roomPic = new ImageIcon(newimg);
-		imLabel.setIcon(roomPic);
-		
+		imLabel.setIcon(roomPic);	
 		out.append("\n \n"+(mainGuy.getLocation()).getDescription() +"\n");
 		out.append("The room contains the following items: ");
 		out.append((mainGuy.getLocation()).getInventory().toString() + "\n");
 		out.append("Exits \n ---------------\n" + mainGuy.getLocation().listExits() + "\n\n\n");
 		out.append("Locked Exits \n ---------------\n" + mainGuy.getLocation().listLockedExits() + "\n\n\n");
-		}//end of else if		
+		}//end of else if	
+		
+		
+		
 }//end of actionPreformed()
 	
 	public boolean sameRoom(){	//checks to see if any mobs are in the room and if they are add them to an arrayList of mobs engaged in combat.
@@ -300,9 +370,9 @@ else if(hasStarted){
 	}//end of sameRoom method
 	
 	/*
-	 * 		Attack Methods
-	 * 			Attack
-	 *------------------------
+	 * 				Attack Methods
+	 * 					Attack
+	 *------------------------------
 	 * 1) takes in the name of a mob (String m)
 	 * 2) if m = name of mob in ArrayList<Mob> 
 	 * 		- engage the mob in combat (stops mob thread from moving)
@@ -312,8 +382,16 @@ else if(hasStarted){
 	 * 		-set mobs isDead boolean to true
 	 * 			-stops mob thread
 	 * 		-deletes mob from the arrayList
+	 * 
+	 * 
+	 * 					Boss Fight
+	 * -------------------------
+	 * 1) Locks all the exits so player cannot escape
+	 * 2) engage in friendly conversation with player
+	 * 3) Attack player anyways.
+	 * 
+	 * 
 	 */
-	
 	public void attack(String m){		 
 		for (int i = 0; i < mobList.size(); i++) {
 			if(m.equals(mobList.get(i).getName().toLowerCase())) {		
@@ -338,5 +416,20 @@ else if(hasStarted){
 				}//end of if (player location = mob location)
 			}//end of if (name of mob = name of mob in arrayList)
 		}//end of i for loop
+	}
+	
+	public void bossFight(Boss b){
+		mainGuy.getLocation().lockAll();
+		out.append("You walk into the room and see a large entity in a suit of black armor with a nice golden trim.\n 'Hello '" + mainGuy.getName()
+		+ ". You've traveled a long way to get here...'\n He turns around and looks down at you. His face is covered by his helmet so you can't get "
+		+ "a read on him at all. \n 'I congratulate you making this far, but there is one slight problem my friend.'\n You stare at him perplexed as to "
+		+ "what the hell he's talking about. You glance around the room scanning for any clues as to what will come. It is at this moment you realize "
+		+ "the floor has bones scattered everywhere. Your palms get sweaty as you look back at the giant of a man before you. In the moments you looked away he "
+		+ "silently moved behind you breathing on your neck. \n 'This is the place of judgement. Fight me and gain entrance to the chamber of worth.' "
+		+ "\n He swings his arm around to all the exits, his hand seems to glow as you hear the click of each door locking. His physical form behind you dissolves into a "
+		+ "puff of black smoke. Evil laughter fills the room as the lights darken and you feel your body fill with an odd sense of power. \n 'Don't worry my child'\n "
+		+ "You turn around and look around but see nothing. \n 'I am known as the spirit Lin, son of the holy god Ux. I can give you the strength to defeat the demon known as "
+		+ " Dows, son of the demon Win. Do you accept my guidance? Type 'yes' to accept. Type 'no' for a most timely death");
+		hasStarted = false; //sets has started to false so special command events can happen. 
 	}
 }

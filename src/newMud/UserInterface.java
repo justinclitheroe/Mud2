@@ -7,7 +7,6 @@ import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -132,5 +131,3 @@ public class UserInterface implements Observer{
 		mobStuff.setText("Mobs left: " + mobList.size() + "\n\n" + mobInfo);
 	}	
 }
-
-

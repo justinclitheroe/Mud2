@@ -34,44 +34,33 @@ public class GameObject {
 		return null;
 	}
 	
-	//Getters n' Setters
-	
-	
+		//Getters n' Setters\\
 	public Room getLocation() {
 		return location;
 	}
-
 	public void setLocation(Room location) {
 		this.location = location;
 	}
-
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	public String getDescription() {
 		return description;
 	}
-
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
 	public ArrayList<Item> getInventory() {
 		return inventory;
 	}
-
-
 	public void setInventory(ArrayList<Item> inventory) {
 		this.inventory = inventory;
 	}
-	
+		//To String\\
 	public String toString() {
 		return name + ", " + description;
 	}
-	
 }
