@@ -55,7 +55,7 @@ public class GameCharacter extends GameObject {
 			//COMBAT\\
 	public int damage(Mob m){
 		if ((int) Math.random()*20 + this.getToHit() > m.getArmor()){
-			return this.getBaseDamage(); //TODO add equip damage
+			return this.getBaseDamage(); 
 	}
 		else
 			return 0;

@@ -9,14 +9,20 @@ public class Room extends GameObject {
 	private Room[] exits = new Room[6];
 	private Room[] lockedExits = new Room[6];
 	private ImageIcon image;
+	private Item keyItem;
 	
-	public Room(String n, String d, ArrayList<Item> i, ImageIcon pic) {
+	public Room(String n, String d, ArrayList<Item> i, ImageIcon pic,Item k) {
 		this.setName(n);
 		this.setDescription(d);
 		this.setInventory(i);
 		this.setImage(pic);
+		keyItem = k;
 	}
-
+	
+	public Item getKeyItem(){
+		return keyItem;
+	}
+	
 	public boolean isValid(int i){
 		return exits[i] != null;
 	}
@@ -30,22 +36,26 @@ public class Room extends GameObject {
 		exits[5] = d;
 	}
 	public void setLockedExits(Room n, Room s, Room e, Room w, Room u, Room d) {
-		exits[0] = n;
-		exits[1] = s;
-		exits[2] = e;
-		exits[3] = w;
-		exits[4] = u;
-		exits[5] = d;
+		lockedExits[0] = n;
+		lockedExits[1] = s;
+		lockedExits[2] = e;
+		lockedExits[3] = w;
+		lockedExits[4] = u;
+		lockedExits[5] = d;
 	}
 
 	public Room[] getExits(){
 		return this.exits;
 	}
-
+	public Room[] getLockedExits(){
+		return this.lockedExits;
+	}
 	public ImageIcon getImage() {
 		return image;
 	}
-	
+	public void setImage(ImageIcon image) {
+		this.image = image;
+	}
 	public String listExits() {
 		String exitList = "";
 		for(int i = 0 ; i<exits.length;i++){
@@ -104,9 +114,6 @@ public class Room extends GameObject {
 		}
 		return exitList;
 	}
-	public void setImage(ImageIcon image) {
-		this.image = image;
-	}
 	public void unlockExit(int d){
 		switch(d){
 		case 0:
@@ -133,6 +140,34 @@ public class Room extends GameObject {
 			exits[3]= lockedExits[3];
 			lockedExits[3] = null;
 			break;
+		}
+	}
+	public void unlockExit(){
+		for(int i = 0; i< lockedExits.length ; i++){
+			if(lockedExits[0] != null){
+				exits[0] = lockedExits[0];
+				lockedExits[0] = null;
+			}
+			else if(lockedExits[1] != null){
+				exits[1] = lockedExits[1];
+				lockedExits[1] = null;
+			}
+			else if(lockedExits[2] != null){
+				exits[2] = lockedExits[2];
+				lockedExits[2] = null;
+			}
+			else if(lockedExits[3] != null){
+				exits[3] = lockedExits[3];
+				lockedExits[3] = null;
+			}
+			else if(lockedExits[4] != null){
+				exits[4] = lockedExits[4];
+				lockedExits[4] = null;
+			}
+			else if(lockedExits[5] != null){
+				exits[5] = lockedExits[1];
+				lockedExits[5] = null;
+			}
 		}
 	}
 }

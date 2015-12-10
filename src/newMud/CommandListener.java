@@ -81,7 +81,8 @@ public class CommandListener implements ActionListener {
 					out.append("\n \n"+(mainGuy.getLocation()).getDescription() +"\n");
 					out.append("The room contains the following items: ");
 					out.append(mainGuy.getLocation().getInventory().toString() + "\n");
-					out.append(mainGuy.getLocation().listExits() + "\n\n\n");
+					out.append("Exits \n ---------------\n" + mainGuy.getLocation().listExits() + "\n\n\n");
+					out.append("Locked Exits \n ---------------\n" + mainGuy.getLocation().listLockedExits() + "\n\n\n");
 					break;
 			default:
 			out.append("Still have to type start \n");
@@ -132,27 +133,33 @@ else if(hasStarted){
 		case("go"):
 			switch(commandValue){
 			case("north"):
-				if(mainGuy.getLocation().getExits()[0] != null) mainGuy.goNorth();
-				else out.append("/n You can not go in that direction." + "\n");
+				if(mainGuy.getLocation().getExits()[0] != null && mainGuy.getLocation().getLockedExits()[0] == null) mainGuy.goNorth();
+				else if(mainGuy.getLocation().getExits()[0] == null && mainGuy.getLocation().getLockedExits()[0] != null) out.append("that door is locked, you cannot pass.");
+				else out.append("\n You can not go in that direction." + "\n");
 				break;
 			case("south"):
-				if(mainGuy.getLocation().getExits()[1] != null) mainGuy.goSouth();
+				if(mainGuy.getLocation().getExits()[1] != null && mainGuy.getLocation().getLockedExits()[1] == null) mainGuy.goSouth();
+				else if(mainGuy.getLocation().getExits()[1] == null && mainGuy.getLocation().getLockedExits()[1] != null) out.append("that door is locked, you cannot pass.");
 				else out.append("\n You can not go in that direction." + "\n");
 				break;
 			case("east"):
-				if(mainGuy.getLocation().getExits()[2] != null) mainGuy.goEast();
+				if(mainGuy.getLocation().getExits()[2] != null && mainGuy.getLocation().getLockedExits()[2] == null) mainGuy.goEast();
+				else if(mainGuy.getLocation().getExits()[2] == null && mainGuy.getLocation().getLockedExits()[2] != null) out.append("that door is locked, you cannot pass.");
 				else out.append("\n You can not go in that direction." + "\n");
 				break;
 			case("west"):
-				if(mainGuy.getLocation().getExits()[3] != null) mainGuy.goWest();
+				if(mainGuy.getLocation().getExits()[3] != null && mainGuy.getLocation().getLockedExits()[3] == null) mainGuy.goWest();
+				else if(mainGuy.getLocation().getExits()[3] == null && mainGuy.getLocation().getLockedExits()[3] != null) out.append("that door is locked, you cannot pass.");
 				else out.append("\n You can not go in that direction." + "\n ");
 				break;
 			case("up"):
-				if(mainGuy.getLocation().getExits()[4] != null) mainGuy.goUp();
+				if(mainGuy.getLocation().getExits()[4] != null && mainGuy.getLocation().getLockedExits()[4] == null) mainGuy.goUp();
+				else if(mainGuy.getLocation().getExits()[4] == null && mainGuy.getLocation().getLockedExits()[4] != null) out.append("that door is locked, you cannot pass.");
 				else out.append("\n You can not go in that direction." + "\n");
 				break;
 			case("down"):
-				if(mainGuy.getLocation().getExits()[5] != null) mainGuy.goDown();
+				if(mainGuy.getLocation().getExits()[5] != null && mainGuy.getLocation().getLockedExits()[5] == null) mainGuy.goDown();
+				else if(mainGuy.getLocation().getExits()[5] == null && mainGuy.getLocation().getLockedExits()[5] != null) out.append("that door is locked, you cannot pass.");
 				else out.append("\n You can not go in that direction." + "\n");
 				break;
 			default:
@@ -173,6 +180,38 @@ else if(hasStarted){
 				out.append("Tossed " + commandValue + ", hope you dont need it later." + "\n");
 			}
 			else out.append("You can't drop what you dont have." + "\n");
+			break;
+		case("use"):
+			System.out.println("");
+			if(mainGuy.checkItem(commandValue)){
+				if(mainGuy.getLocation().getKeyItem().equals(mainGuy.returnItem(commandValue))){
+						if(mainGuy.getLocation().getLockedExits()[0] != null){
+							out.append("You have unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[0].getName() );
+						}
+						else if(mainGuy.getLocation().getLockedExits()[1] != null){
+							out.append("You have unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[1].getName() );
+						}
+						else if(mainGuy.getLocation().getLockedExits()[2] != null){
+							out.append("You have unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[2].getName() );
+						}
+						else if(mainGuy.getLocation().getLockedExits()[3] != null){
+							out.append("You have unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[3].getName() );
+						}
+						else if(mainGuy.getLocation().getLockedExits()[4] != null){
+							out.append("You have unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[4].getName() );
+						}
+						else if(mainGuy.getLocation().getLockedExits()[5] != null){
+							out.append("You have unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[5].getName() );
+						}
+					
+					mainGuy.plusOne();
+					mainGuy.addXP(20);
+					mainGuy.getLocation().unlockExit();
+				}
+			}
+			else{
+				out.append("You don't have that item dummy");
+			}
 			break;
 		case("attack"):
 			if(sameRoom()){		//if mobs are in the same room as player
@@ -244,9 +283,9 @@ else if(hasStarted){
 		out.append("\n \n"+(mainGuy.getLocation()).getDescription() +"\n");
 		out.append("The room contains the following items: ");
 		out.append((mainGuy.getLocation()).getInventory().toString() + "\n");
-		out.append(mainGuy.getLocation().listExits() + "\n");
-		out.append(mainGuy.getLocation().listLockedExits() + "\n\n\n");
-	}//end of else if		
+		out.append("Exits \n ---------------\n" + mainGuy.getLocation().listExits() + "\n\n\n");
+		out.append("Locked Exits \n ---------------\n" + mainGuy.getLocation().listLockedExits() + "\n\n\n");
+		}//end of else if		
 }//end of actionPreformed()
 	
 	public boolean sameRoom(){	//checks to see if any mobs are in the room and if they are add them to an arrayList of mobs engaged in combat.
@@ -259,8 +298,6 @@ else if(hasStarted){
 		}
 		return !engagedMob.isEmpty();
 	}//end of sameRoom method
-	
-	
 	
 	/*
 	 * 		Attack Methods

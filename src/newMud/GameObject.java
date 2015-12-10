@@ -14,7 +14,7 @@ public class GameObject {
 		return inventory;
 	}
 	
-	public Boolean checkItem(String item_name){              //Checks to see if an item is in the array of Items in current room
+	public Boolean checkItem(String item_name){              //Checks to see if an item is in the array of Items gameObject holds
 		for(int i = 0; i < this.getInventory().size() ; i++){
 			if (this.getInventory().get(i).getName().equalsIgnoreCase(item_name)){
 				return true;

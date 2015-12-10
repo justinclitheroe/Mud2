@@ -114,7 +114,6 @@ public class UserInterface implements Observer{
 		
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
-		
 		textArea.append("You awake from your slumber only to find yourself in a strange house labled 7920. You rub your head and feel a slight bump. \n");
 		textArea.append("It's at this time that you start to feel a slight headache. little by little your memory starts to come back. You remeber you stupid friends \n");
 		textArea.append("telling you to sign up for some stupid tour of a house. Little did they know it would turn into the adventure of a lifetime");
