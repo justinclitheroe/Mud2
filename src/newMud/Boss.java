@@ -15,4 +15,5 @@ public class Boss extends Mob{
 	public void setMobLoot(ArrayList<Item> m){
 		mobLoot = m;
 	}
+	
 }

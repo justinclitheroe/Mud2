@@ -27,15 +27,21 @@ public class CommandListener implements ActionListener {
 	private ArrayList<Mob> engagedMob = new ArrayList<Mob>();
 	
 	private boolean hasStarted = false;
-
-	private boolean inBossFight = false;
-	private int bossRound = -1;
+	
+	
 	
 	//creating final boss and the master key used to unlock the final room to win the game
 	Item masterKey = new Item("Master Key","Unlocks the final door",0,0,true);
 	private ArrayList<Item> mobLoot = new ArrayList<Item>(Arrays.asList(masterKey));
 	private Boss win = new Boss("Win","A large monster wearing black armor with gold trim",null,160,100,25,50,50,null);	
 	private int secretNumberCount = 0;
+	
+	private boolean inBossFight = false;
+	private int bossRound = -1;
+	private int temBossRound;
+	private int questionNum = 1;
+	private int right = 0;
+	private int wrong = 0;
 	
 	public CommandListener(JTextArea out, GameCharacter pc, JLabel label, JTextArea sList,ArrayList<Mob> m){
 		this.out = out;
@@ -124,13 +130,113 @@ public class CommandListener implements ActionListener {
 					break;
 			}
 		}//end of if bossround = -1 (fighting has not started)
+			
+			
+			
+			/*
+			 * 
+			 * 
+			 * THIS IS WHERE YOU WERE WORKING LAST
+			 * CONTINUE CODING HERE
+			 * 
+			 * 		  vvv
+			 * 		  vvv
+			 * 		  vvv	
+			 * 		vvvvvvv
+			 * 		 vvvvv
+			 * 		  vvv
+			 * 		   v
+			 *
+			 *
+			 */
+			else if(bossRound == -1){
+				
+						//BELOW ARE THE QUESTIONS TO NEGOTIATION ROUND\\
+				if(questionNum == 1 && wrong != 4) out.append("Mortal, for your first question answer me this. How many mobs were alive at the beggining of the game?");
+				else if(questionNum ==2 && wrong != 4 && right<6) out.append("What was my father's name?");
+				else if(questionNum ==3 && wrong != 4 && right<6) out.append("True or False? Emacs is the best");
+				else if(questionNum ==4 && wrong != 4 && right<6) out.append("What is the Linux kernel’s official mascot?");
+				else if(questionNum ==5 && wrong != 4 && right<6) out.append("What is the name of the linux mascot?");
+				else if(questionNum ==6 && wrong != 4 && right<6) out.append("IBM's super computer Watson appears on what major TV gameshow?");
+				else if(questionNum ==7 && wrong != 4 && right<6) out.append("In the popular series Lord of the Rings, who is the fearless wizard who leads the party to destroy the one ring?");
+				else if(questionNum ==8 && wrong != 4 && right<6) out.append("When did the robot known as Tom Kelliher recieve his PHD in computer science from Penn State?");
+				else if(questionNum ==9 && wrong != 4 && right<6) out.append("");
+				else if(questionNum ==10 && wrong != 4){
+					out.append("");
+				}
+				
+				switch(commandType){
+					case("yes"):
+						out.append("very well. I will ask you a series of questions that you must answer. To pass this trial you "
+								+ "must answer 6/10 of these questions");
+						break;
+					case("no"):
+						break;
+					//BELOW ARE THE ANWERS TO THE NEGOTIATION QUESTIONS\\
+					case("5"):
+						questionNum++;
+						right++;
+						out.append("You have answered " + right + "questions right. \n");
+						out.append("On to question " + questionNum + "\n");
+						break;
+					case("Dows"):
+						questionNum++;
+						right++;
+						out.append("You have answered " + right + "questions right.\n ");
+						out.append("On to question " + questionNum + "\n");
+						break;
+					case("false"):
+						questionNum++;
+						right++;
+						out.append("You have answered " + right + "questions right.\n");
+						out.append("On to question " + questionNum + "\n");
+						break;
+					case("penguin"):
+						questionNum++;
+						right++;
+						out.append("You have answered " + right + "questions right.\n ");
+						out.append("On to question " + questionNum + "\n");
+						break;
+					case("tux"):
+						questionNum++;
+						right++;
+						out.append("You have answered " + right + "questions right. \n ");
+						out.append("On to question " + questionNum + "\n");
+						break;
+					case("jeopardy"):
+						questionNum++;
+						right++;
+						out.append("You have answered " + right + "questions right. \n ");
+						out.append("On to question " + questionNum + "\n");
+						break;
+					case("gandalf"):
+						questionNum++;
+						right++;
+						out.append("You have answered " + right + "questions right. \n ");
+						out.append("On to question " + questionNum + "\n");
+						break;	
+					case("1993"):
+						questionNum++;
+						right++;
+						out.append("You have answered " + right + "questions right. \n ");
+						out.append("On to question " + questionNum + "\n");
+						break;
+					default:
+						wrong ++;
+						out.append("I'm sorry that is not the right answer. You have " + wrong + "missed questions. Do not let it get to 4");
+						out.append("you have " + (10-questionNum) + "questions left \n");
+						break;				
+				}
+			}
+			
 			else{
 				switch(commandType){
 				case("attack"):
+					attackBoss(win);
 					bossRound++;
 					break;
 				case("delete"):
-					if(commandValue.equalsIgnoreCase(commandValue)){
+					if(commandValue.equalsIgnoreCase("system32")){
 					out.append("MORTAL HOW DARE YOU....WHO HAS TOLD YOU MY WEAKNESS... \n");
 					out.append("The demon falls to his knees and a blackish-red smoke begins to pour off his body. You can hear him mumbling about some sort"
 							+ "of lost power. you watch as he looks straight at you and takes his helmet off.");
@@ -147,8 +253,14 @@ public class CommandListener implements ActionListener {
 					out.append("attack => attacks the boss \n");
 					out.append("help => brings up the command list for the boss fight");
 					out.append("exit => eventhough you've made it this far you can still exit the game");
-					out.append("<?????> this is a secret command. Upon entering this command \n");
+					out.append("<?????> this is a secret command. Upon entering this command boss will instantly die \n");
 					break;
+				case("negotiate"):
+					out.append("Do you wish to beg for your forgiveness mortal? \n");
+					out.append("Type 'yes' to beg for mercy \n");
+					out.append("Type 'no' to continue violent fighting");
+					temBossRound = bossRound;
+					bossRound = -1;
 				}
 			}
 	}		
@@ -428,8 +540,18 @@ else if(hasStarted){
 		+ "silently moved behind you breathing on your neck. \n 'This is the place of judgement. Fight me and gain entrance to the chamber of worth.' "
 		+ "\n He swings his arm around to all the exits, his hand seems to glow as you hear the click of each door locking. His physical form behind you dissolves into a "
 		+ "puff of black smoke. Evil laughter fills the room as the lights darken and you feel your body fill with an odd sense of power. \n 'Don't worry my child'\n "
-		+ "You turn around and look around but see nothing. \n 'I am known as the spirit Lin, son of the holy god Ux. I can give you the strength to defeat the demon known as "
-		+ " Dows, son of the demon Win. Do you accept my guidance? Type 'yes' to accept. Type 'no' for a most timely death");
+		+ "You turn around and look around but see nothing. \n 'I am known as the spirit Lin, son of the holy god Ux-ix. I can give you the strength to defeat the demon known as "
+		+ " Win, son of the demon Dows. Do you accept my guidance? Type 'yes' to accept. Type 'no' for a most timely death");
 		hasStarted = false; //sets has started to false so special command events can happen. 
+	}
+	public void attackBoss(Boss m){		 
+				int damage;
+					damage = mainGuy.damage(m);
+					out.append("Main guy hits " + m.getName()+ " For: " + damage + "\n");
+					m.minusHealth(damage);
+					int mobDamage = m.getBaseDamage();
+					out.append(m.getAttackMessage() + "\n");
+					out.append(m.getName() + " attacks you for " + mobDamage + " hp \n");
+					mainGuy.minusHealth(mobDamage);
 	}
 }
