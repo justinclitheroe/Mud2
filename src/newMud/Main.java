@@ -78,4 +78,5 @@ public class Main {
 	public static int rnGesus(int max,int min ){	 //random number generator to help randomly place mobs
 		return (int)(Math.random() * (max - min) + min); 
 		}
+
 }

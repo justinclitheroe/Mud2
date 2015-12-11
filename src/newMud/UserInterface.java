@@ -68,7 +68,7 @@ public class UserInterface implements Observer{
 		player1InputPanel.setLayout(new BorderLayout());
 		player1InputPanel.add(player1InputTitle, BorderLayout.NORTH);
 		JTextField player1Input = new JTextField();
-		player1Input.addActionListener(new CommandListener(player1TextArea,pc,player1PictureLabel,player1Stats,m));
+		player1Input.addActionListener(new CommandListener(player1TextArea, player2TextArea,pc, pc2,player1PictureLabel,player1Stats,m));
 		player1InputPanel.add(player1Input, BorderLayout.CENTER);
 		player1window.add(player1InputPanel, BorderLayout.SOUTH);
 
@@ -148,7 +148,7 @@ public class UserInterface implements Observer{
 		player2InputPanel.setLayout(new BorderLayout());
 		player2InputPanel.add(player2InputTitle, BorderLayout.NORTH);
 		JTextField player2Input = new JTextField();
-		player2Input.addActionListener(new CommandListener(player2TextArea,pc2,player2PictureLabel,player2Stats,m));
+		player2Input.addActionListener(new CommandListener(player2TextArea,player1TextArea,pc2,pc,player2PictureLabel,player2Stats,m));
 		player2InputPanel.add(player2Input, BorderLayout.CENTER);
 		player2window.add(player2InputPanel, BorderLayout.SOUTH);
 

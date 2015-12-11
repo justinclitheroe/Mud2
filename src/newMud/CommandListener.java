@@ -16,7 +16,9 @@ import javax.swing.JTextField;
 public class CommandListener implements ActionListener {
 
 	private JTextArea out;
+	private JTextArea secondaryOut;
 	private GameCharacter mainGuy;
+	private GameCharacter secondaryGuy;
 	private JLabel imLabel;
 	private ImageIcon roomPic;
 	private JTextArea statsList;
@@ -43,12 +45,14 @@ public class CommandListener implements ActionListener {
 	private int right = 0;
 	private int wrong = 0;
 	
-	public CommandListener(JTextArea out, GameCharacter pc, JLabel label, JTextArea sList,ArrayList<Mob> m){
+	public CommandListener(JTextArea out, JTextArea observe, GameCharacter pc, GameCharacter pc2, JLabel label, JTextArea sList,ArrayList<Mob> m){
 		this.out = out;
 		mainGuy = pc;
 		imLabel = label;
 		statsList = sList;
 		mobList = m;
+		secondaryGuy = pc2;
+		secondaryOut = observe;
 	}
 	
 	
@@ -317,32 +321,50 @@ else if(hasStarted){
 			case("north"):
 				if(mainGuy.getLocation().getExits()[0] != null && mainGuy.getLocation().getLockedExits()[0] == null) mainGuy.goNorth();
 				else if(mainGuy.getLocation().getExits()[0] == null && mainGuy.getLocation().getLockedExits()[0] != null) out.append("that door is locked, you cannot pass.");
-				else out.append("\n You can not go in that direction." + "\n");
+				else {
+					out.append("\n You can not go in that direction." + "\n");
+					secondaryOut.append(mainGuy.getName() + " walks into a wall");
+				}
 				break;
 			case("south"):
 				if(mainGuy.getLocation().getExits()[1] != null && mainGuy.getLocation().getLockedExits()[1] == null) mainGuy.goSouth();
 				else if(mainGuy.getLocation().getExits()[1] == null && mainGuy.getLocation().getLockedExits()[1] != null) out.append("that door is locked, you cannot pass.");
-				else out.append("\n You can not go in that direction." + "\n");
+				else {
+					out.append("\n You can not go in that direction." + "\n");
+					secondaryOut.append(mainGuy.getName() + " walks into a wall");
+				}
 				break;
 			case("east"):
 				if(mainGuy.getLocation().getExits()[2] != null && mainGuy.getLocation().getLockedExits()[2] == null) mainGuy.goEast();
 				else if(mainGuy.getLocation().getExits()[2] == null && mainGuy.getLocation().getLockedExits()[2] != null) out.append("that door is locked, you cannot pass.");
-				else out.append("\n You can not go in that direction." + "\n");
+				else {
+					out.append("\n You can not go in that direction." + "\n");
+					secondaryOut.append(mainGuy.getName() + " walks into a wall");
+				}
 				break;
 			case("west"):
 				if(mainGuy.getLocation().getExits()[3] != null && mainGuy.getLocation().getLockedExits()[3] == null) mainGuy.goWest();
 				else if(mainGuy.getLocation().getExits()[3] == null && mainGuy.getLocation().getLockedExits()[3] != null) out.append("that door is locked, you cannot pass.");
-				else out.append("\n You can not go in that direction." + "\n ");
+				else {
+					out.append("\n You can not go in that direction." + "\n");
+					secondaryOut.append(mainGuy.getName() + " walks into a wall");
+				}
 				break;
 			case("up"):
 				if(mainGuy.getLocation().getExits()[4] != null && mainGuy.getLocation().getLockedExits()[4] == null) mainGuy.goUp();
 				else if(mainGuy.getLocation().getExits()[4] == null && mainGuy.getLocation().getLockedExits()[4] != null) out.append("that door is locked, you cannot pass.");
-				else out.append("\n You can not go in that direction." + "\n");
+				else {
+					out.append("\n You can not go in that direction." + "\n");
+					secondaryOut.append(mainGuy.getName() + " walks into a wall");
+				}
 				break;
 			case("down"):
 				if(mainGuy.getLocation().getExits()[5] != null && mainGuy.getLocation().getLockedExits()[5] == null) mainGuy.goDown();
 				else if(mainGuy.getLocation().getExits()[5] == null && mainGuy.getLocation().getLockedExits()[5] != null) out.append("that door is locked, you cannot pass.");
-				else out.append("\n You can not go in that direction." + "\n");
+				else {
+					out.append("\n You can not go in that direction." + "\n");
+					secondaryOut.append(mainGuy.getName() + " walks into a wall");
+				}
 				break;
 			default:
 				out.append("\n That is not a valid direction." + "\n");
@@ -353,6 +375,7 @@ else if(hasStarted){
 				mainGuy.plusOne();
 				mainGuy.pickUp(mainGuy.getLocation().returnItem(commandValue));
 				out.append("Got it!" + "\n");
+				secondaryOut.append(mainGuy.getName() + " got the " + commandValue + " shiiiit");
 			}
 			else out.append("That item is not in the room." + "\n");
 			break;
@@ -360,6 +383,7 @@ else if(hasStarted){
 			if (mainGuy.checkItem(commandValue)){						
 				mainGuy.drop(mainGuy.returnItem(commandValue));
 				out.append("Tossed " + commandValue + ", hope you dont need it later." + "\n");
+				secondaryOut.append(mainGuy.getName() + " dropped " + commandValue + " Score!");
 			}
 			else out.append("You can't drop what you dont have." + "\n");
 			break;
@@ -368,22 +392,22 @@ else if(hasStarted){
 			if(mainGuy.checkItem(commandValue)){
 				if(mainGuy.getLocation().getKeyItem().equals(mainGuy.returnItem(commandValue))){
 						if(mainGuy.getLocation().getLockedExits()[0] != null){
-							out.append("You have unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[0].getName() );
+							bothOut(mainGuy.getName() +" unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[0].getName() );
 						}
 						else if(mainGuy.getLocation().getLockedExits()[1] != null){
-							out.append("You have unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[1].getName() );
+							bothOut(mainGuy.getName() +" unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[1].getName() );
 						}
 						else if(mainGuy.getLocation().getLockedExits()[2] != null){
-							out.append("You have unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[2].getName() );
+							bothOut(mainGuy.getName() +" unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[2].getName() );
 						}
 						else if(mainGuy.getLocation().getLockedExits()[3] != null){
-							out.append("You have unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[3].getName() );
+							bothOut(mainGuy.getName() +" unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[3].getName() );
 						}
 						else if(mainGuy.getLocation().getLockedExits()[4] != null){
-							out.append("You have unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[4].getName() );
+							bothOut(mainGuy.getName() +" unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[4].getName() );
 						}
 						else if(mainGuy.getLocation().getLockedExits()[5] != null){
-							out.append("You have unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[5].getName() );
+							bothOut(mainGuy.getName() +" unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[5].getName() );
 						}	
 					mainGuy.plusOne();
 					mainGuy.addXP(20);
@@ -421,6 +445,7 @@ else if(hasStarted){
 			else{
 				out.append("You swing your fists but manage to punch yourself in the face becuase there's nothing to hit. ");
 				out.append("\n you have sustained 1 damage in the process.\n");
+				secondaryOut.append("That was dumb, your counterpart seems to have punched themself in the face");
 				mainGuy.minusHealth(1);
 			}
 			break; 
@@ -510,7 +535,7 @@ else if(hasStarted){
 				int damage;
 				if (mobList.get(i).getLocation().equals(mainGuy.getLocation())){
 					damage = mainGuy.damage(mobList.get(i));
-					out.append("Main guy hits " + mobList.get(i).getName()+ " For: " + damage + "\n");
+					bothOut("Main guy hits " + mobList.get(i).getName()+ " For: " + damage + "\n");
 					mobList.get(i).minusHealth(damage);
 					mobList.get(i).upd();
 					int mobDamage = mobList.get(i).getBaseDamage();
@@ -553,5 +578,13 @@ else if(hasStarted){
 					out.append(m.getAttackMessage() + "\n");
 					out.append(m.getName() + " attacks you for " + mobDamage + " hp \n");
 					mainGuy.minusHealth(mobDamage);
+	}
+	public void bothOut(String str) {
+		if (mainGuy.getLocation().equals(secondaryGuy.getLocation())) {
+			out.append(str);
+			secondaryOut.append(str);
+		}
+		else
+			out.append(str);
 	}
 }
