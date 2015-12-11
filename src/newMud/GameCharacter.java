@@ -1,9 +1,12 @@
 package newMud;
+
+import java.util.ArrayList;
+
 public class GameCharacter extends GameObject {
 
 	
 	private int baseDamage;
-	private int armourClass;
+	private int ArmorClass;
 	private int toHit;
 	
 	private int maxHealth;		//max health
@@ -16,6 +19,7 @@ public class GameCharacter extends GameObject {
 	private int xp = 0;
 	private int lvl = 0;
 	
+	private ArrayList<Item> inventory = new ArrayList<Item>();
 	
 	public GameCharacter(String n, String d, Room l,int h, int s,int b ,int aC, int tH) {
 		this.setName(n);
@@ -24,29 +28,55 @@ public class GameCharacter extends GameObject {
 		this.setMaxHealth(h);
 		this.setMaxStamina(s);
 		this.setBaseDamage(b);
-		this.setArmour(aC);
+		this.setArmor(aC);
 		this.setToHit(tH);
 	}
 	
+	
+				//INVENTORY\\
+	public ArrayList<Item> getInventory() {
+		return inventory;
+	}
+	public void setInventory(ArrayList<Item> inventory) {
+		this.inventory = inventory;
+	}
+	public void pickUp(Item i) {
+		this.addArmor(i.getArmor());
+		this.addBaseDamage(i.getDamage());
+		this.getInventory().add(i);
+	}
+	public void drop(Item i){
+		inventory.remove(i);
+		this.addBaseDamage(-i.getDamage());
+		this.addArmor(-i.getDamage());
+		this.getInventory().add(i);
+	}
+
 			//COMBAT\\
 	public int damage(Mob m){
-		if ((int) Math.random()*20 + this.getToHit() > m.getArmour()){
-			return this.getBaseDamage(); //TODO add equip damage
+		if ((int) Math.random()*20 + this.getToHit() > m.getArmor()){
+			return this.getBaseDamage(); 
 	}
 		else
 			return 0;
 	}
-	public int getArmour(){
-		return armourClass;
+	public int getArmor(){
+		return ArmorClass;
 	}
-	public void setArmour(int i){
-		armourClass = i;
+	public void setArmor(int i){
+		ArmorClass = i;
+	}
+	public void addArmor(int i){
+		ArmorClass = ArmorClass + i;
 	}
 	public int getBaseDamage(){
 		return baseDamage;
 	}
 	public void setBaseDamage(int i){
 		baseDamage = i;
+	}
+	public void addBaseDamage(int i){
+		baseDamage = baseDamage + i;
 	}
 	public int getToHit() {
 		return toHit;
@@ -93,7 +123,7 @@ public class GameCharacter extends GameObject {
 			xp = remainder;						//xp gets set to remainder
 			maxHealth = maxHealth + 10*lvl;		//get stat boosts and heal the player to max health
 			maxStamina = stamina + 10*lvl;
-			armourClass = armourClass + 10*lvl;
+			ArmorClass = ArmorClass + 10*lvl;
 			baseDamage = baseDamage + 10*lvl;
 			this.addScore(42);
 			this.heal();	

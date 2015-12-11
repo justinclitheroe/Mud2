@@ -13,7 +13,7 @@ public class Mob extends GameCharacter {
 		mobObserver = m;
 	}
 	
-			//
+			//COMBAT SYSTEM FOR MOBS\\
 	public void setDeathMessage(String s){
 		deathMessage = s;
 	}
@@ -26,9 +26,6 @@ public class Mob extends GameCharacter {
 	public String getAttackMessage(){
 		return attackMessage;
 	}
-	
-	
-	
 	public void engage(){	//engages the mob in combat
 		inCombat = true;
 	}
@@ -46,5 +43,4 @@ public class Mob extends GameCharacter {
 		public void upd(){
 			mobObserver.updateUI();
 		}
-
 }

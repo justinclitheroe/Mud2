@@ -14,17 +14,7 @@ public class GameObject {
 		return inventory;
 	}
 	
-	public void pickUp(Item i) {
-			inventory.add(i);
-			this.getLocation().getInventory().remove(i);
-	}
-	
-	public void drop(Item i){
-		inventory.remove(i);
-		this.getLocation().getInventory().add(i);
-	}
-	
-	public Boolean checkItem(String item_name){              //Checks to see if an item is in the array of Items in current room
+	public Boolean checkItem(String item_name){              //Checks to see if an item is in the array of Items gameObject holds
 		for(int i = 0; i < this.getInventory().size() ; i++){
 			if (this.getInventory().get(i).getName().equalsIgnoreCase(item_name)){
 				return true;
@@ -44,44 +34,33 @@ public class GameObject {
 		return null;
 	}
 	
-	//Getters n' Setters
-	
-	
+		//Getters n' Setters\\
 	public Room getLocation() {
 		return location;
 	}
-
 	public void setLocation(Room location) {
 		this.location = location;
 	}
-
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	public String getDescription() {
 		return description;
 	}
-
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
 	public ArrayList<Item> getInventory() {
 		return inventory;
 	}
-
-
 	public void setInventory(ArrayList<Item> inventory) {
 		this.inventory = inventory;
 	}
-	
+		//To String\\
 	public String toString() {
 		return name + ", " + description;
 	}
-	
 }
