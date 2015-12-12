@@ -22,71 +22,126 @@ public class Map {
 	}
 
 	public void generateTestMap() {
-
-		
-		
-								//ITEMS\\
-		//Item item_name = new Item(Name, description, damage, armor)
-		Item smashBros = new Item("Smash Bros Melee","It's your favorite game!",0,0,false);
-		Item screwdriver = new Item("Screwdriver","It's a phillips head screwdriver. You probably have to look up what it looks like",0,0,false);
 		Item linux = new Item("linux install disk", "holy moley! You have the a wonderful operating system. You feel like you can take over the world",0,0,true);
-		Item letterOpener = new Item("letter Opener","it's pretty sharp. Please use caution when inspecting this item",0,0,false);
-								//WEAPONS\\
-		Item sword = new Item("Dank sword","real shapr wow",10,1,false);
-								//ARMOR\\
-		Item goldArmor = new Item("Golden Armor", "such gold, very armor", 1 ,10,false);
-		
-		
-		
-								//ROOMS\\
-		Room entryWay = new Room("Foyer", "you're in a foyer. This is the entryway to a bunch of stuff", new ArrayList<Item>(Arrays.asList(linux,sword,goldArmor)),
-				new ImageIcon("Images/foyer.png"),sword);
+		Item broom = new Item("Broom", "It makes you uncomfortable",4,0,true);
+		Item frisbee = new Item("Frisbee", "Almost better than Melee",0,0, false);
+		Item key = new Item("Key", "A key? Really? How trite",0,0,true);
+		Item rawDenim = new Item("Raw Denim", "Stylin on the plebs", 0, 12, false);
+		Item salt = new Item("Salt", "Get it?", 0, 0, true);
+		Item sword = new Item("Dank Sword", "The dankness",0 , 0, true);
+		Item egg = new Item("Egg", "An egg with jewels stapled to it, why would anyone do this?", 0, 0, false);
+				
+			Room firstBasement = new Room("Deep Dark Basement", "The world around you is dark and confusing, you are filled with determination", 
+				new ArrayList<Item>(Arrays.asList(linux)), new ImageIcon("Images/"), null);
+			Room closet = new Room("Broom Closet", "You aren't quite sure why, but the gross amount of brooms surrounding you makes you uncomfortable", 
+				new ArrayList<Item>(Arrays.asList(broom)), new ImageIcon("Images/"), null);
+			Room stairs = new Room("Staircase", "a staircase with a light at the top", 
+				new ArrayList<Item>(Arrays.asList()), new ImageIcon("Images/"), broom);
+			Room shed = new Room("Shed", "Various sharp implements surround you, maybe you shouldn't hang out here",
+				new ArrayList<Item>(Arrays.asList()), new ImageIcon("Images/"), null);
+			Room villaFront = new Room("Front of Villa", "A large spanish villa ",
+				new ArrayList<Item>(Arrays.asList()), new ImageIcon("Images/"), null);
+			Room outcropping = new Room("Outcropping", "You're on a small ledge to the side of the house, an open window is behind you",
+				new ArrayList<Item>(Arrays.asList()), new ImageIcon("Images/"), null);
+			Room study = new Room("Study", "The computer is running an inferior os, you shed a tear, there is a slight breeze",
+				new ArrayList<Item>(Arrays.asList(key)), new ImageIcon("Images/"), null);
+			Room entryWay = new Room("Foyer", "A marvelous staircase spirals upwards",
+				new ArrayList<Item>(Arrays.asList()), new ImageIcon("Images/"), null);
+			Room nullstairs = new Room("Upstairs", "You're in a very stylish loft",
+				new ArrayList<Item>(Arrays.asList()), new ImageIcon("Images/"), null);
+			Room sneaks = new Room("Sneaky Room", "Frisbee gear adorns the walls, there's a jewish man snoring in the corner, best leave him be",
+				new ArrayList<Item>(Arrays.asList(frisbee)), new ImageIcon("Images/"), null);
+			Room dirt = new Room("Dirty Room", "You think you're back in the broom closet because of the size but you're actually just in a gross room",
+				new ArrayList<Item>(Arrays.asList(rawDenim)), new ImageIcon("Images/"), null);
+			Room hall = new Room("Hall", "Not much here, it seems pretty useless in here",
+				new ArrayList<Item>(Arrays.asList()), new ImageIcon("Images/"), null);
+			Room nullitchen = new Room("Kitchen", "Various meat products adorn the walls, You feel aroused",
+				new ArrayList<Item>(Arrays.asList(sword)), new ImageIcon("Images/"), null);
+			Room pantry = new Room("Pantry", "Spices everywhere! your senses feel a-Salt-ed",
+				new ArrayList<Item>(Arrays.asList()), new ImageIcon("Images/"), null);
+			Room backYard = new Room("Back Yard", "You can hear the sounds of the forest to the south",
+				new ArrayList<Item>(Arrays.asList()), new ImageIcon("Images/"), frisbee);
+			Room forest = new Room("Forest Clearing", "There's a tall tree here, inconspicuous, a trail leads south",
+				new ArrayList<Item>(Arrays.asList()), new ImageIcon("Images/"), null);
+			Room tree = new Room("Tall tree", "There's an egg here, you figure you're missing a reference but you don't care. Actually, you might have already picked up the egg, making this description useless. HOLY SHIT DOES THIS MEAN I'm BREAKING THE FOURTH WALL? that's cray, also that lowercase m is on purpose, yeah this is stil lgoing.",
+				new ArrayList<Item>(Arrays.asList()), new ImageIcon("Images/"), null);
+			Room towerClearing = new Room("Tower Entry", "A mediocre tower stands before you, the door is cold to the touch, maybe if you were passive aggressive towards it",
+				new ArrayList<Item>(Arrays.asList()), new ImageIcon("Images/"), salt);
+			Room firstFloor = new Room("First Floor", "Not much going on in this room, a knight in a suit of armor sits infront of the ",
+				new ArrayList<Item>(Arrays.asList()), new ImageIcon("Images/"), sword);
+			Room secondFloor = new Room("Second Floor", "There's a lock on the staircase, for some reason this blocks you from ascending",
+				new ArrayList<Item>(Arrays.asList()), new ImageIcon("Images/"), key);
+			Room treasureFloor = new Room("Treasure Floor", "",
+				new ArrayList<Item>(Arrays.asList()), new ImageIcon("Images/"), linux);
 
-		Room den = new Room("Den", "The only important features in the room are a large ornamental fireplace and an odd looking torch to the left of the fireplace", new ArrayList<Item>(Arrays.asList(linux)),
-				new ImageIcon("Images/den.jpg"),null);
+			this.daMap = new ArrayList<Room>(
+					Arrays.asList(firstBasement, closet, stairs, shed, villaFront, outcropping, study, entryWay, nullstairs,
+						sneaks, dirt, hall, nullitchen, pantry, backYard, forest, tree, towerClearing, firstFloor, secondFloor, treasureFloor));
 
-		Room diningRoom = new Room("Dining room", "you're in the dining room. There's a bunch of unopened mail",
-				new ArrayList<Item>(Arrays.asList(letterOpener)), new ImageIcon("Images/diningRoom.jpg"),null);
+			firstBasement.setExits(stairs, null, closet, null, null, null);
+			firstBasement.setLockedExits(null, null, null, null, null, null);
+			
+			closet.setExits(null, null, null, firstBasement, null, null);
+			closet.setLockedExits(null, null, null, null, null, null);
+			
+			stairs.setExits(null, firstBasement, null, null, shed, null);
+			stairs.setLockedExits(null, null, null, null, shed, null);
+			
+			shed.setExits(villaFront, null, null, null, null, stairs);
+			shed.setLockedExits(null, null, null, null, null, null);
+			
+			villaFront.setExits(null, shed, outcropping, null, null, null);
+			villaFront.setLockedExits(null, null, null, null, null, null);
+			
+			outcropping.setExits(villaFront, null, null, study, null, null);
+			outcropping.setLockedExits(null, null, null, null, null, null);
+			
+			study.setExits(null, null, outcropping, entryWay, null, null);
+			study.setLockedExits(null, null, null, null, null, null);
+			
+			entryWay.setExits(null, hall, study, null, nullstairs, null);
+			entryWay.setLockedExits(null, null, null, null, null, null);
+			
+			nullstairs.setExits(null, null, sneaks, dirt, null, entryWay);
+			nullstairs.setLockedExits(null, null, sneaks, dirt, null, null);
+			
+			sneaks.setExits(null, null, null, nullstairs, null, null);
+			sneaks.setLockedExits(null, null, null, null, null, null);
+			
+			dirt.setExits(null, null, nullstairs, null, null, null);
+			dirt.setLockedExits(null, null, null, null, null, null);
+			
+			hall.setExits(entryWay, nullitchen, null, null, null, null);
+			hall.setLockedExits(null, null, null, null, null, null);
+			
+			nullitchen.setExits(null, null, backYard, pantry, null, null);
+			nullitchen.setLockedExits(null, null, null, null, null, null);
+			
+			pantry.setExits(null, null, nullitchen, null, null, null);
+			pantry.setLockedExits(null, null, null, null, null, null);
+			
+			backYard.setExits(null, forest, null, nullitchen, null, null);
+			backYard.setLockedExits(null, null, null, null, null, null);
+			
+			forest.setExits(backYard, null, null, null, tree, towerClearing);
+			forest.setLockedExits(null, null, null, null, null, null);
+			
+			tree.setExits(null, null, null, null, null, forest);
+			tree.setLockedExits(null, null, null, null, null, null);
+			
+			towerClearing.setExits(null, null, firstFloor, null, forest, null);
+			towerClearing.setLockedExits(null, null, firstFloor, null, null, null);
+			
+			firstFloor.setExits(null, null, null, towerClearing, secondFloor, null);
+			firstFloor.setLockedExits(null, null, null, null, secondFloor, null);
+			
+			secondFloor.setExits(null, null, null, null, treasureFloor, null);
+			secondFloor.setLockedExits(null, null, null, null, treasureFloor, null);
+			
+			treasureFloor.setExits(null, null, null, null, null, null);
+			treasureFloor.setLockedExits(null, null, null, null, null, null);
 
-		Room kitchen = new Room("Kitchen", "You're in the kitchen. You see a bowl of fruit, and a broom ", new ArrayList<Item>(Arrays.asList(linux)),
-				new ImageIcon("Images/kitchen.jpg"),null);
 
-		Room livingRoom = new Room("Living room", "You walk into the living room. Theres a couch, two chairs, a TV setup and a computer. You dismiss the computer becuase it's not a linux machine. Your eye notices a glimmer near the tv", new ArrayList<Item>(Arrays.asList(smashBros,screwdriver,linux)),
-				new ImageIcon("Images/livingRoom.jpg"),null);
-
-		Room upDen = new Room("upstairs hallway", "up, up, and away", new ArrayList<Item>(Arrays.asList(linux)),
-				new ImageIcon("Images/den.jpg"),null);
-
-		Room basement = new Room("basement", "a sense of dread looms over you, you see an apple",
-				new ArrayList<Item>(Arrays.asList(linux)), new ImageIcon("Images/den.jpg"),null);
-
-		
-		
-		
-							//EXITS\\
-		entryWay.setExits(null,diningRoom, kitchen, livingRoom, upDen, basement);
-		entryWay.setLockedExits(den, null, null, null, null, null);
-		
-		den.setExits(diningRoom, entryWay, null, null, null, upDen);
-		//den.setLockedExits(null,null,null,null,null,null);
-		
-		diningRoom.setExits(entryWay, den, null, null, null, null);
-		//diningRoom.setLockedExits(null,null,null,null,null,null);
-		
-		kitchen.setExits(null, livingRoom, null, entryWay, null, null);
-		//kitchen.setLockedExits(null,null,null,null,null,null);
-		
-		livingRoom.setExits(kitchen, null, entryWay, null, null, null);
-		//livingRoom.setLockedExits(null,null,null,null,null,null);
-		
-		upDen.setExits(null, null, null, null, den, entryWay);
-		//upDen.setLockedExits(null,null,null,null,null,null);
-		
-		basement.setExits(null, null, null, null, entryWay, null);
-		//basement.setLockedExits(null,null,null,null,null,null);
-		
-		this.daMap = new ArrayList<Room>(
-				Arrays.asList(entryWay, den, diningRoom, kitchen, livingRoom, upDen, basement));
 
 	}
 

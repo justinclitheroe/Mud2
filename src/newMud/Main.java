@@ -57,7 +57,7 @@ public class Main {
 		mobList.add(a);
 		
 		 
-		 UserInterface ui = new UserInterface(pc, tMachine, mobList);
+		 UserInterface ui = new UserInterface(pc, tMachine, mobList, world);
 		 m.addObserver(ui);//adds ui as an observer to m (holds the update method)
 		
 		 ArrayList<MobThread> threadList = new ArrayList<MobThread>();		

@@ -12,52 +12,61 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+
+/**
+ * 
+ * Dear Tom,
+ * 	  if you are looking through our command listener to find the secret codes to win you the game
+ * then shame on you. Please don't cheat, it ruins the fun of the game. Any grammatical errors still
+ * left in the game are purely accidental as we cannot fix every poor grammatical mistake in the game
+ * in the short time we have. Also we both question Justin's ability to use proper english.
+ * sincerely,
+ * Justin and Nico
+ */
+
 @SuppressWarnings("unused")
 public class CommandListener implements ActionListener {
-
-	private JTextArea out;
-	private JTextArea secondaryOut;
+		//CHARACTER AND MAP\\
 	private GameCharacter mainGuy;
-	private GameCharacter secondaryGuy;
+	private Map map = new Map();
+		//JTEXT STUFF\\
 	private JLabel imLabel;
 	private ImageIcon roomPic;
 	private JTextArea statsList;
+	private JTextArea out;
+		//CHECKING THE COMMAND ENTERED\\
 	private Pattern commandRegex = Pattern.compile("(\\S+)(\\s+)(.+)"); 
 	private String commandType = null;
 	private String commandValue = null;
+		//MOB STUFF\\
 	private ArrayList<Mob> mobList;
 	private ArrayList<Mob> engagedMob = new ArrayList<Mob>();
-	
-	private boolean hasStarted = false;
-	
-	
-	
-	//creating final boss and the master key used to unlock the final room to win the game
+		//GAME BOOLEANS(not including  booleans)\\
+	private boolean hasStarted = false;	//game will not start unless this boolean is set to true
+		//FINAL BOSS VARIABLES\\
 	Item masterKey = new Item("Master Key","Unlocks the final door",0,0,true);
-	private ArrayList<Item> mobLoot = new ArrayList<Item>(Arrays.asList(masterKey));
-	private Boss win = new Boss("Win","A large monster wearing black armor with gold trim",null,160,100,25,50,50,null);	
 	private int secretNumberCount = 0;
-	
 	private boolean inBossFight = false;
+	private boolean hasAttacked = false;
 	private int bossRound = -1;
 	private int temBossRound;
 	private int questionNum = 1;
 	private int right = 0;
 	private int wrong = 0;
-	
-	public CommandListener(JTextArea out, JTextArea observe, GameCharacter pc, GameCharacter pc2, JLabel label, JTextArea sList,ArrayList<Mob> m){
+	private boolean endGame = false; //if endGame is set to true, boss fight is over and final "cutscene" is played
+		//CONSTURCTOR\\
+	public CommandListener(JTextArea out, JTextArea out2, GameCharacter pc, GameCharacter pc2, JLabel label, JTextArea sList,ArrayList<Mob> m, Map ma){
 		this.out = out;
 		mainGuy = pc;
 		imLabel = label;
 		statsList = sList;
 		mobList = m;
-		secondaryGuy = pc2;
-		secondaryOut = observe;
+		map = ma;
 	}
-	
-	
-	@Override
+	@Override //WHEN COMMAND IS ENTERED...\\
 	public void actionPerformed(ActionEvent e) {
+		if(mainGuy.getHealth()>0){		//if statment that runs the game. If player dies then you cannot enter any more commands
+		Boss win = new Boss("Win","A large monster wearing black armor with gold trim",map.getDaMap().get(20),160,100,25,50,50,masterKey);	
 		JTextField source = (JTextField) e.getSource();
 		String s = source.getText().toLowerCase();
 		out.append(s + "\n");
@@ -68,9 +77,7 @@ public class CommandListener implements ActionListener {
 			commandValue = commandMatcher.group(3);
 		}
 		else commandType = s;	//otherwise set commandType to the whole command entered
-	
-		
-		if(!hasStarted){
+		if(!hasStarted && !endGame){
 			switch(commandType){
 				case("start"):
 					out.append("Enjoy your stay.");
@@ -82,15 +89,7 @@ public class CommandListener implements ActionListener {
 					 * This is a copy and paste of the code at the bottom of this method. See below
 					 * for a commented version and neater looking version of this
 					 */
-					String list = mainGuy.getName() + " Stats \n"+ "You are in the " + mainGuy.getLocation().getName() + "\n"+  "Score: "+ mainGuy.getScore()+ "\n" + "Level: " + mainGuy.getLevel();
-					list = list + "		XP: "+ mainGuy.getXP()+ "/100 \n";
-					list = list+ "Health: " + mainGuy.getHealth() +"/" + mainGuy.getMaxHealth()+"		Stamina: " + mainGuy.getStamina() +"/"+ mainGuy.getMaxStamina() + "\n" + "Armor class: " + mainGuy.getArmor() + "	Base Damage: " + mainGuy.getBaseDamage() +"\n";
-					String inventory = "Inventory: \n";
-					for(int i = 0; i<mainGuy.getInventory().size();i++){
-						inventory = inventory + mainGuy.getInventory().get(i).getName() +"  ";
-						}
-					list = list + inventory;
-					statsList.setText(list);	
+					statsList();
 					out.selectAll();
 					roomPic = mainGuy.getLocation().getImage();	
 					Image img = roomPic.getImage();
@@ -101,82 +100,61 @@ public class CommandListener implements ActionListener {
 					out.append("The room contains the following items: ");
 					out.append(mainGuy.getLocation().getInventory().toString() + "\n");
 					out.append("Exits \n ---------------\n" + mainGuy.getLocation().listExits() + "\n\n\n");
-					out.append("Locked Exits \n ---------------\n" + mainGuy.getLocation().listLockedExits() + "\n\n\n");
+					out.append("Locked Exits \n ---------------\n" + mainGuy.getLocation().listLockedExits() + "\n\n\n");					
 					break;
 			default:
 			out.append("Still have to type start \n");
 				break;
 				}
-		} 
-		
+			} 
 			/*
 			 * 			BOSS FIGHT 
 			 * during a boss fight, player goes into a turn based strategy game rather than a dungeon crawler. 
 			 * Depending on how many rounds have gone by during the boss fight various things will happen. 
 			 * Once player defeats the boss player will get to pickup mob loot
 			 *
-			 * 
 			 */
-		else if(inBossFight){
-			if(bossRound == -1){
-				switch(commandValue){
+		else if(inBossFight && hasStarted && !endGame){
+			if(bossRound ==-3){//bossround gets set to -3 upon beating the boss in one of the couple ways
+				out.append("congratulations " + mainGuy.getName() + "You have defeated the evil monster. \n");
+				out.append("Take what is rightfully yours and move to victory");
+				mainGuy.getLocation().unlockExit();
+				mainGuy.pickUp(win.getItem());
+				inBossFight = false;
+				hasStarted = true;
+				endGame = true;
+			}
+			if(bossRound == -1){	//bossRound is set to -1 on first round of boss fight 
+				switch(commandType){
 				case("yes"):
-					out.append("good job young warrior. I will give you the strength to defeat this monster");
+					out.append("good job young warrior. I will give you the strength to defeat this monster\n");
 					bossRound++;
+					mainGuy.setMaxHealth(4200);
+					mainGuy.setMaxStamina(4200);
+					mainGuy.setBaseDamage(142);
+					mainGuy.setArmor(70);
 					break;
-				
 				case("no"):
-					out.append("so be it young warrior. May the spirits guide you to victory");
-					bossRound++;
+					out.append("so be it young warrior. May the spirits guide you to victory \n");
+					bossRound = bossRound++;
 					break;
 				default:
-					out.append("I am sorry, I do not know what that means. Please accept my help by typing 'yes' or reject my help by typing 'no'");
+					out.append("I am sorry, I do not know what that means. Please accept my help by typing 'yes' or reject my help by typing 'no' \n");
 					break;
 			}
+				statsList();
+				out.append("What do you want to do on your turn? \n");
 		}//end of if bossround = -1 (fighting has not started)
-			
-			
-			
-			/*
-			 * 
-			 * 
-			 * THIS IS WHERE YOU WERE WORKING LAST
-			 * CONTINUE CODING HERE
-			 * 
-			 * 		  vvv
-			 * 		  vvv
-			 * 		  vvv	
-			 * 		vvvvvvv
-			 * 		 vvvvv
-			 * 		  vvv
-			 * 		   v
-			 *
-			 *
-			 */
-			else if(bossRound == -1){
-				
+			else if(bossRound == -2){
 						//BELOW ARE THE QUESTIONS TO NEGOTIATION ROUND\\
-				if(questionNum == 1 && wrong != 4) out.append("Mortal, for your first question answer me this. How many mobs were alive at the beggining of the game?");
-				else if(questionNum ==2 && wrong != 4 && right<6) out.append("What was my father's name?");
-				else if(questionNum ==3 && wrong != 4 && right<6) out.append("True or False? Emacs is the best");
-				else if(questionNum ==4 && wrong != 4 && right<6) out.append("What is the Linux kernel’s official mascot?");
-				else if(questionNum ==5 && wrong != 4 && right<6) out.append("What is the name of the linux mascot?");
-				else if(questionNum ==6 && wrong != 4 && right<6) out.append("IBM's super computer Watson appears on what major TV gameshow?");
-				else if(questionNum ==7 && wrong != 4 && right<6) out.append("In the popular series Lord of the Rings, who is the fearless wizard who leads the party to destroy the one ring?");
-				else if(questionNum ==8 && wrong != 4 && right<6) out.append("When did the robot known as Tom Kelliher recieve his PHD in computer science from Penn State?");
-				else if(questionNum ==9 && wrong != 4 && right<6) out.append("");
-				else if(questionNum ==10 && wrong != 4){
-					out.append("");
-				}
-				
 				switch(commandType){
 					case("yes"):
 						out.append("very well. I will ask you a series of questions that you must answer. To pass this trial you "
-								+ "must answer 6/10 of these questions");
+								+ "must answer 6/10 of these questions \n");
 						break;
 					case("no"):
 						break;
-					//BELOW ARE THE ANWERS TO THE NEGOTIATION QUESTIONS\\
+					//BELOW ARE THE ANSWERS TO THE NEGOTIATION QUESTIONS\\
 					case("5"):
 						questionNum++;
 						right++;
@@ -219,7 +197,37 @@ public class CommandListener implements ActionListener {
 						out.append("You have answered " + right + "questions right. \n ");
 						out.append("On to question " + questionNum + "\n");
 						break;	
+					case("gandalf the grey"):
+						questionNum++;
+						right++;
+						out.append("You have answered " + right + "questions right. \n ");
+						out.append("On to question " + questionNum + "\n");
+						break;
 					case("1993"):
+						questionNum++;
+						right++;
+						out.append("You have answered " + right + "questions right. \n ");
+						out.append("On to question " + questionNum + "\n");
+						break;
+					case("Tom Kelliher"):
+						questionNum++;
+						right++;
+						out.append("You have answered " + right + "questions right. \n ");
+						out.append("On to question " + questionNum + "\n");
+						break;
+					case("Kelliher"):
+						questionNum++;
+						right++;
+						out.append("You have answered " + right + "questions right. \n ");
+						out.append("On to question " + questionNum + "\n");
+						break;
+					case("Tom"):
+						questionNum++;
+						right++;
+						out.append("You have answered " + right + "questions right. \n ");
+						out.append("On to question " + questionNum + "\n");
+						break;
+					case("42"):
 						questionNum++;
 						right++;
 						out.append("You have answered " + right + "questions right. \n ");
@@ -227,23 +235,82 @@ public class CommandListener implements ActionListener {
 						break;
 					default:
 						wrong ++;
-						out.append("I'm sorry that is not the right answer. You have " + wrong + "missed questions. Do not let it get to 4");
+						questionNum++;
+						out.append("I'm sorry that is not the right answer. You have " + wrong + "missed questions. Do not let it get to 4 \n");
 						out.append("you have " + (10-questionNum) + "questions left \n");
 						break;				
 				}
+				if(questionNum ==0) out.append("");
+				else if(questionNum == 1 && wrong != 4) out.append("Mortal, for your first question answer me this. How many mobs were alive at the beggining of the game?");
+				else if(questionNum ==2 && wrong != 4 && right<6) out.append("What was my father's name?");
+				else if(questionNum ==3 && wrong != 4 && right<6) out.append("True or False? Emacs is the best");
+				else if(questionNum ==4 && wrong != 4 && right<6) out.append("What is the Linux kernel’s official mascot?");
+				else if(questionNum ==5 && wrong != 4 && right<6) out.append("What is the name of the linux mascot?");
+				else if(questionNum ==6 && wrong != 4 && right<6) out.append("IBM's super computer Watson appears on what major TV gameshow?");
+				else if(questionNum ==7 && wrong != 4 && right<6) out.append("In the popular series Lord of the Rings, who is the fearless wizard who leads the party to destroy the one ring?");
+				else if(questionNum ==8 && wrong != 4 && right<6) out.append("When did the robot known as Tom Kelliher recieve his PHD in computer science from Penn State?");
+				else if(questionNum ==9 && wrong != 4 && right<6) out.append("What is the greatest number in the universe?");
+				else if(questionNum ==10 && wrong != 4){
+					roomPic = new ImageIcon("Images/den.jpg");	
+					Image img = roomPic.getImage();
+					Image newimg = img.getScaledInstance(230, 310, java.awt.Image.SCALE_SMOOTH);
+					roomPic = new ImageIcon(newimg);
+					imLabel.setIcon(roomPic);	
+					out.append("Who is the subject in the following photo");
+				}
+				else{
+					if(right >= 6){
+						out.append("'I have granted you mercy. You have a kind and gentle heart to be able to answer my questions' \n");
+						out.append("'Take this key and leave me' \n");
+						out.append("Win waves his hand around the room as each door unlocks. after unlocking the doors he reaches into his pocket"
+								+ "and pulls out an ornamental looking key. You give him a silent nod as he begins to vanish in front of you. "
+								+ "you swear he gives you a wink and a smirk before dissapearing completely \n");
+						mainGuy.pickUp(win.getItem());
+						inBossFight = false;
+						hasStarted = true;
+						endGame = true;
+					}
+					else {
+						out.append("You have failed my test...Prepare to die D:< \n");
+						bossRound = temBossRound;	//upon failing the question/answer you go back to the normal combat
+					}
+				}
+				statsList();
 			}
 			
 			else{
-				switch(commandType){
-				case("attack"):
-					attackBoss(win);
-					bossRound++;
+				if(win.getHealth()>0){	//as long as win's health is greater than 0...
+				hasAttacked = false;	//reset hasAttacked
+				statsList();
+			switch(commandType){
+				case("attack"):			//if you attack and win attacks then he will not attack at the end of the turn
+					//attackBoss(win);
+					int d = mainGuy.getBaseDamage();
+					if((d-win.getHealth()) < 0 ){
+						d=win.getHealth();
+					}
+					else {
+						d = mainGuy.getBaseDamage();
+					}
+					System.out.println("base Damage: " + mainGuy.getBaseDamage());
+					out.append("You attack Win for " + d + "HP");
+					win.minusHealth(d);
+					if(win.getHealth() <=0 ){		//if win is dead
+						System.out.println("Win has no health and has died");
+						bossRound = -3;		//go to special event mentioned above
+					}
+					else{
+						mainGuy.minusHealth(win.getBaseDamage());	//mainGuy gets hit
+						out.append(mainGuy.getName() + " gets hit for " + win.getBaseDamage() + "HP");
+						hasAttacked = true;
+						bossRound++;
+					}
 					break;
-				case("delete"):
+				case("delete"):			//TOTALLY NOT THE SECRET COMMAND TOM. DON'T CHEAT
 					if(commandValue.equalsIgnoreCase("system32")){
 					out.append("MORTAL HOW DARE YOU....WHO HAS TOLD YOU MY WEAKNESS... \n");
 					out.append("The demon falls to his knees and a blackish-red smoke begins to pour off his body. You can hear him mumbling about some sort"
-							+ "of lost power. you watch as he looks straight at you and takes his helmet off.");
+							+ "of lost power. you watch as he looks straight at you and takes his helmet off.\n");
 					for(int i = 0; i<win.getMobLoot().size();i++){
 						mainGuy.pickUp(win.getMobLoot().get(i));
 						out.append("mainGuy picked up a " + win.getMobLoot().get(i).getName());
@@ -262,16 +329,81 @@ public class CommandListener implements ActionListener {
 				case("negotiate"):
 					out.append("Do you wish to beg for your forgiveness mortal? \n");
 					out.append("Type 'yes' to beg for mercy \n");
-					out.append("Type 'no' to continue violent fighting");
+					out.append("Type 'no' to continue violent fighting \n");
 					temBossRound = bossRound;
-					bossRound = -1;
+					bossRound = -2;
+					out.append("Mortal, for your first question answer me this. How many mobs were alive at the beggining of the game?");
+					break;
+				case("exit"):
+					System.exit(0);
+					break;
+				default:
+					out.append("that is not a valid command, please try again \n");
+					break;
 				}
+			if(!hasAttacked)	
+				switch(rnGesus(0,30)){
+					case 0://heals boss
+						win.heal();
+						break;
+					case 1://insults players mom
+						out.append("YOUR MOM IS UGLY \n");
+						out.append("you are hurt by his comment. You take one point of damage becuase you're sad /n");
+						mainGuy.minusHealth(1);
+						break;
+					default:
+						out.append("win attacks you for" + win.getBaseDamage() + "HP");
+						mainGuy.minusHealth(win.getBaseDamage());
+						break;
+				}
+				out.append("What do you want to do on your turn?");
+				statsList();
 			}
-	}		
-		
-		
-		
-else if(hasStarted){	
+			statsList();
+			out.append("Win's Health: " + win.getHealth());
+		}
+	}			
+		else if(endGame){
+			/*
+			 * 
+			 * 
+			 * JUSTIN 
+			 * 
+			 * PUT YOUR CODE HERE
+			 * 
+			 * DO IT
+			 * 
+			 * 
+			 * OH MY GOD PLEASE CODE ME
+			 * 
+			 * 
+			 * SENPAI PLS NOTICE ME
+			 * 
+			 * 
+			 * THIS IS WHERE YOU WOULD PUT THE FINAL CUTSCENE
+			 * 
+			 * 
+			 * 
+			 * YOU CAN MAKE ANOTHER SWITCH STATEMENT FOR COMMANDS THAT ARE NOT THE SAME AS THE NORMAL GAME
+			 * 
+			 * 
+			 * ANY QUESTIONS YOU HAVE PLEASE FEEL FREE TO CONTACT ME
+			 * 
+			 * 
+			 * ALSO IF SOMETHING IS HELLA BROKEN ALSO CONTACT ME AND I'LL DO SOME DEBUGGING
+			 * 
+			 * 
+			 * also make boss much harder because he doesn't have enough health so whatever nethack would use as a boss is what you should change it to
+			 * other things you should change
+			 * 			-boss location(when he's declared in the variables at the top of the code)
+			 * 			-the checking of if player has moved into the boss room (code is in switch statement for 'go' <Direction>)
+			 * 			-any other style thing you notice and want to change
+			 * 
+			 * 
+			 * 
+			 */
+		}
+else if(hasStarted && !inBossFight && !endGame){	
 	switch(commandType){
 		case("help"):
 			out.append("\n\nThank you for contacting the MUD help desk. These are the following possible commands... \n");
@@ -317,54 +449,75 @@ else if(hasStarted){
 				}
 			break;
 		case("go"):
+						
+			
 			switch(commandValue){
 			case("north"):
-				if(mainGuy.getLocation().getExits()[0] != null && mainGuy.getLocation().getLockedExits()[0] == null) mainGuy.goNorth();
+				if(mainGuy.getLocation().getExits()[0] != null && mainGuy.getLocation().getLockedExits()[0] == null){
+					mainGuy.goNorth();
+					if(mainGuy.getLocation().equals(map.getDaMap().get(20))){
+						bossFight(win);
+						inBossFight = true;
+					}
+				}
 				else if(mainGuy.getLocation().getExits()[0] == null && mainGuy.getLocation().getLockedExits()[0] != null) out.append("that door is locked, you cannot pass.");
-				else {
-					out.append("\n You can not go in that direction." + "\n");
-					secondaryOut.append(mainGuy.getName() + " walks into a wall");
-				}
-				break;
+				else out.append("\n You can not go in that direction." + "\n");			
+			
+			break;
 			case("south"):
-				if(mainGuy.getLocation().getExits()[1] != null && mainGuy.getLocation().getLockedExits()[1] == null) mainGuy.goSouth();
-				else if(mainGuy.getLocation().getExits()[1] == null && mainGuy.getLocation().getLockedExits()[1] != null) out.append("that door is locked, you cannot pass.");
-				else {
-					out.append("\n You can not go in that direction." + "\n");
-					secondaryOut.append(mainGuy.getName() + " walks into a wall");
+				if(mainGuy.getLocation().getExits()[1] != null && mainGuy.getLocation().getLockedExits()[1] == null){
+					mainGuy.goSouth();
+					if(mainGuy.getLocation().equals(map.getDaMap().get(20))){
+						bossFight(win);
+						inBossFight = true;
+					}
 				}
+				else if(mainGuy.getLocation().getExits()[1] == null && mainGuy.getLocation().getLockedExits()[1] != null) out.append("that door is locked, you cannot pass.");
+				else out.append("\n You can not go in that direction." + "\n");
 				break;
 			case("east"):
-				if(mainGuy.getLocation().getExits()[2] != null && mainGuy.getLocation().getLockedExits()[2] == null) mainGuy.goEast();
-				else if(mainGuy.getLocation().getExits()[2] == null && mainGuy.getLocation().getLockedExits()[2] != null) out.append("that door is locked, you cannot pass.");
-				else {
-					out.append("\n You can not go in that direction." + "\n");
-					secondaryOut.append(mainGuy.getName() + " walks into a wall");
+				if(mainGuy.getLocation().getExits()[2] != null && mainGuy.getLocation().getLockedExits()[2] == null){
+					mainGuy.goEast();
+					if(mainGuy.getLocation().equals(map.getDaMap().get(20))){
+						bossFight(win);
+						inBossFight = true;
+					}
 				}
+				else if(mainGuy.getLocation().getExits()[2] == null && mainGuy.getLocation().getLockedExits()[2] != null) out.append("that door is locked, you cannot pass.");
+				else out.append("\n You can not go in that direction." + "\n");
 				break;
 			case("west"):
-				if(mainGuy.getLocation().getExits()[3] != null && mainGuy.getLocation().getLockedExits()[3] == null) mainGuy.goWest();
-				else if(mainGuy.getLocation().getExits()[3] == null && mainGuy.getLocation().getLockedExits()[3] != null) out.append("that door is locked, you cannot pass.");
-				else {
-					out.append("\n You can not go in that direction." + "\n");
-					secondaryOut.append(mainGuy.getName() + " walks into a wall");
+				if(mainGuy.getLocation().getExits()[3] != null && mainGuy.getLocation().getLockedExits()[3] == null) {
+					mainGuy.goWest();
+					if(mainGuy.getLocation().equals(map.getDaMap().get(20))){
+						bossFight(win);
+						inBossFight = true;
+					}
 				}
+				else if(mainGuy.getLocation().getExits()[3] == null && mainGuy.getLocation().getLockedExits()[3] != null) out.append("that door is locked, you cannot pass.");
+				else out.append("\n You can not go in that direction." + "\n ");
 				break;
 			case("up"):
-				if(mainGuy.getLocation().getExits()[4] != null && mainGuy.getLocation().getLockedExits()[4] == null) mainGuy.goUp();
-				else if(mainGuy.getLocation().getExits()[4] == null && mainGuy.getLocation().getLockedExits()[4] != null) out.append("that door is locked, you cannot pass.");
-				else {
-					out.append("\n You can not go in that direction." + "\n");
-					secondaryOut.append(mainGuy.getName() + " walks into a wall");
+				if(mainGuy.getLocation().getExits()[4] != null && mainGuy.getLocation().getLockedExits()[4] == null){
+					mainGuy.goUp();
+					if(mainGuy.getLocation().equals(map.getDaMap().get(20))){
+						bossFight(win);
+						inBossFight = true;
+					}
 				}
+				else if(mainGuy.getLocation().getExits()[4] == null && mainGuy.getLocation().getLockedExits()[4] != null) out.append("that door is locked, you cannot pass.");
+				else out.append("\n You can not go in that direction." + "\n");
 				break;
 			case("down"):
-				if(mainGuy.getLocation().getExits()[5] != null && mainGuy.getLocation().getLockedExits()[5] == null) mainGuy.goDown();
-				else if(mainGuy.getLocation().getExits()[5] == null && mainGuy.getLocation().getLockedExits()[5] != null) out.append("that door is locked, you cannot pass.");
-				else {
-					out.append("\n You can not go in that direction." + "\n");
-					secondaryOut.append(mainGuy.getName() + " walks into a wall");
+				if(mainGuy.getLocation().getExits()[5] != null && mainGuy.getLocation().getLockedExits()[5] == null) {
+					mainGuy.goDown();
+					if(mainGuy.getLocation().equals(map.getDaMap().get(20))){
+						bossFight(win);
+						inBossFight = true;
+					}
 				}
+				else if(mainGuy.getLocation().getExits()[5] == null && mainGuy.getLocation().getLockedExits()[5] != null) out.append("that door is locked, you cannot pass.");
+				else out.append("\n You can not go in that direction." + "\n");
 				break;
 			default:
 				out.append("\n That is not a valid direction." + "\n");
@@ -375,7 +528,6 @@ else if(hasStarted){
 				mainGuy.plusOne();
 				mainGuy.pickUp(mainGuy.getLocation().returnItem(commandValue));
 				out.append("Got it!" + "\n");
-				secondaryOut.append(mainGuy.getName() + " got the " + commandValue + " shiiiit");
 			}
 			else out.append("That item is not in the room." + "\n");
 			break;
@@ -383,40 +535,45 @@ else if(hasStarted){
 			if (mainGuy.checkItem(commandValue)){						
 				mainGuy.drop(mainGuy.returnItem(commandValue));
 				out.append("Tossed " + commandValue + ", hope you dont need it later." + "\n");
-				secondaryOut.append(mainGuy.getName() + " dropped " + commandValue + " Score!");
 			}
 			else out.append("You can't drop what you dont have." + "\n");
 			break;
 		case("use"):
-			System.out.println("");
 			if(mainGuy.checkItem(commandValue)){
 				if(mainGuy.getLocation().getKeyItem().equals(mainGuy.returnItem(commandValue))){
 						if(mainGuy.getLocation().getLockedExits()[0] != null){
-							bothOut(mainGuy.getName() +" unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[0].getName() );
+							out.append("You have unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[0].getName() );
 						}
 						else if(mainGuy.getLocation().getLockedExits()[1] != null){
-							bothOut(mainGuy.getName() +" unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[1].getName() );
+							out.append("You have unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[1].getName() );
 						}
 						else if(mainGuy.getLocation().getLockedExits()[2] != null){
-							bothOut(mainGuy.getName() +" unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[2].getName() );
+							out.append("You have unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[2].getName() );
 						}
 						else if(mainGuy.getLocation().getLockedExits()[3] != null){
-							bothOut(mainGuy.getName() +" unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[3].getName() );
+							out.append("You have unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[3].getName() );
 						}
 						else if(mainGuy.getLocation().getLockedExits()[4] != null){
-							bothOut(mainGuy.getName() +" unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[4].getName() );
+							out.append("You have unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[4].getName() );
 						}
 						else if(mainGuy.getLocation().getLockedExits()[5] != null){
-							bothOut(mainGuy.getName() +" unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[5].getName() );
+							out.append("You have unlocked the exit to the " + mainGuy.getLocation().getLockedExits()[5].getName() );
 						}	
 					mainGuy.plusOne();
 					mainGuy.addXP(20);
 					mainGuy.getLocation().unlockExit();
+					if (commandValue.toLowerCase().equals("frisbee") && mainGuy.getLocation().getName().toLowerCase().equals("outside")) {
+						out.append("Gnarly! no one catches it though, it flies into the sunset");
+						mainGuy.setScore(420);
+					}
 				}
 			}
 			else{
 				out.append("You don't have that item dummy");
 			}
+			break;
+		case("exit"):
+			System.exit(0);
 			break;
 		case("attack"):
 			if(sameRoom()){		//if mobs are in the same room as player
@@ -445,7 +602,6 @@ else if(hasStarted){
 			else{
 				out.append("You swing your fists but manage to punch yourself in the face becuase there's nothing to hit. ");
 				out.append("\n you have sustained 1 damage in the process.\n");
-				secondaryOut.append("That was dumb, your counterpart seems to have punched themself in the face");
 				mainGuy.minusHealth(1);
 			}
 			break; 
@@ -458,24 +614,8 @@ else if(hasStarted){
 	for(int u = 0; u <mobList.size(); u++){
 		mobList.get(u).upd();
 	}
-		//creates a string of Stats for the player )
-		String list = mainGuy.getName() + " Stats \n";
-		list = list + "You are in the " + mainGuy.getLocation().getName() + "\n";
-		list = list + "Score: " + mainGuy.getScore() + " \n";
-		list = list + "Level: " + mainGuy.getLevel();
-		list = list + "		XP: "+ mainGuy.getXP()+ "/100 \n";
-		list = list + "Health: " + mainGuy.getHealth() +"/" + mainGuy.getMaxHealth();
-		list = list + "		Stamina: " + mainGuy.getStamina() +"/"+ mainGuy.getMaxStamina() + "\n";
-		list = list + "Armor class: " + mainGuy.getArmor();
-		list = list + "	Base Damage: " + mainGuy.getBaseDamage() +"\n";
 		
-		String inventory = "Inventory: \n";
-		for(int b = 0; b< mainGuy.getInventory().size();b++){
-			inventory = inventory + mainGuy.getInventory().get(b).getName() + "  ";
-			}
-		list = list + inventory;
-		statsList.setText(list);	//sets the stats list (inventory,score, ect.) at the top of the GUI
-		
+		statsList();
 		out.selectAll();//makes console auto scroll to the bottom when entering a new command
 	
 				//scales the room photo to the same size
@@ -484,16 +624,19 @@ else if(hasStarted){
 		Image newimg = img.getScaledInstance(230, 310, java.awt.Image.SCALE_SMOOTH);
 		roomPic = new ImageIcon(newimg);
 		imLabel.setIcon(roomPic);	
+		if(!inBossFight){
 		out.append("\n \n"+(mainGuy.getLocation()).getDescription() +"\n");
 		out.append("The room contains the following items: ");
 		out.append((mainGuy.getLocation()).getInventory().toString() + "\n");
 		out.append("Exits \n ---------------\n" + mainGuy.getLocation().listExits() + "\n\n\n");
 		out.append("Locked Exits \n ---------------\n" + mainGuy.getLocation().listLockedExits() + "\n\n\n");
-		}//end of else if	
-		
-		
-		
-}//end of actionPreformed()
+		}
+	}//end of else if			
+	}//if player has no health do the code below vvv
+		checkHealth();
+}//end of action performed
+	
+	
 	
 	public boolean sameRoom(){	//checks to see if any mobs are in the room and if they are add them to an arrayList of mobs engaged in combat.
 		int count = 0;	
@@ -535,7 +678,7 @@ else if(hasStarted){
 				int damage;
 				if (mobList.get(i).getLocation().equals(mainGuy.getLocation())){
 					damage = mainGuy.damage(mobList.get(i));
-					bothOut("Main guy hits " + mobList.get(i).getName()+ " For: " + damage + "\n");
+					out.append("Main guy hits " + mobList.get(i).getName()+ " For: " + damage + "\n");
 					mobList.get(i).minusHealth(damage);
 					mobList.get(i).upd();
 					int mobDamage = mobList.get(i).getBaseDamage();
@@ -554,7 +697,6 @@ else if(hasStarted){
 			}//end of if (name of mob = name of mob in arrayList)
 		}//end of i for loop
 	}
-	
 	public void bossFight(Boss b){
 		mainGuy.getLocation().lockAll();
 		out.append("You walk into the room and see a large entity in a suit of black armor with a nice golden trim.\n 'Hello '" + mainGuy.getName()
@@ -564,27 +706,46 @@ else if(hasStarted){
 		+ "the floor has bones scattered everywhere. Your palms get sweaty as you look back at the giant of a man before you. In the moments you looked away he "
 		+ "silently moved behind you breathing on your neck. \n 'This is the place of judgement. Fight me and gain entrance to the chamber of worth.' "
 		+ "\n He swings his arm around to all the exits, his hand seems to glow as you hear the click of each door locking. His physical form behind you dissolves into a "
-		+ "puff of black smoke. Evil laughter fills the room as the lights darken and you feel your body fill with an odd sense of power. \n 'Don't worry my child'\n "
-		+ "You turn around and look around but see nothing. \n 'I am known as the spirit Lin, son of the holy god Ux-ix. I can give you the strength to defeat the demon known as "
-		+ " Win, son of the demon Dows. Do you accept my guidance? Type 'yes' to accept. Type 'no' for a most timely death");
-		hasStarted = false; //sets has started to false so special command events can happen. 
+		+ "puff of black smoke. Evil laughter fills the room as the lights darken and you feel your body fill with an odd sense of power. \n "
+		+ "'Don't worry my child' you hear from behind you.\n "
+		+ "You quickly turn around and look around but see nothing. "
+		+ "\n 'I am known as the spirit Lin, son of the holy god Ux-ix. I can give you the strength to defeat the demon known as Win, son of the demon Dows. Do you accept my guidance?' "
+		+ "\n\n Type 'yes' to accept. Type 'no' for a most timely death\n");
 	}
-	public void attackBoss(Boss m){		 
-				int damage;
-					damage = mainGuy.damage(m);
-					out.append("Main guy hits " + m.getName()+ " For: " + damage + "\n");
-					m.minusHealth(damage);
-					int mobDamage = m.getBaseDamage();
-					out.append(m.getAttackMessage() + "\n");
-					out.append(m.getName() + " attacks you for " + mobDamage + " hp \n");
-					mainGuy.minusHealth(mobDamage);
+	public void statsList(){
+				//creates a string of Stats for the player )
+				String list = mainGuy.getName() + " Stats \n";
+				list = list + "You are in the " + mainGuy.getLocation().getName() + "\n";
+				list = list + "Score: " + mainGuy.getScore() + " \n";
+				list = list + "Level: " + mainGuy.getLevel();
+				list = list + "		XP: "+ mainGuy.getXP()+ "/100 \n";
+				list = list + "Health: " + mainGuy.getHealth() +"/" + mainGuy.getMaxHealth();
+				list = list + "		Stamina: " + mainGuy.getStamina() +"/"+ mainGuy.getMaxStamina() + "\n";
+				list = list + "Armor class: " + mainGuy.getArmor();
+				list = list + "	Base Damage: " + mainGuy.getBaseDamage() +"\n";
+				String inventory = "Inventory: \n";
+				for(int b = 0; b< mainGuy.getInventory().size();b++){
+					inventory = inventory + mainGuy.getInventory().get(b).getName() + "  ";
+					}
+				list = list + inventory;
+				statsList.setText(list);	//sets the stats list (inventory,score, ect.) at the top of the GUI		
 	}
-	public void bothOut(String str) {
-		if (mainGuy.getLocation().equals(secondaryGuy.getLocation())) {
-			out.append(str);
-			secondaryOut.append(str);
+	public void checkHealth(){ //method that exits the program upon dying
+		if(mainGuy.getHealth() <= 0){
+			int score = mainGuy.getScore();
+			out.append("GAME OVER \n");
+			out.append("your score was " + score);
+					//DISPLAYS HOW YOUR SCORE RATES\\
+			if(score >= 0 && score<10) out.append("You could have gotten more points just picking items up...good job \n");
+			else if(score >= 10 && score < 20) out.append("you rate slightly above a pet rock \n");
+			else if(score >= 20 && score < 30) out.append("you're smarter than the average high schooler \n");
+			else if(score >= 30 && score < 40) out.append("You probably have a college degree \n");
+			else if(score >= 40 && score < 50) out.append("How many PHDs do you have? 1 or 7? \n");
+			else out.append("You are the best of the best");
+			}	
+	}
+	
+	public static int rnGesus(int max,int min ){	 //random number generator to help randomly place mobs
+		return (int)(Math.random() * (max - min) + min); 
 		}
-		else
-			out.append(str);
-	}
 }
